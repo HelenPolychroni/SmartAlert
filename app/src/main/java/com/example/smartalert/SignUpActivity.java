@@ -194,6 +194,8 @@ public class SignUpActivity extends AppCompatActivity {
                     if (task.isSuccessful()){
                         showToast("Data saved successfully");
                         //System.out.println("Nickname in register is: " + receivedUser.getNickname());
+
+                        finish();
                         Intent intent = new Intent(this, page);
                         //intent.putExtra("nickname", receivedUser.getNickname());
                         //intent.putExtra("User", receivedUser);
