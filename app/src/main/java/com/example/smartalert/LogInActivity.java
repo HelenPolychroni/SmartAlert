@@ -62,7 +62,7 @@ public class LogInActivity extends AppCompatActivity {
                                 }
                             } else if (role.equals("user")) {
                                 try {
-                                    page = Class.forName("com.example.smartalert.UserHomePage");
+                                    page = Class.forName("com.example.smartalert.UserOptions");
                                 } catch (ClassNotFoundException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -71,10 +71,10 @@ public class LogInActivity extends AppCompatActivity {
                             Toast.makeText(LogInActivity.this,"Log in successfully", Toast.LENGTH_SHORT).show();
 
                             //finish the activity to prevent going back
-                            finish();
+
                             Intent intent = new Intent(LogInActivity.this, page);
                             startActivity(intent);
-
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());

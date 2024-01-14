@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -60,9 +61,11 @@ public class SignUpActivity extends AppCompatActivity {
                             if (firebaseUser != null) {
 
                                 System.out.println("User role is:"+ role );
-                                SharedPreferences.Editor editor = preferences.edit();
+                                /*SharedPreferences.Editor editor = preferences.edit();
                                 editor.putString(KEY_ROLE,role);
-                                editor.apply();
+                                editor.apply();*/
+
+                                updateUser(firebaseUser, role);
 
                                 try {
                                     saveAllUserInfoToFirebase(firebaseUser.getEmail(), fullname_, phonenumber_, role);
@@ -185,7 +188,7 @@ public class SignUpActivity extends AppCompatActivity {
             page = Class.forName("com.example.smartalert.EmployeeHomePage");
         } else {
             pathString = "users";
-            page = Class.forName("com.example.smartalert.UserHomePage");
+            page = Class.forName("com.example.smartalert.UserOptions");
         }
 
         DatabaseReference usersRef = databaseReference.child(pathString).push();
@@ -204,6 +207,13 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                     else {showToast("Error saving data");}
                 });
+    }
+
+    private void updateUser(FirebaseUser user, String role){
+        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                .setDisplayName(role)
+                .build();
+        user.updateProfile(request);
     }
 
 

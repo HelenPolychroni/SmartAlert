@@ -34,8 +34,9 @@ public class StartUpActivity extends AppCompatActivity {
 
         if (firebaseUser != null) {
 
-            preferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-            role = preferences.getString(KEY_ROLE, "");
+            //preferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+            //role = preferences.getString(KEY_ROLE, "");
+            role = firebaseUser.getDisplayName();
             System.out.println("Role is: "+ role);
 
             // depending on role
@@ -47,7 +48,7 @@ public class StartUpActivity extends AppCompatActivity {
                 }
             } else if (role.equals("user")) {
                 try {
-                    page = Class.forName("com.example.smartalert.UserHomePage");
+                    page = Class.forName("com.example.smartalert.UserOptions");
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }

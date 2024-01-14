@@ -8,11 +8,11 @@
     <item
         android:id="@+id/action_new_incident"
         android:title="New Incident"
-        android:icon="@drawable/ic_home" />
+        android:icon="@drawable/ic_new_incident" />
 
     <item
         android:id="@+id/action_statistics"
         android:title="Statistics"
-        android:icon="@drawable/ic_home" />
+        android:icon="@drawable/ic_statistics" />
 
 </menu>
