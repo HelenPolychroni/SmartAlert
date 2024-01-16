@@ -16,6 +16,9 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SignUpActivity extends AppCompatActivity {
 
     EditText fullname, email, password, confirmpassword, phonenumber;
@@ -172,9 +175,17 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private boolean isValidGreekPhoneNumber(String phoneNumber) {
-        // Validate that the phone number is not null and follows the Greek phone number format
-        String phonePattern = "^\\+30 \\d{10}$";
-        return phoneNumber != null && phoneNumber.matches(phonePattern);
+        // Define the regular expression pattern
+        String regex = "^69\\d{8}$";
+
+        // Compile the pattern
+        Pattern pattern = Pattern.compile(regex);
+
+        // Create a matcher with the input phone number
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        // Check if the phone number matches the pattern
+        return matcher.matches();
     }
 
     public void saveAllUserInfoToFirebase(String email, String fullname, String phonenumber, String role) throws ClassNotFoundException {
