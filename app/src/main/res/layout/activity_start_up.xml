@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StartUpActivity">
+    tools:context=".StartUpActivity"
+    android:background="@drawable/nature"> <!-- Set drawable resource -->
+
 
     <Button
         android:id="@+id/signIn_btn4"
         android:layout_width="254dp"
         android:layout_height="48dp"
+        android:backgroundTint="#46C5B4B4"
         android:onClick="signup"
         android:text="Sign up"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,6 +26,7 @@
         android:id="@+id/signIn_btn3"
         android:layout_width="254dp"
         android:layout_height="48dp"
+        android:backgroundTint="#46C5B4B4"
         android:onClick="login"
         android:text="Log in"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,23 +43,26 @@
         android:fontFamily="sans-serif-black"
         android:text="Smart Alert"
         android:textAlignment="textStart"
+        android:textColor="#F8F4F4"
         android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.155"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.633" />
+        app:layout_constraintVertical_bias="0.625" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="363dp"
         android:layout_height="36dp"
         android:text="Designed to keep you informed and safe in critical situations—our Smart Alert App"
+        android:textColor="#F7F3F3"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.604"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.692" />
+        app:layout_constraintVertical_bias="0.682" />
 </androidx.constraintlayout.widget.ConstraintLayout>

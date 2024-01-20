@@ -37,7 +37,7 @@ public class LogInActivity extends AppCompatActivity {
         firebaseUser = auth.getCurrentUser();
 
         email = findViewById(R.id.email_login);
-        password = findViewById(R.id.password_login);
+        password = findViewById(R.id.confpassword);
     }
 
     public void login(View view){
