@@ -23,20 +23,31 @@ public class StartUpActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
-
     ToggleButton change_lang_btn;
     private static final String PREF_NAME = "User";
     private static final String KEY_ROLE = "UserRole";
     SharedPreferences preferences;
-
+    SharedPreferences.Editor editor;
     String role;
+    String lang = "en";
     Class<?> page;
+    boolean isEnglishSelected = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_up);
 
         change_lang_btn = findViewById(R.id.change_lang_btn);
+
+        preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+
+
+        /*
+        boolean isEnglishSelected = change_lang_btn.isChecked();
+        lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
+        System.out.println("Lang:::" + lang);*/
+
 
         /*change_lang_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -116,6 +127,8 @@ public class StartUpActivity extends AppCompatActivity {
             //finish the activity to prevent going back
             finish();
             Intent intent = new Intent(this, page);
+            intent.putExtra("lang", lang);
+            System.out.println("Lang is:" + lang);
             startActivity(intent);
         }
     }
@@ -136,28 +149,38 @@ public class StartUpActivity extends AppCompatActivity {
     // login btn
     public void login(View view){
         Intent intent = new Intent(this, LogInActivity.class);
+        //intent.putExtra("lang", isEnglishSelected);
+        //System.out.println("Login lang english: " + isEnglishSelected);
         startActivity(intent);
     }
 
     // signup btn
     public void signup(View view){
         Intent intent = new Intent(this, SignUpActivity.class);
+        //intent.putExtra("lang", isEnglishSelected);
+        //System.out.println("Signup lang english: " + isEnglishSelected);
         startActivity(intent);
     }
 
     public void changeLanguage(View view) {
 
         // Retrieve the state of the ToggleButton
-        boolean isEnglishSelected = change_lang_btn.isChecked();
+        isEnglishSelected = change_lang_btn.isChecked();
 
         // Print the value to the console or log it
         System.out.println("ToggleButton value: " + isEnglishSelected);
+        System.out.println("English is " + isEnglishSelected);
 
         // Change language logic here
-        String lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
+        lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
 
         updateLocale(lang);
         recreate(); // Restart the activity to apply the new configuration
+
+        //SharedPreferences.Editor editor = preferences.edit();
+        editor = preferences.edit();
+        editor.putBoolean("english", isEnglishSelected);
+        editor.apply();
     }
 
     private void updateLocale(String lang) {

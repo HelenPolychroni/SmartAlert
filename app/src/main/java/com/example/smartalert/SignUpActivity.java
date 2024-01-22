@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -29,9 +30,10 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
-    SharedPreferences preferences;
+    SharedPreferences preferences, sharedPreferences;
     private static final String PREF_NAME = "User";
     private static final String KEY_ROLE = "UserRole";
+    boolean isEnglishSelected;
 
 
     @Override
@@ -45,12 +47,18 @@ public class SignUpActivity extends AppCompatActivity {
         confirmpassword = findViewById(R.id.confpassword);
         phonenumber = findViewById(R.id.phonenum);
 
+        // firebase stuff
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
 
-        preferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        // preferences
+        //preferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
+        // Retrieve the data from SharedPreferences
+        isEnglishSelected = sharedPreferences.getBoolean("english", true);
+        System.out.println("SignUp english is: " + isEnglishSelected);
     }
 
     public void SignUpUser(View view){
@@ -75,11 +83,14 @@ public class SignUpActivity extends AppCompatActivity {
                                 } catch (ClassNotFoundException e) {
                                     throw new RuntimeException(e);
                                 }
-
-                            } else showToast("Null user");
+                            } else {
+                                if (isEnglishSelected) showToast("Null user");
+                                else showToast("Κενός χρήστης");
+                            }
                         } else {
                             // Firebase Registration Failed
-                            showToast("Registration failed!");
+                            if (isEnglishSelected) showToast("Registration failed!");
+                            else showToast("Αποτυχία εγγραφής χρήστη.");
                         }
                     });
         }
@@ -98,22 +109,26 @@ public class SignUpActivity extends AppCompatActivity {
         // fullname check
         if (fullname_.isEmpty()){  // check username
             //showMessage("Error","Username cannot be null.");
-            Toast.makeText(this, "Please enter your fullname", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected) Toast.makeText(this, "Please enter your fullname", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Παρακαλώ συμπληρώστε το ονοματεπώνυμό σας", Toast.LENGTH_SHORT).show();
             flag = false;
         }
         else if (!isValidFullName(fullname_)) {
-            Toast.makeText(this,"Invalid fullname", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected) Toast.makeText(this,"Invalid fullname", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this,"Μη έγκυρο ονοματεπώνυμο", Toast.LENGTH_SHORT).show();
             flag = false;
         }
 
         // email check
         if (email_.isEmpty()){  // check username
             //showMessage("Error","Username cannot be null.");
-            Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected) Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Παρακαλώ συμπληρώστε την διεύθυνση ηλ. ταχ. σας", Toast.LENGTH_SHORT).show();
             flag = false;
         }
         else if (!isValidEmail(email_)) {
-            Toast.makeText(this,"Invalid email address", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected) Toast.makeText(this,"Invalid email address", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this,"Μη έγκυρη διεύθυνση ηλ. ταχ. ", Toast.LENGTH_SHORT).show();
             flag = false;
         }
         else{
@@ -125,26 +140,31 @@ public class SignUpActivity extends AppCompatActivity {
         // password check
         if (password_.isEmpty() && confirmpassword_.isEmpty()){
             //showMessage("Error","Password cannot be null.");
-            Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected) Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Παρακαλώ εισάγετε τον κωδικό σας ", Toast.LENGTH_SHORT).show();
             flag = false;
 
         } else if (!password_.equals(confirmpassword_)){
-            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected) Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Οι κωδικοί δεν ταιριαζουν", Toast.LENGTH_SHORT).show();
             flag = false;
 
         }else if (password_.length() < 6){
-            Toast.makeText(this, "Password should be at least 6 characters", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected) Toast.makeText(this, "Password should be at least 6 characters", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Ο κωδικός πρέπει να αποτελείται από τουλάχιστον 6 χαρακτήρες", Toast.LENGTH_SHORT).show();
             flag = false;
         }
 
         // phonenumber check
         if (phonenumber_.isEmpty()){  // check username
             //showMessage("Error","Username cannot be null.");
-            Toast.makeText(this, "Please enter your phonenumber", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected) Toast.makeText(this, "Please enter your phonenumber", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Παρακαλώ εισάγετε τον αριθμό κινητού σας", Toast.LENGTH_SHORT).show();
             flag = false;
         }
         else if (!isValidGreekPhoneNumber(phonenumber_)) {
-            Toast.makeText(this,"Invalid phonenumber", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected) Toast.makeText(this,"Invalid phonenumber", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this,"Μη έγκυρος αριθμός κινητού", Toast.LENGTH_SHORT).show();
             flag = false;
         }
 
@@ -206,7 +226,8 @@ public class SignUpActivity extends AppCompatActivity {
         usersRef.setValue(new User(fullname,email,phonenumber))
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
-                        showToast("Data saved successfully");
+                        if (isEnglishSelected) showToast("Data saved successfully");
+                        else showToast("Επιτυχής εγγραφή");
                         //System.out.println("Nickname in register is: " + receivedUser.getNickname());
 
                         finish();
@@ -216,7 +237,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                         startActivity(intent);
                     }
-                    else {showToast("Error saving data");}
+                    else {
+                         if (isEnglishSelected) showToast("Error saving data");
+                         else showToast("Σφάλμα κατά την αποθήκευση των στοιχείων");
+                    }
                 });
     }
 
@@ -227,6 +251,7 @@ public class SignUpActivity extends AppCompatActivity {
         user.updateProfile(request);
     }
 
-
-    private void showToast(String message) {Toast.makeText(this, message, Toast.LENGTH_SHORT).show();}
+    private void showToast(String message) {
+        //Context customContext = createConfigurationContext(new Configuration());
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();}
 }
