@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="options_list" >
+        <item>Fire</item>
+        <item>Earthquake</item>
+        <item>Flood</item>
+        <item>Tornado</item>
+        <item>Tsunami</item>
+    </string-array>
+
+
+</resources>
