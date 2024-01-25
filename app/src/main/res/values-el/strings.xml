@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartAlert</string>
+    <string name="log_in">Σύνδεση</string>
+    <string name="startup_message">Σχεδιασμένη να σε κρατά ενήμερο και ασφαλή σε έκτακτες καταστάσεις υψηλού κινδύνου.</string>
+    <string name="signup">Εγγραφή</string>
+    <string name="log_in1">Σύνδεση</string>
+    <string name="welcome_n_back">Καλωσόρισες\nΞανά</string>
+    <string name="email">Διεύθυνση ηλ. ταχυδρ.</string>
+    <string name="password">Κωδικός</string>
+    <string name="email1">Διεύθυνση ηλ. ταχυδρ.</string>
+    <string name="password1">Κωδικός</string>
+    <string name="fullname">Ονοματεπώνυμο</string>
+    <string name="confirm_password">Επιβαιβαίωση κωδικού</string>
+    <string name="sign_up">Εγγραφή</string>
+    <string name="create_naccount">Δημιουργία\nΛογαριασμού</string>
+</resources>
