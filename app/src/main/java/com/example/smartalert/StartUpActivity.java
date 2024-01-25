@@ -28,7 +28,7 @@ public class StartUpActivity extends AppCompatActivity {
     private static final String KEY_ROLE = "UserRole";
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    String role;
+    String role, email;
     String lang = "en";
     Class<?> page;
     boolean isEnglishSelected = true;
@@ -107,7 +107,10 @@ public class StartUpActivity extends AppCompatActivity {
             //preferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
             //role = preferences.getString(KEY_ROLE, "");
             role = firebaseUser.getDisplayName();
-            System.out.println("Role is: "+ role);
+            email = firebaseUser.getEmail();
+
+            System.out.println("Role is: " + role);
+            System.out.println("Email is: " + email);
 
             // depending on role
             if (role.equals("employee")) {

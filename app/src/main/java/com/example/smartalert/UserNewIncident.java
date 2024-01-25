@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.*;
 import androidx.activity.result.ActivityResult;
@@ -52,6 +54,8 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
     Bitmap pic;
     ImageView imageView;
 
+    FirebaseAuth auth;
+    FirebaseUser firebaseUser;
 
     private static final int REQUEST_CAMERA_PERMISSION = 101;
     ActivityResultLauncher<Intent> getPhoto;
@@ -64,6 +68,10 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_new_incident);
+
+        auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getCurrentUser();
+
         Intent intent=getIntent();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (intent != null) {
@@ -130,7 +138,7 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
                                         path = uri.toString();
                                         timestamp = simpleDateFormat.format(new Date());
                                         String id = database.push().getKey();
-                                        database.child(id).setValue(new Incident(type, comment, timestamp, path, locationString));
+                                        database.child(id).setValue(new Incident(firebaseUser.getEmail(), type, comment, timestamp, path, locationString));
                                         Toast.makeText(UserNewIncident.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -163,7 +171,7 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
                                         path = uri.toString();
                                         timestamp = simpleDateFormat.format(new Date());
                                         String id = database.push().getKey();
-                                        database.child(id).setValue(new Incident(type, comment, timestamp, path, locationString));
+                                        database.child(id).setValue(new Incident(firebaseUser.getEmail(), type, comment, timestamp, path, locationString));
 
                                     }
                                 });

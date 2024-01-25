@@ -6,12 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".EmployeeHomePage">
 
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="118dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="548dp"
+        android:onClick="logout"
+        android:text="Log out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView5"
         android:layout_width="248dp"
         android:layout_height="100dp"
         android:fontFamily="sans-serif-black"
-        android:text="Employee\nHome Page"
+        android:text="Welcome to Employee\nHome Page"
         android:textAlignment="textStart"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,17 +31,16 @@
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.183" />
+        app:layout_constraintVertical_bias="0.053" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="118dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="296dp"
+        android:layout_width="127dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="256dp"
         android:onClick="logout"
-        android:text="Log out"
+        android:text="Incidents page"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.29"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

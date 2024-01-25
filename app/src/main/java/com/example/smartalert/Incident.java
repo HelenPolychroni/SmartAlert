@@ -1,6 +1,8 @@
 package com.example.smartalert;
 
 public class Incident {
+
+    private String userEmail;
     private String type;
     private String comment;
     private String timestamp;
@@ -11,7 +13,8 @@ public class Incident {
     }
 
 
-    public Incident(String type, String comment, String timestamp,String image,String location) {
+    public Incident(String userEmail, String type, String comment, String timestamp,String image,String location) {
+        this.userEmail = userEmail;
         this.type = type;
         this.comment = comment;
         this.timestamp = timestamp;
@@ -57,5 +60,13 @@ public class Incident {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }
