@@ -155,6 +155,8 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
                                 refrence1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
+                                        Toast.makeText(UserNewIncident.this, "Successful upload", Toast.LENGTH_SHORT).show();
+
                                         type = auto.getText().toString();
                                         comment = text.getText().toString();
                                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");

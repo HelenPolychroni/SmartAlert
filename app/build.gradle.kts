@@ -39,10 +39,13 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation (platform("com.google.firebase:firebase-bom:32.7.1"))
 
-    implementation("com.google.firebase:firebase-auth")
-    implementation ("com.google.firebase:firebase-storage")
-    implementation ("com.google.firebase:firebase-database")
     implementation ("com.google.android.gms:play-services-location:21.1.0")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation("com.google.firebase:firebase-auth:22.3.1")
+
+
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
