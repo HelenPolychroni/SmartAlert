@@ -2,7 +2,10 @@ package com.example.smartalert;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +28,9 @@ public class LogInActivity extends AppCompatActivity {
 
     EditText email, password;
     String role;
+    boolean isEnglishSelected;
     Class<?> page;
+    SharedPreferences preferences;
 
 
     @Override
@@ -33,11 +38,24 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        // Retrieve the data from SharedPreferences
+        isEnglishSelected = preferences.getBoolean("english", true);
+
+
+        // Retrieve intent data
+        /*Intent intent = getIntent();
+        if (intent != null) isEnglishSelected = intent.getBooleanExtra("lang", true);*/
+
+        System.out.println("English is: " + isEnglishSelected);
+
+
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
 
         email = findViewById(R.id.email_login);
-        password = findViewById(R.id.password_login);
+        password = findViewById(R.id.confpassword);
     }
 
     public void login(View view){
@@ -68,7 +86,12 @@ public class LogInActivity extends AppCompatActivity {
                                 }
                             }
 
-                            Toast.makeText(LogInActivity.this,"Log in successfully", Toast.LENGTH_SHORT).show();
+                            if (isEnglishSelected)
+                                showToast("Log in successfully", LogInActivity.this);
+                            else {
+                                showToast("Επιτυχής σύνδεση", LogInActivity.this);
+                            }
+                            //Toast.makeText(LogInActivity.this,"Log in successfully", Toast.LENGTH_SHORT).show();
 
                             //finish the activity to prevent going back
 
@@ -78,6 +101,11 @@ public class LogInActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            if (isEnglishSelected)
+                                showToast("Failed to log in", LogInActivity.this);
+                            else {
+                                showToast("Αποτυχία σύνδεσης", LogInActivity.this);
+                            }
                             //Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
                             // Toast.LENGTH_SHORT).show();
                             //updateUI(null);
@@ -108,5 +136,11 @@ public class LogInActivity extends AppCompatActivity {
         }
         // Default to "user" if any conditions are not met
         return "user";
+    }
+
+    private void showToast(String message, Context context) {
+
+        // Show the Toast using the passed context
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

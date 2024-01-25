@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StartUpActivity">
+    tools:context=".StartUpActivity"
+    android:background="@drawable/nature"> <!-- Set drawable resource -->
+
 
     <Button
         android:id="@+id/signIn_btn4"
         android:layout_width="254dp"
         android:layout_height="48dp"
+        android:backgroundTint="#46C5B4B4"
         android:onClick="signup"
-        android:text="Sign up"
+        android:text="@string/signup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -23,8 +26,9 @@
         android:id="@+id/signIn_btn3"
         android:layout_width="254dp"
         android:layout_height="48dp"
+        android:backgroundTint="#46C5B4B4"
         android:onClick="login"
-        android:text="Log in"
+        android:text="@string/log_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -37,25 +41,61 @@
         android:layout_width="224dp"
         android:layout_height="27dp"
         android:fontFamily="sans-serif-black"
-        android:text="Smart Alert"
+        android:text="@string/smart_alert"
         android:textAlignment="textStart"
+        android:textColor="#F8F4F4"
         android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.155"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.633" />
+        app:layout_constraintVertical_bias="0.625"
+        tools:ignore="TextSizeCheck" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="363dp"
         android:layout_height="36dp"
-        android:text="Designed to keep you informed and safe in critical situations—our Smart Alert App"
+        android:text="@string/startup_message"
+        android:textColor="#F7F3F3"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.604"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.692" />
+        app:layout_constraintVertical_bias="0.682"
+        tools:ignore="TextSizeCheck" />
+
+    <ToggleButton
+        android:id="@+id/change_lang_btn"
+        android:layout_width="58dp"
+        android:layout_height="37dp"
+        android:backgroundTint="#8DFFFFFF"
+        android:checked="true"
+        android:onClick="changeLanguage"
+        android:textOff="EN"
+        android:textOn="GR"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.946"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <Spinner
+        android:id="@+id/languageSpinner"
+        android:layout_width="86dp"
+        android:layout_height="29dp"
+        android:backgroundTint="#F1EDED"
+        android:entries="@array/language_choices"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.164"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
