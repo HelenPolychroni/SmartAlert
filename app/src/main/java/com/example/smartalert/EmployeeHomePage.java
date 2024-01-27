@@ -26,4 +26,24 @@ public class EmployeeHomePage extends AppCompatActivity {
         Intent intent = new Intent(this, StartUpActivity.class);
         startActivity(intent);
     }
+
+    public void got2Incidents(View view){
+        Intent intent = new Intent(this, EmployeeIncidentsActivity.class);
+        startActivity(intent);
+    }
+
+    public void FireIncidents(View view){
+        Intent intent = new Intent(this, EmployeeAllFireIncidentsActivity.class);
+        startActivity(intent);
+    }
+
+    public void EarthquakeIncidents(View view){
+        Intent intent = new Intent(this, EmployeeAllEarthquakeIncidentsActivity.class);
+        startActivity(intent);
+    }
+
+    public void FloodIncidents(View view){
+        Intent intent = new Intent(this, EmployeeAllFloodIncidentsActivity.class);
+        startActivity(intent);
+    }
 }

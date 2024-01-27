@@ -7,6 +7,42 @@
     tools:context=".EmployeeHomePage">
 
     <Button
+        android:id="@+id/button15"
+        android:layout_width="156dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="352dp"
+        android:onClick="EarthquakeIncidents"
+        android:text="Earthquake Incidents"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="156dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="272dp"
+        android:onClick="FireIncidents"
+        android:text="Fire Incidents"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button13"
+        android:layout_width="130dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="184dp"
+        android:onClick="got2Incidents"
+        android:text="Incidents page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/button8"
         android:layout_width="118dp"
         android:layout_height="49dp"
@@ -35,12 +71,13 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="127dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="256dp"
-        android:onClick="logout"
-        android:text="Incidents page"
+        android:layout_width="156dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="424dp"
+        android:onClick="FloodIncidents"
+        android:text="Flood Incidents"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
