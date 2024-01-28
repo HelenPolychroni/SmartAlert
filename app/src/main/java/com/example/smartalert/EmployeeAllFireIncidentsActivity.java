@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,13 +64,14 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         //scrollView.setBackgroundColor(Color.rgb(224,224,224));
         scrollView.setBackgroundColor(Color.TRANSPARENT);
 
+
         CreateIncidentsLayout();
     }
 
     public void CreateIncidentsLayout(){
         // Get a reference to the database
         incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
-
+        sortedIncidentsRef = database.getReference("SortedIncidents/Fire");
         Query fireIncidentsQuery = incidentsRef.orderByChild("type").equalTo("Fire");
         fireIncidentsQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -116,9 +118,10 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
     private void addIncidentInfoToLayout(DataSnapshot incidentSnapshot, LinearLayout incidentLayout) {
         // Extract incident information
         //String type = incidentSnapshot.child("type").getValue(String.class);
-        String location = incidentSnapshot.child("location").getValue(String.class);
+        String location  = incidentSnapshot.child("location").getValue(String.class);
         String timestamp = incidentSnapshot.child("timestamp").getValue(String.class);
         String userEmail = incidentSnapshot.child("userEmail").getValue(String.class);
+        String comment   = incidentSnapshot.child("comment").getValue(String.class);
         String image = incidentSnapshot.child("image").getValue(String.class);
 
         // Display incident information using TextViews
@@ -137,6 +140,10 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         userEmailTextView.setText("User Email: " + userEmail);
         userEmailTextView.setTextColor(Color.WHITE);
 
+        TextView commentTextView = new TextView(this);
+        commentTextView.setText("Comment: " + comment);
+        commentTextView.setTextColor(Color.WHITE);
+
         // Create an ImageView for the incident image
         ImageView imageView = new ImageView(this);
 
@@ -151,6 +158,7 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         //incidentLayout.addView(typeTextView);
         incidentLayout.addView(locationTextView);
         incidentLayout.addView(timestampTextView);
+        incidentLayout.addView(commentTextView);
         incidentLayout.addView(userEmailTextView);
         incidentLayout.addView(imageView);
     }
@@ -221,17 +229,18 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         boolean isSwitchOn = sortFireIncidentsSwitch.isChecked();
         sortedIncidentsRef = database.getReference("SortedIncidents/Fire");
 
-        //incidentsRef = database.getReference().child("incidents");
+        incidentsRef = database.getReference().child("incidents");
 
         // Perform actions based on the Switch state
         if (isSwitchOn) {
-            sortedIncidentsRef.removeValue();
+            //sortedIncidentsRef.removeValue();
             System.out.println("Switch (sort) is on!");
-            CreateSortIncidentsLayout();
 
             // Switch is ON, show a Toast message
             showToast("Sorting is ON");
+
             findAndStoreIncidents();
+            CreateSortIncidentsLayout();
 
             // Switch is ON
             // Call method activity to handle this
@@ -263,6 +272,7 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
 
     private void processAndStoreIncidents(DataSnapshot dataSnapshot) {
 
+        sortedIncidentsRef.removeValue();
         Incident prevIncident = null;
         //String type_ = "Fire";
 
@@ -275,7 +285,7 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
             List<String> timestamps = new ArrayList<>();
             List<String> photos = new ArrayList<>();
 
-            System.out.println("Incident: " + incidentSnapshot);
+            System.out.println("Incident: " + incidentSnapshot.getKey());
 
             //String type      = incidentSnapshot.child("type").getValue(String.class);
             String userEmail = incidentSnapshot.child("userEmail").getValue(String.class);
@@ -301,7 +311,7 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
                 if ((isWithin24Hours(timestamp, timestampInner) && (isWithin80Km(location, locationInner)))) {
                     assert userEmail != null;
                     if (!userEmail.equals(userEmailInner) && !userSubmissionCount.containsKey(userEmailInner)) {
-                        System.out.println("Has fire requirements");
+                        System.out.println("Able to sort");
 
                         userSubmissionCount.put(userEmailInner, userSubmissionCount.getOrDefault(userEmailInner, 0) + 1);
                         keys.add(incidentSnapshotInner.getKey());
@@ -321,11 +331,14 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
             Incident incident = new Incident(keys, comments, locations, timestamps, photos, numberOfEntries);
 
             if (prevIncident == null) {
+                System.out.println("First one.");
                 saveDataInSortedIncidents(incident);
                 prevIncident = incident;
             }
-            else
+            else {
+                System.out.println("Save and sort");
                 saveDataInSortedIncidentsv1(incident);
+            }
         }
     }
 
@@ -415,25 +428,28 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         sortedIncidentsRef.push().setValue(incident).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 System.out.println("Incident has been saved successfully");
-            }
+            }else System.out.println("Error");
         });
     }
 
     private void saveDataInSortedIncidentsv1(Incident incident) {
+
+        sortedIncidentsRef = database.getReference("SortedIncidents/Fire");
         System.out.println("\n\n");
 
         System.out.println("Incidence to examine (comments) " + incident.getComments());
+        System.out.println("Examined keys " + incident.getKeys());
 
-
-        sortedIncidentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        sortedIncidentsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean isDuplicate = false;
 
+                boolean isDuplicate = false;
                 for (DataSnapshot incidentSnapshot : dataSnapshot.getChildren()) {
                     Incident existingIncident = incidentSnapshot.getValue(Incident.class);
+                    System.out.println("Key: " + incidentSnapshot.getKey());
+                    System.out.println("Existing: " + existingIncident.getKeys());
 
-                    //System.out.println("Incident snapshot: " + incidentSnapshot);
                     if (existingIncident != null && isSameIncident(existingIncident, incident)) {
                         System.out.println("Duplicate");
                         System.out.println("Do not save incidence with comments" + incident.getComments());
@@ -462,16 +478,18 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         });
     }
 
+
     private boolean isSameIncident(Incident existingIncident, Incident newIncident) {
         System.out.println("IsSameIncident method");
         // Compare relevant fields such as timestamps, locations, and user emails
-        Collections.sort(existingIncident.getTimestamps());
-        Collections.sort(newIncident.getTimestamps());
+        Collections.sort(existingIncident.getKeys());
+        Collections.sort(newIncident.getKeys());
 
-        return existingIncident.getTimestamps().containsAll(newIncident.getTimestamps())
-                && existingIncident.getLocations().containsAll(newIncident.getLocations())
-                && existingIncident.getPhotos().containsAll(newIncident.getPhotos())
-                && existingIncident.getComments().containsAll(newIncident.getComments());
+        return new HashSet<>(existingIncident.getTimestamps()).containsAll(newIncident.getTimestamps())
+                && new HashSet<>(existingIncident.getLocations()).containsAll(newIncident.getLocations())
+                && new HashSet<>(existingIncident.getPhotos()).containsAll(newIncident.getPhotos())
+                && new HashSet<>(existingIncident.getComments()).containsAll(newIncident.getComments())
+                && new HashSet<>(existingIncident.getKeys()).containsAll(newIncident.getKeys());
     }
 
 
@@ -479,6 +497,7 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
     public void CreateSortIncidentsLayout(){
         // Get a reference to the database
         sortedIncidentsRef = FirebaseDatabase.getInstance().getReference().child("SortedIncidents/Fire");
+        //sortedIncidentsRef.removeValue();
 
         sortedIncidentsRef.addValueEventListener(new ValueEventListener() {
             @Override

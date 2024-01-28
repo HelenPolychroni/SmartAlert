@@ -12,4 +12,9 @@ public class UserStatistics extends BaseActivity {
         //setContentView(R.layout.activity_user_statistics);
         //setupBottomNavigationView();
     }
+
+    @Override
+    protected void setupBottomNavigationView(int itemId) {
+
+    }
 }
