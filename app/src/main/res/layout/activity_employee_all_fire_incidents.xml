@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/TitletextView"
         android:layout_width="115dp"
         android:layout_height="51dp"
         android:layout_marginTop="24dp"

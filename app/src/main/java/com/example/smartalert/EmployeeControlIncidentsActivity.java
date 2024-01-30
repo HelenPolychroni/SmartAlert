@@ -2,8 +2,13 @@ package com.example.smartalert;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
@@ -28,84 +28,61 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
-
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private Switch sortFireIncidentsSwitch;
-    private LinearLayout scrollViewLayout;
-    private TextView Titletextview;
-
-    private ScrollView scrollView;
-    private DatabaseReference incidentsRef, sortedIncidentsRef, verifiedRef;
-    private FirebaseDatabase database;
-    @SuppressLint("MissingInflatedId")
+public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_all_fire_incidents);
+        setContentView(R.layout.activity_employee_control_incidents);
 
-        database = FirebaseDatabase.getInstance();
-        sortFireIncidentsSwitch = findViewById(R.id.switch1);  // switch
-        scrollViewLayout = findViewById(R.id.scrollViewLayout1);
-        scrollView = findViewById(R.id.scrollview);
-        scrollView.setBackgroundColor(Color.TRANSPARENT);
-
-        Titletextview = findViewById(R.id.TitletextView);
-
-        CreateIncidentsLayout(); // see pending incidents
     }
 
-    public void CreateIncidentsLayout(){
+    public static void CreateIncidentsLayout(DatabaseReference incidentsRef, String type, LinearLayout scrollViewLayout,
+                                             Context context) {
         // Get a reference to the database
         incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
         //sortedIncidentsRef = FirebaseDatabase.getInstance().getReference().child("SortedIncidents/Fire");
-        Query fireIncidentsQuery = incidentsRef.orderByChild("type").equalTo("Fire");
-        fireIncidentsQuery.addValueEventListener(new ValueEventListener() {
+        Query IncidentsQuery = incidentsRef.orderByChild("type").equalTo(type);
+        IncidentsQuery.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 scrollViewLayout.removeAllViews(); // Clear existing views
 
-                if (dataSnapshot.exists()) { // Fire incidents exist
+                if (dataSnapshot.exists()) { // Incidents exist
 
                     for (DataSnapshot incidentSnapshot : dataSnapshot.getChildren()) {
-                    // Create a vertical LinearLayout for each incident
-                    LinearLayout incidentLayout = new LinearLayout(EmployeeAllFireIncidentsActivity.this);
-                    incidentLayout.setOrientation(LinearLayout.VERTICAL);
-                    incidentLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
-                    ));
-                    incidentLayout.setBackgroundColor(Color.rgb(32,32,32));
+                        // Create a vertical LinearLayout for each incident
+                        LinearLayout incidentLayout = new LinearLayout(context);
+                        incidentLayout.setOrientation(LinearLayout.VERTICAL);
+                        incidentLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                        ));
+                        incidentLayout.setBackgroundColor(Color.rgb(32, 32, 32));
 
-                    // Add incident information to the layout
-                    addIncidentInfoToLayout(incidentSnapshot, incidentLayout);
+                        // Add incident information to the layout
+                        addIncidentInfoToLayout(incidentSnapshot, incidentLayout, context);
 
-                    // Add the incident layout to the linear layout
-                    scrollViewLayout.addView(incidentLayout);
+                        // Add the incident layout to the linear layout
+                        scrollViewLayout.addView(incidentLayout);
                     }
-                }
-                else { // No Fire incidents
-                    TextView noIncidentsTextView = new TextView(EmployeeAllFireIncidentsActivity.this);
+                } else { // No pending Incidents
+                    TextView noIncidentsTextView = new TextView(context);
                     noIncidentsTextView.setText("No pending incidents to show.");
                     noIncidentsTextView.setTextColor(Color.BLACK);
                     scrollViewLayout.addView(noIncidentsTextView);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle errors here
@@ -114,39 +91,42 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void addIncidentInfoToLayout(DataSnapshot incidentSnapshot, LinearLayout incidentLayout) {
+    private static void addIncidentInfoToLayout(DataSnapshot incidentSnapshot, LinearLayout incidentLayout, Context context) {
         // Extract incident information
-        String location  = incidentSnapshot.child("location").getValue(String.class);
+        String location = incidentSnapshot.child("location").getValue(String.class);
         String timestamp = incidentSnapshot.child("timestamp").getValue(String.class);
         String userEmail = incidentSnapshot.child("userEmail").getValue(String.class);
-        String comment   = incidentSnapshot.child("comment").getValue(String.class);
+        String comment = incidentSnapshot.child("comment").getValue(String.class);
         String image = incidentSnapshot.child("image").getValue(String.class);
 
         // Display incident information using TextViews
-        TextView locationTextView = new TextView(this);
+        TextView locationTextView = new TextView(context);
         locationTextView.setText("Location: " + location);
         locationTextView.setTextColor(Color.WHITE);
 
-        TextView timestampTextView = new TextView(this);
+        TextView timestampTextView = new TextView(context);
         timestampTextView.setText("Timestamp: " + timestamp);
         timestampTextView.setTextColor(Color.WHITE);
 
-        TextView userEmailTextView = new TextView(this);
+        TextView userEmailTextView = new TextView(context);
         userEmailTextView.setText("User Email: " + userEmail);
         userEmailTextView.setTextColor(Color.WHITE);
 
-        TextView commentTextView = new TextView(this);
+        TextView commentTextView = new TextView(context);
         commentTextView.setText("Comment: " + comment);
         commentTextView.setTextColor(Color.WHITE);
 
         // Create an ImageView for the incident image
-        ImageView imageView = new ImageView(this);
+        ImageView imageView = new ImageView(context);
 
-        if (!isDestroyed()) {
-            // Load image using Glide
-            Glide.with(this)
-                    .load(image)
-                    .into(imageView);
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (!activity.isDestroyed()) {
+                // Load image using Glide
+                Glide.with(context)
+                        .load(image)
+                        .into(imageView);
+            }
         }
 
         // Add TextViews and ImageView to the incident layout
@@ -157,57 +137,49 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         incidentLayout.addView(imageView);
     }
 
-    public void checkSwitch(View view){ // Check the state of the Switch when the switch is triggered
+    static void findAndStoreIncidents(DatabaseReference incidentsRef, DatabaseReference sortedIncidentsRef, String type) {
 
-        boolean isSwitchOn = sortFireIncidentsSwitch.isChecked();
-        sortedIncidentsRef = database.getReference("SortedIncidents/Fire");
+        //incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
 
-        //incidentsRef = database.getReference().child("incidents");
+        //sortedIncidentsRef = FirebaseDatabase.getInstance().getReference(path);
+        //sortedIncidentsRef.removeValue();  // refresh feed
 
-        // Perform actions based on the Switch state
-        if (isSwitchOn) {  // sort on
-            //sortedIncidentsRef.removeValue();
-            System.out.println("Switch (sort) is on!");
-            Titletextview.setText("Sort Fire\nIncidents");
-            showToast("Sorting is ON");
+        incidentsRef.orderByChild("type").equalTo(type).addValueEventListener(new ValueEventListener() {   // look 4 fires
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                processAndStoreIncidents(dataSnapshot, sortedIncidentsRef, type);
+            }
 
-            findAndStoreIncidents();
-            CreateSortIncidentsLayout();
-        }
-        else {
-            System.out.println("Switch (sort) is off!"); // so all fire incidents
-            Titletextview.setText("Pending Fire\nIncidents");
-            showToast("Sorting is OFF");
-            CreateIncidentsLayout();
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Error fetching data", databaseError.toException());
+            }
+        });
     }
 
-
-   // HANDLE FIRE SORTED INCIDENTS --> FIND AND STORE FIRE INCIDENTS BY SOME CRITERIA
-   private void findAndStoreIncidents(){
-
-       incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
-
-       sortedIncidentsRef = FirebaseDatabase.getInstance().getReference("SortedIncidents/Fire");
-       //sortedIncidentsRef.removeValue();  // refresh feed
-
-       incidentsRef.orderByChild("type").equalTo("Fire").addValueEventListener(new ValueEventListener() {   // look 4 fires
-           @Override
-           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               processAndStoreIncidents(dataSnapshot);
-           }
-
-           @Override
-           public void onCancelled(@NonNull DatabaseError databaseError) {
-               Log.e(TAG, "Error fetching data", databaseError.toException());
-           }
-       });
-   }
-
-    private void processAndStoreIncidents(DataSnapshot dataSnapshot) {
+    private static void processAndStoreIncidents(DataSnapshot dataSnapshot, DatabaseReference sortedIncidentsRef, String type) {
 
         sortedIncidentsRef.removeValue();
         List<Incident> incidentList = new ArrayList<>();
+        int hours = 0;
+        int minutes = 0;
+
+        double distanceKm = 0, distanceMeters = 0;
+
+        switch (type) {
+            case "Fire":
+                hours = 24;
+                distanceKm = 80;
+                break;
+            case "Flood":
+                hours = 24;
+                distanceKm = 1;
+                break;
+            case "Earthquake":
+                minutes = 3;
+                distanceKm = 20;
+                break;
+        }
 
         for (DataSnapshot incidentSnapshot : dataSnapshot.getChildren()) {
             Map<String, Integer> userSubmissionCount = new HashMap<>(); // use 4 subNumber
@@ -239,7 +211,9 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
                 String imageInner = incidentSnapshotInner.child("image").getValue(String.class);
 
                 if (!Objects.equals(incidentSnapshot.getKey(), incidentSnapshotInner.getKey())) {
-                    if ((isWithin24Hours(timestamp, timestampInner) && (isWithin80Km(location, locationInner)))) {
+
+                    if ((Incident.isWithinTimeframe(timestamp, timestampInner, hours, minutes) &&
+                            (Incident.isWithinDistance(location, locationInner, distanceKm, distanceMeters)))) {
                         assert userEmail != null;
                         if (!userEmail.equals(userEmailInner) && !userSubmissionCount.containsKey(userEmailInner)) {
                             System.out.println("Able to sort");
@@ -262,19 +236,6 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
 
             Incident incident = new Incident(keys, comments, locations, timestamps, photos, numberOfEntries, "not verified");
             incidentList.add(incident);
-
-
-            //save all incidents in a list of incidents and then save them to database
-            /*if (!incidentList.isEmpty())
-            {
-                for (Incident incident_ : incidentList) {
-                    if (!new HashSet<>(incident_.getKeys()).containsAll(incident.getKeys())) {
-                        System.out.println("New incident to be saved in the list");
-                        incidentList.add(incident);
-                    }
-                }
-            }
-            else incidentList.add(incident);*/
         }
 
         System.out.println("Incident list keys b4:");
@@ -296,107 +257,18 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         for (Incident incident : filteredIncidents) {
             System.out.println(incident.getKeys());
         }
-
-
-        saveIncidentsInSortedIncidents(filteredIncidents);
-
-        //System.out.println("After remove duplicates");
-        //incidentList1 = removeDuplicatesByKeys(incidentList);
-        //for (Incident incident : incidentList1) {System.out.println(incident.getKeys());}
+        saveIncidentsInSortedIncidents(filteredIncidents, sortedIncidentsRef);
     }
 
-
-    private boolean isWithin24Hours(String prevTimestamp, String timestamp) {
-        try {
-            // Ορίζουμε το format του timestamp
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss", Locale.getDefault());
-
-            // Μετατρέπουμε τα timestamp σε αντικείμενα Date
-            Date incidentDate1 = dateFormat.parse(prevTimestamp);
-            Date incidentDate2 = dateFormat.parse(timestamp);
-
-            // Ελέγχουμε αν τα περιστατικά είναι σε διαφορετικές ημερομηνίες
-            if (incidentDate1.getDate() != incidentDate2.getDate() || incidentDate1.getMonth() != incidentDate2.getMonth() || incidentDate1.getYear() != incidentDate2.getYear()) {
-                return false;
-            }
-
-            // Υπολογίζουμε τη διάφορα σε ώρες
-            long diffInHours = Math.abs(incidentDate1.getTime() - incidentDate2.getTime()) / (60 * 60 * 1000);
-
-            // Ελέγχουμε αν η διάφορα είναι μικρότερη από 24
-            return diffInHours < 24;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return false; // Σε περίπτωση σφάλματος επιστρέφουμε false
-        }
-    }
-
-    private boolean isWithin80Km(String prevLocation, String location) {
-
-        double distance = calculateDistance(prevLocation, location);
-        return distance <= 80;
-    }
-
-    private static double calculateDistance(String location1, String location2) {
-        // Εξαγωγή των γεωγραφικών συντεταγμένων από τα strings
-        double lat1 = extractCoordinate(location1, "Lat");
-        //System.out.println("lat1: " + lat1);
-        double lon1 = extractCoordinate(location1, "Long");
-        //System.out.println("lon1: " + lon1);
-        double lat2 = extractCoordinate(location2, "Lat");
-        double lon2 = extractCoordinate(location2, "Long");
-
-        // Υπολογισμός της απόστασης με τον τύπο Haversine
-        return haversine(lat1, lon1, lat2, lon2);
-    }
-
-    // Εξαγωγή των γεωγραφικών συντεταγμένων από τα strings
-    private static double extractCoordinate(String location, String coordinateType) {
-        //String[] parts = location.split(": ")[1].split(", Long: ");
-        //[1].split(",");
-        /*double[] parts1 = Arrays.stream(location.replaceAll("[^\\d.,-]", "").split(", "))
-                .mapToDouble(Double::parseDouble)
-                .toArray();*/
-
-        String[] parts = location.replaceAll("[^\\d.-]+", " ").trim().split("\\s+");
-        double lat = 0, lon = 0;
-
-        // Ensure we have at least two parts
-        if (parts.length >= 2) {
-            lat = Double.parseDouble(parts[0]);
-            lon = Double.parseDouble(parts[1]);
-        }
-        //System.out.println("parts: " + Arrays.toString(parts));
-        //System.out.println("paers[0]: " + parts[1].split(",")[0]);
-        return coordinateType.equals("Lat") ? lat : lon;
-    }
-
-    // Υπολογισμός της απόστασης με τον τύπο Haversine
-    private static double haversine(double lat1, double lon1, double lat2, double lon2) {
-        final int R = 6371; // Ακτίνα της Γης σε χιλιόμετρα
-
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return R * c; // Επιστροφή της απόστασης σε χιλιόμετρα
-    }
-
-
-    public void saveIncidentsInSortedIncidents(List<Incident> incidentList) {
-        sortedIncidentsRef = FirebaseDatabase.getInstance().getReference("SortedIncidents/Fire");
+    public static void saveIncidentsInSortedIncidents(List<Incident> incidentList, DatabaseReference sortedIncidentsRef) {
+        //sortedIncidentsRef = FirebaseDatabase.getInstance().getReference("SortedIncidents/Fire");
 
         for (Incident incident : incidentList) {
-            saveDataInSortedIncidents(incident);
+            saveDataInSortedIncidents(incident, sortedIncidentsRef);
         }
     }
 
-    private void saveDataInSortedIncidents(Incident incident) {
+    private static void saveDataInSortedIncidents(Incident incident, DatabaseReference sortedIncidentsRef) {
         // Use sortedIncidentsRef to push the incident data to the "SortedIncidents/Fire" dataset
         sortedIncidentsRef.push().setValue(incident).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -407,12 +279,11 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         });
     }
 
-
-    // CREATE SORT FIRE INCIDENTS LAYOUT
-    public void CreateSortIncidentsLayout(){
+    public static void CreateSortIncidentsLayout(DatabaseReference sortedIncidentsRef, DatabaseReference verifiedRef,
+                                                 LinearLayout scrollViewLayout, Context context) {
         // Get a reference to the database
-        sortedIncidentsRef = FirebaseDatabase.getInstance().getReference().child("SortedIncidents/Fire");
-        verifiedRef = FirebaseDatabase.getInstance().getReference().child("Verified/Fires");
+        //sortedIncidentsRef = FirebaseDatabase.getInstance().getReference().child("SortedIncidents/Fire");
+        //verifiedRef = FirebaseDatabase.getInstance().getReference().child("Verified/Fires");
         //sortedIncidentsRef.removeValue();
 
         sortedIncidentsRef.addValueEventListener(new ValueEventListener() {
@@ -421,34 +292,35 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 scrollViewLayout.removeAllViews(); // Clear existing views
 
-                if (dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     for (DataSnapshot sortedIncidentSnapshot : dataSnapshot.getChildren()) {
-                    // Create a vertical LinearLayout for each incident
-                    LinearLayout incidentLayout = new LinearLayout(EmployeeAllFireIncidentsActivity.this);
-                    incidentLayout.setOrientation(LinearLayout.VERTICAL);
-                    incidentLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
-                    ));
-                    incidentLayout.setBackgroundColor(Color.rgb(32,32,32));
+                        // Create a vertical LinearLayout for each incident
+                        LinearLayout incidentLayout = new LinearLayout(context);
+                        incidentLayout.setOrientation(LinearLayout.VERTICAL);
+                        incidentLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                        ));
+                        incidentLayout.setBackgroundColor(Color.rgb(32, 32, 32));
 
-                    // Add incident information to the layout
-                    addSortedIncidentInfoToLayout(sortedIncidentSnapshot, incidentLayout);
+                        // Add incident information to the layout
+                        addSortedIncidentInfoToLayout(sortedIncidentSnapshot, incidentLayout, context);
 
-                    // Create Verify and Delete buttons
-                    createVerifyButton(sortedIncidentSnapshot, incidentLayout);
-                    createDeleteButton(sortedIncidentSnapshot, incidentLayout);
+                        // Create Verify and Delete buttons
+                        createVerifyButton(sortedIncidentSnapshot, incidentLayout, verifiedRef, context);
+                        createDeleteButton(sortedIncidentSnapshot, incidentLayout, context);
 
-                    // Add the incident layout to the linear layout
-                    scrollViewLayout.addView(incidentLayout);
-                }
-            } else{
-                    TextView noIncidentsTextView = new TextView(EmployeeAllFireIncidentsActivity.this);
+                        // Add the incident layout to the linear layout
+                        scrollViewLayout.addView(incidentLayout);
+                    }
+                } else {
+                    TextView noIncidentsTextView = new TextView(context);
                     noIncidentsTextView.setText("No incidents to examine.");
                     noIncidentsTextView.setTextColor(Color.BLACK);
                     scrollViewLayout.addView(noIncidentsTextView);
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Handle errors here
@@ -457,13 +329,13 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void addSortedIncidentInfoToLayout(DataSnapshot sortedIncidentSnapshot, LinearLayout incidentLayout) {
+    private static void addSortedIncidentInfoToLayout(DataSnapshot sortedIncidentSnapshot, LinearLayout incidentLayout, Context context) {
 
         Incident incident = sortedIncidentSnapshot.getValue(Incident.class);
 
         if (incident != null) {
             // Create a TextView for each incident and append it to the ScrollView
-            TextView incidentTextView = new TextView(EmployeeAllFireIncidentsActivity.this);
+            TextView incidentTextView = new TextView(context);
             incidentTextView.setText(new StringBuilder().append("Number of Submissions: ").append(incident.getSubNumber()).
                     append("\nComments: ").append(String.join(", ", incident.getComments())).
                     append("\nLocations: ").append(String.join(", ", incident.getLocations())).
@@ -480,7 +352,7 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
             if (photos != null && !photos.isEmpty()) {
 
                 // Create a vertical LinearLayout for each incident
-                LinearLayout verticalLayout = new LinearLayout(EmployeeAllFireIncidentsActivity.this);
+                LinearLayout verticalLayout = new LinearLayout(context);
                 verticalLayout.setOrientation(LinearLayout.VERTICAL);
 
                 // Add the incident information TextView to the vertical layout
@@ -495,12 +367,12 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
 
 
                 // Create a horizontal LinearLayout for images
-                LinearLayout horizontalLayout = new LinearLayout(EmployeeAllFireIncidentsActivity.this);
+                LinearLayout horizontalLayout = new LinearLayout(context);
                 horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
 
                 // Create an ImageView for each photo and add it to the layout
                 for (String photoUrl : photos) {
-                    ImageView photoImageView = new ImageView(EmployeeAllFireIncidentsActivity.this);
+                    ImageView photoImageView = new ImageView(context);
 
                     // Set fixed dimensions for each ImageView
                     int imageSizeInDp = 400; // Adjust as needed
@@ -513,11 +385,16 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
 
                     photoImageView.setLayoutParams(layoutParams);
 
-                    if (!isDestroyed()) {
-                    // Load the photo using Glide
-                    Glide.with(EmployeeAllFireIncidentsActivity.this)
-                            .load(photoUrl)
-                            .into(photoImageView); }
+
+                    if (context instanceof Activity) {
+                        Activity activity = (Activity) context;
+                        if (!activity.isDestroyed()) {
+                            // Load image using Glide
+                            Glide.with(context)
+                                    .load(photoUrl)
+                                    .into(photoImageView);
+                        }
+                    }
 
                     // Add the ImageView to the horizontal layout
                     horizontalLayout.addView(photoImageView);
@@ -533,7 +410,8 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void createVerifyButton(DataSnapshot sortedIncidentSnapshot, LinearLayout incidentLayout) {
+    private static void createVerifyButton(DataSnapshot sortedIncidentSnapshot, LinearLayout incidentLayout,
+                                           DatabaseReference verifiedRef, Context context) {
 
         List<String> keysList = new ArrayList<>();
 
@@ -546,13 +424,13 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         }
 
 
-        Button verifyButton = new Button(this);
+        Button verifyButton = new Button(context);
         verifyButton.setText("VERIFY AND SEND EMERGENCY ALERT MESSAGE");
         verifyButton.setTextColor(Color.BLACK);
-        verifyButton.setBackgroundColor(Color.rgb(0,102,51));
+        verifyButton.setBackgroundColor(Color.rgb(0, 102, 51));
         verifyButton.setOnClickListener(v -> {
             // Build a confirmation dialog
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(context)
                     .setTitle("Verify Incident")
                     .setMessage("Are you sure you want to verify this alert and send an emergency alert message?")
                     .setPositiveButton("Yes", (dialog, which) -> {
@@ -573,7 +451,7 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
                                     incidentsRef.child(key).removeValue();
                                 }
                                 // Show a Toast indicating verification
-                                Toast.makeText(this, "Incident Verified and Alert Sent", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Incident Verified and Alert Sent", Toast.LENGTH_SHORT).show();
 
                             } else {
                                 // There was an error, handle it accordingly
@@ -591,7 +469,8 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void createDeleteButton(DataSnapshot sortedIncidentSnapshot, LinearLayout incidentLayout) {
+    private static void createDeleteButton(DataSnapshot sortedIncidentSnapshot, LinearLayout incidentLayout,
+                                           Context context) {
         List<String> keysList = new ArrayList<>();
 
         // Assuming "keys" is a child under sortedIncidentSnapshot
@@ -602,13 +481,13 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
             keysList.add(key);
         }
 
-        Button deleteButton = new Button(this);
+        Button deleteButton = new Button(context);
         deleteButton.setText("Delete");
-        deleteButton.setBackgroundColor(Color.rgb(204,0,0));
+        deleteButton.setBackgroundColor(Color.rgb(204, 0, 0));
         deleteButton.setOnClickListener(v -> {
 
             // Build a confirmation dialog
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(context)
                     .setTitle("Delete Incident")
                     .setMessage("Are you sure you want to delete this incident?")
                     .setPositiveButton("Yes", (dialog, which) -> {
@@ -624,7 +503,7 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
                         }
 
                         // Show a Toast indicating verification
-                        Toast.makeText(this, "Incident has been successfully deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Incident has been successfully deleted", Toast.LENGTH_SHORT).show();
 
                         // Optionally remove the incident layout from its parent layout
                         ((ViewGroup) incidentLayout.getParent()).removeView(incidentLayout);
@@ -638,10 +517,9 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         incidentLayout.addView(deleteButton);
     }
 
-    public void seeVerifiedFires(View view){
-        Titletextview.setText("Verified Fire\nIncidents");
+    public static void seeVerifiedIncidents(DatabaseReference verifiedRef, LinearLayout scrollViewLayout, Context context) {
         // Get a reference to the database
-        verifiedRef = FirebaseDatabase.getInstance().getReference().child("Verified/Fires");
+        //verifiedRef = FirebaseDatabase.getInstance().getReference().child("Verified/Fires");
         verifiedRef.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -652,27 +530,28 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
 
                     for (DataSnapshot incidentSnapshot : dataSnapshot.getChildren()) {
                         // Create a vertical LinearLayout for each incident
-                        LinearLayout incidentLayout = new LinearLayout(EmployeeAllFireIncidentsActivity.this);
+                        LinearLayout incidentLayout = new LinearLayout(context);
                         incidentLayout.setOrientation(LinearLayout.VERTICAL);
                         incidentLayout.setLayoutParams(new LinearLayout.LayoutParams(
                                 ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT
                         ));
-                        incidentLayout.setBackgroundColor(Color.rgb(32,32,32));
+                        incidentLayout.setBackgroundColor(Color.rgb(32, 32, 32));
 
                         // Add incident information to the layout
-                        addVerifiedIncidentInfoToLayout(incidentSnapshot, incidentLayout);
+                        addVerifiedIncidentInfoToLayout(incidentSnapshot, incidentLayout, context);
 
                         // Add the incident layout to the linear layout
                         scrollViewLayout.addView(incidentLayout);
                     }
-                }else { // No Verified Fire incidents
-                    TextView noIncidentsTextView = new TextView(EmployeeAllFireIncidentsActivity.this);
-                    noIncidentsTextView.setText("No verified fire incidents to show.");
+                } else { // No Verified Incidents
+                    TextView noIncidentsTextView = new TextView(context);
+                    noIncidentsTextView.setText("No verified incidents to show.");
                     noIncidentsTextView.setTextColor(Color.BLACK);
                     scrollViewLayout.addView(noIncidentsTextView);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle errors here
@@ -680,13 +559,13 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
         });
     }
 
-    private void addVerifiedIncidentInfoToLayout(DataSnapshot incidentSnapshot, LinearLayout incidentLayout) {
+    private static void addVerifiedIncidentInfoToLayout(DataSnapshot incidentSnapshot, LinearLayout incidentLayout, Context context) {
 
         Incident incident = incidentSnapshot.getValue(Incident.class);
 
         if (incident != null) {
             // Create a TextView for each incident and append it to the ScrollView
-            TextView incidentTextView = new TextView(EmployeeAllFireIncidentsActivity.this);
+            TextView incidentTextView = new TextView(context);
 
             incidentTextView.setText(new StringBuilder().append("Number of Submissions: ").append(incident.getSubNumber()).
                     append("\nComments: ").append(String.join(", ", incident.getComments())).
@@ -702,45 +581,48 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
 
             if (photos != null && !photos.isEmpty()) {
 
-                    // Create a vertical LinearLayout for each incident
-                    LinearLayout verticalLayout = new LinearLayout(EmployeeAllFireIncidentsActivity.this);
-                    verticalLayout.setOrientation(LinearLayout.VERTICAL);
+                // Create a vertical LinearLayout for each incident
+                LinearLayout verticalLayout = new LinearLayout(context);
+                verticalLayout.setOrientation(LinearLayout.VERTICAL);
 
-                    // Add the incident information TextView to the vertical layout
-                    verticalLayout.addView(incidentTextView);
+                // Add the incident information TextView to the vertical layout
+                verticalLayout.addView(incidentTextView);
 
-                    // Add some space between incidents (adjust margin values as needed)
-                    LinearLayout.LayoutParams verticalLayoutParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                    );
-                    verticalLayout.setLayoutParams(verticalLayoutParams);
+                // Add some space between incidents (adjust margin values as needed)
+                LinearLayout.LayoutParams verticalLayoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                verticalLayout.setLayoutParams(verticalLayoutParams);
 
 
-                    // Create a horizontal LinearLayout for images
-                    LinearLayout horizontalLayout = new LinearLayout(EmployeeAllFireIncidentsActivity.this);
-                    horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
+                // Create a horizontal LinearLayout for images
+                LinearLayout horizontalLayout = new LinearLayout(context);
+                horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-                    // Create an ImageView for each photo and add it to the layout
-                    for (String photoUrl : photos) {
-                        ImageView photoImageView = new ImageView(EmployeeAllFireIncidentsActivity.this);
+                // Create an ImageView for each photo and add it to the layout
+                for (String photoUrl : photos) {
+                    ImageView photoImageView = new ImageView(context);
 
-                        // Set fixed dimensions for each ImageView
-                        int imageSizeInDp = 400; // Adjust as needed
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams
-                                (imageSizeInDp, imageSizeInDp);
+                    // Set fixed dimensions for each ImageView
+                    int imageSizeInDp = 400; // Adjust as needed
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams
+                            (imageSizeInDp, imageSizeInDp);
                                 /*LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                                         LinearLayout.LayoutParams.MATCH_PARENT,
                                         LinearLayout.LayoutParams.WRAP_CONTENT)*/
 
 
-                        photoImageView.setLayoutParams(layoutParams);
+                    photoImageView.setLayoutParams(layoutParams);
 
-                        if (!isDestroyed()) {
-                            // Load the photo using Glide
-                            Glide.with(EmployeeAllFireIncidentsActivity.this)
+                    if (context instanceof Activity) {
+                        Activity activity = (Activity) context;
+                        if (!activity.isDestroyed()) {
+                            // Load image using Glide
+                            Glide.with(context)
                                     .load(photoUrl)
-                                    .into(photoImageView); }
+                                    .into(photoImageView);
+                        }
 
                         // Add the ImageView to the horizontal layout
                         horizontalLayout.addView(photoImageView);
@@ -753,9 +635,6 @@ public class EmployeeAllFireIncidentsActivity extends AppCompatActivity {
                     incidentLayout.addView(verticalLayout);
                 }
             }
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 }

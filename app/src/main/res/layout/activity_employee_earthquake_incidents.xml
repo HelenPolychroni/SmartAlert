@@ -22,16 +22,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView11"
-        android:layout_width="176dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="40dp"
+        android:id="@+id/TitletextView3"
+        android:layout_width="195dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="36dp"
         android:fontFamily="sans-serif-light"
-        android:text="Earthquake Incidents"
+        android:text="Earthquake\nIncidents"
         android:textAlignment="viewStart"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
+        app:layout_constraintHorizontal_bias="0.143"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,7 +61,19 @@
         android:textAlignment="viewStart"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.783"
+        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button16"
+        android:layout_width="136dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="36dp"
+        android:onClick="seeVerifiedEarthquakes"
+        android:text="See verified earthquakes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.869"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
