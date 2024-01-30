@@ -4,7 +4,5 @@
         <item>Fire</item>
         <item>Earthquake</item>
         <item>Flood</item>
-        <item>Tornado</item>
-        <item>Tsunami</item>
     </string-array>
 </resources>

@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -62,6 +63,11 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
    // private static final int STORAGE_PERMISSION_CODE = 1;
     Boolean camera;
     Uri image;
+
+
+    private static final int MENU_HOME = R.id.action_home;
+    private static final int MENU_SEND_INCIDENT = R.id.action_new_incident;
+    private static final int MENU_STATISTICS = R.id.action_statistics;
 
 
     @Override
@@ -298,7 +304,61 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
                     Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
                 }
             }
-        }
+    }
+
+
+    // menu
+    @Override
+    protected void setupBottomNavigationView(int itemId) {
+        System.out.println("here again");
+
+        /*switch (itemId) {
+            case m:
+                startActivity(new Intent(this, UserHomePage.class));
+                break;
+            case R.id.action_statistics:
+                // Handle statistics
+                break;
+            // Add other cases if needed
+        }*/
+
+        /*BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            System.out.println("inside listener");
+            //Fragment selectedFragment = new StatisticsFragment();
+            Intent intent = null;
+
+            int itemId = item.getItemId(); // Store the item ID in a variable
+
+            // Use if-else statements instead of a switch for non-constant expressions
+            if (itemId == MENU_HOME) {
+                System.out.println("home");
+                // Start UserHomePage activity
+                intent = new Intent(this, UserHomePage.class);
+            } else if (itemId == MENU_SEND_INCIDENT) {
+                System.out.println("incident");
+                // Start UserNewIncident activity
+                intent = new Intent(this, UserNewIncident.class);
+            } else if (itemId == MENU_STATISTICS) {
+                System.out.println("statistics");
+                // Start StatisticsActivity activity
+                intent = new Intent(this, LogInActivity.class);
+            }else{
+                System.out.println("nada");
+            }
+
+            // Check if intent is not null before starting it
+            if (intent != null) {
+                startActivity(intent);
+                return true; // Return true to indicate the item has been handled
+            }
+
+            return false;
+        });*/
+    }
+
+
     }
 
 
