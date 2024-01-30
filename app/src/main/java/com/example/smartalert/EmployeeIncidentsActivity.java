@@ -44,22 +44,28 @@ public class EmployeeIncidentsActivity extends AppCompatActivity {
 
     public void examineIncidents(View view) {
         incident_type = incidentType.getText().toString();
+        boolean flag = false;
 
         switch (incident_type) {
             case "Fire":
                 page = EmployeeAllFireIncidentsActivity.class;
+                flag = true;
                 break;
             case "Flood":
                 page = EmployeeAllFloodIncidentsActivity.class;
+                flag = true;
                 break;
             case "Earthquake":
                 page = EmployeeAllEarthquakeIncidentsActivity.class;
+                flag = true;
                 break;
             default:
                 // If none of the specified incident types are selected, show a toast message
                 Toast.makeText(this, "Please select incident type", Toast.LENGTH_SHORT).show();
                 return;
         }
+        if (flag)
+            Toast.makeText(this, "Incident type " + incident_type.toLowerCase() + " is selected", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, page);
         startActivity(intent);
     }

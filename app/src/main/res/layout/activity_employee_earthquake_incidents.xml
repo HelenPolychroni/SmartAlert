@@ -53,7 +53,7 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/sortingmsg2"
         android:layout_width="185dp"
         android:layout_height="48dp"
         android:layout_marginTop="100dp"
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button16"
+        android:id="@+id/buttonEarthquakes"
         android:layout_width="136dp"
         android:layout_height="60dp"
         android:layout_marginTop="36dp"

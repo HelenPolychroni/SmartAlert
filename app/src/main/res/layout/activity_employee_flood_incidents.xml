@@ -8,7 +8,7 @@
     >
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/sortingmsg3"
         android:layout_width="185dp"
         android:layout_height="48dp"
         android:layout_marginTop="100dp"
@@ -67,7 +67,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/button12"
+        android:id="@+id/buttonFloods"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"

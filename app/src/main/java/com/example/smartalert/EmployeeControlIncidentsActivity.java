@@ -47,9 +47,6 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
     public static void CreateIncidentsLayout(DatabaseReference incidentsRef, String type, LinearLayout scrollViewLayout,
                                              Context context) {
-        // Get a reference to the database
-        incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
-        //sortedIncidentsRef = FirebaseDatabase.getInstance().getReference().child("SortedIncidents/Fire");
         Query IncidentsQuery = incidentsRef.orderByChild("type").equalTo(type);
         IncidentsQuery.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -139,9 +136,6 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
     static void findAndStoreIncidents(DatabaseReference incidentsRef, DatabaseReference sortedIncidentsRef, String type) {
 
-        //incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
-
-        //sortedIncidentsRef = FirebaseDatabase.getInstance().getReference(path);
         //sortedIncidentsRef.removeValue();  // refresh feed
 
         incidentsRef.orderByChild("type").equalTo(type).addValueEventListener(new ValueEventListener() {   // look 4 fires
@@ -261,7 +255,6 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
     }
 
     public static void saveIncidentsInSortedIncidents(List<Incident> incidentList, DatabaseReference sortedIncidentsRef) {
-        //sortedIncidentsRef = FirebaseDatabase.getInstance().getReference("SortedIncidents/Fire");
 
         for (Incident incident : incidentList) {
             saveDataInSortedIncidents(incident, sortedIncidentsRef);
@@ -281,9 +274,6 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
     public static void CreateSortIncidentsLayout(DatabaseReference sortedIncidentsRef, DatabaseReference verifiedRef,
                                                  LinearLayout scrollViewLayout, Context context) {
-        // Get a reference to the database
-        //sortedIncidentsRef = FirebaseDatabase.getInstance().getReference().child("SortedIncidents/Fire");
-        //verifiedRef = FirebaseDatabase.getInstance().getReference().child("Verified/Fires");
         //sortedIncidentsRef.removeValue();
 
         sortedIncidentsRef.addValueEventListener(new ValueEventListener() {
@@ -368,7 +358,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
                 // Create a horizontal LinearLayout for images
                 LinearLayout horizontalLayout = new LinearLayout(context);
-                horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
+                horizontalLayout.setOrientation(LinearLayout.VERTICAL);
 
                 // Create an ImageView for each photo and add it to the layout
                 for (String photoUrl : photos) {
@@ -518,15 +508,13 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
     }
 
     public static void seeVerifiedIncidents(DatabaseReference verifiedRef, LinearLayout scrollViewLayout, Context context) {
-        // Get a reference to the database
-        //verifiedRef = FirebaseDatabase.getInstance().getReference().child("Verified/Fires");
         verifiedRef.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 scrollViewLayout.removeAllViews(); // Clear existing views
 
-                if (dataSnapshot.exists()) { // Fire incidents exist
+                if (dataSnapshot.exists()) { // Verified incidents exist
 
                     for (DataSnapshot incidentSnapshot : dataSnapshot.getChildren()) {
                         // Create a vertical LinearLayout for each incident
@@ -598,7 +586,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
                 // Create a horizontal LinearLayout for images
                 LinearLayout horizontalLayout = new LinearLayout(context);
-                horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
+                horizontalLayout.setOrientation(LinearLayout.VERTICAL);
 
                 // Create an ImageView for each photo and add it to the layout
                 for (String photoUrl : photos) {
@@ -627,13 +615,13 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                         // Add the ImageView to the horizontal layout
                         horizontalLayout.addView(photoImageView);
                     }
-                    //incidentLayout.addView(incidentTextView);
-                    // Add the horizontal layout to the vertical layout
-                    verticalLayout.addView(horizontalLayout);
 
-                    // Load the first photo using Glide
-                    incidentLayout.addView(verticalLayout);
                 }
+                // Add the horizontal layout to the vertical layout
+                verticalLayout.addView(horizontalLayout);
+
+                // Load the first photo using Glide
+                incidentLayout.addView(verticalLayout);
             }
         }
     }

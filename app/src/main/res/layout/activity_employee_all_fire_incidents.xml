@@ -8,7 +8,7 @@
     tools:context=".EmployeeAllFireIncidentsActivity">
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/sortingmsg"
         android:layout_width="185dp"
         android:layout_height="48dp"
         android:layout_marginTop="96dp"
@@ -70,7 +70,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/button11"
+        android:id="@+id/buttonFires"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
