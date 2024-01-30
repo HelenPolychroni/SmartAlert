@@ -11,6 +11,7 @@ public class Incident {
     private String timestamp;
     private String image;
     private String location;
+    private String status;
 
     // for sorted incidents
     // 1. keep incident type
@@ -31,7 +32,7 @@ public class Incident {
     public Incident() {}
 
     public Incident(List<String> keys, List<String> comments, List<String> locations, List<String> timestamps,
-                    List<String> photos, int subNumber){
+                    List<String> photos, int subNumber, String status){
 
         this.keys = keys;
         this.comments = comments;
@@ -39,6 +40,7 @@ public class Incident {
         this.timestamps = timestamps;
         this.photos = photos;
         this.subNumber = subNumber;
+        this.status = status;
 
     }
 
@@ -140,4 +142,8 @@ public class Incident {
     public List<String> getKeys() {return keys;}
 
     public void setKeys(List<String> keys) {this.keys = keys;}
+
+    public String getStatus() {return status;}
+
+    public void setStatus(String status) {this.status = status;}
 }

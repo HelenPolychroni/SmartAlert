@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,22 +42,28 @@ public class EmployeeIncidentsActivity extends AppCompatActivity {
     }
 
 
-    public void examineIncidents(View view) throws ClassNotFoundException {
+    public void examineIncidents(View view) {
         incident_type = incidentType.getText().toString();
+
         switch (incident_type) {
             case "Fire":
-                page = Class.forName("com.example.smartalert.EmployeeAllFireIncidentsActivity");
+                page = EmployeeAllFireIncidentsActivity.class;
                 break;
             case "Flood":
-                page = Class.forName("com.example.smartalert.EmployeeAllFloodIncidentsActivity");
+                page = EmployeeAllFloodIncidentsActivity.class;
                 break;
             case "Earthquake":
-                page = Class.forName("com.example.smartalert.EmployeeAllEarthquakeIncidentsActivity");
+                page = EmployeeAllEarthquakeIncidentsActivity.class;
                 break;
+            default:
+                // If none of the specified incident types are selected, show a toast message
+                Toast.makeText(this, "Please select incident type", Toast.LENGTH_SHORT).show();
+                return;
         }
         Intent intent = new Intent(this, page);
         startActivity(intent);
     }
+
 
 
 

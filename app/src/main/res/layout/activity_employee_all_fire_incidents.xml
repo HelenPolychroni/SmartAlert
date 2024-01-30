@@ -8,11 +8,24 @@
     tools:context=".EmployeeAllFireIncidentsActivity">
 
     <TextView
+        android:id="@+id/textView15"
+        android:layout_width="185dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="96dp"
+        android:text="*Examine fires that happened the last 24h and located within a distance of 80 kilometers"
+        android:textAlignment="viewStart"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.858"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textView13"
         android:layout_width="115dp"
         android:layout_height="51dp"
         android:layout_marginTop="24dp"
-        android:text="Fire Incidents"
+        android:text="Pending Fire Incidents"
         android:textAlignment="viewStart"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -32,7 +45,7 @@
         android:textOff="SORT OFF"
         android:textOn="SORT ON"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,4 +68,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"></LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:onClick="seeVerifiedFires"
+        android:text="See verifed fires"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.876"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

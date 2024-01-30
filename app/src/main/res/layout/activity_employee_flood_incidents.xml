@@ -7,6 +7,19 @@
     tools:context=".EmployeeAllFloodIncidentsActivity"
     >
 
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="185dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="100dp"
+        android:text="*Examine floods that happened the last 24 h and located within a distance of x kilometers"
+        android:textAlignment="viewStart"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.783"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Switch
         android:id="@+id/switch3"
         android:layout_width="135dp"
