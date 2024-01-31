@@ -24,6 +24,9 @@
         android:theme="@style/Theme.SmartAlert"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".EmployeeControlIncidentsActivity"
             android:exported="false" />
         <activity

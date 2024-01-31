@@ -1,44 +1,31 @@
 package com.example.smartalert;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
+import static com.example.smartalert.R.*;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class EmployeeIncidentsActivity extends AppCompatActivity {
     AutoCompleteTextView incidentType;
     String incident_type;
     Class<?> page;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_incidents);
+        setContentView(layout.activity_employee_incidents);
 
-        incidentType = findViewById(R.id.autoCompleteTextView2);
+        incidentType = findViewById(id.autoCompleteTextView2);
+
+        //bottomNavigationView = findViewById(id.bottomNavigationView);
+        //BottomNavigationUtils.setupBottomNavigation(bottomNavigationView, this);
+
     }
 
 

@@ -51,8 +51,8 @@
 
     <ScrollView
         android:id="@+id/scrollview"
-        android:layout_width="347dp"
-        android:layout_height="477dp"
+        android:layout_width="343dp"
+        android:layout_height="464dp"
         android:layout_marginTop="160dp"
 
         android:fillViewport="true"
@@ -80,5 +80,16 @@
         app:layout_constraintHorizontal_bias="0.876"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<LinearLayout
+        android:layout_width="407dp"
+        android:layout_height="73dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/layout_bottom_navigation" />
+    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,6 +25,7 @@ public class EmployeeAllFireIncidentsActivity extends EmployeeControlIncidentsAc
     private DatabaseReference incidentsRef, sortedIncidentsRef, verifiedRef;
     private FirebaseDatabase database;
     private Button FiresButton;
+    private BottomNavigationView bottomNavigationView;
     @SuppressLint("MissingInflatedId")
 
     @Override
@@ -42,6 +44,10 @@ public class EmployeeAllFireIncidentsActivity extends EmployeeControlIncidentsAc
         FiresButton = findViewById(R.id.buttonFires);
 
         incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
+
+        //bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        //BottomNavigationUtils.setupBottomNavigation(bottomNavigationView, this);
+
 
         EmployeeControlIncidentsActivity.CreateIncidentsLayout(incidentsRef, "Fire", scrollViewLayout, EmployeeAllFireIncidentsActivity.this);
     }
