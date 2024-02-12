@@ -1,5 +1,7 @@
 package com.example.smartalert;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -27,9 +29,19 @@ import android.view.View;
 import android.Manifest;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth;
+
+import android.os.Bundle;
+import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class UserOptions extends AppCompatActivity implements LocationListener {
 
@@ -38,19 +50,41 @@ public class UserOptions extends AppCompatActivity implements LocationListener {
     double latitude=0;
     double longitude=0;
     String locationString;
-     static final int PERMISSION_REQUEST_CODE=1;
+    static final int PERMISSION_REQUEST_CODE=1;
+
+    private static final String TAG = "UserOptions";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_options);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mAuth = FirebaseAuth.getInstance();
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             getLocationPermission();
         }else{
            getCurrentLocation();
         }
+
+        // Obtain the FCM registration token
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (task.isSuccessful()) {
+                            String token = task.getResult();
+                            Log.d(TAG, "FCM Token: " + token);
+
+                            // Send the token to your server if needed
+                        } else {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        }
+                    }
+                });
+
+
     }
     @Override
     protected void onDestroy() {

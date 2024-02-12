@@ -16,4 +16,6 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up">Sign up</string>
     <string name="create_naccount">Create\nAccount</string>
+
+    <string name="default_notification_channel_id" translatable="false">your_default_channel_id</string>
 </resources>
