@@ -8,52 +8,39 @@
 
     <Button
         android:id="@+id/button13"
-        android:layout_width="130dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="228dp"
+        android:layout_width="245dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="316dp"
         android:onClick="got2Incidents"
-        android:text="Incidents page"
+        android:text="Manage Incidents"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button8"
-        android:layout_width="118dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="324dp"
+        android:layout_width="142dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="432dp"
         android:onClick="logout"
         android:text="Log out"
+        android:textSize="21sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="248dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="64dp"
+        android:layout_width="479dp"
+        android:layout_height="119dp"
+        android:layout_marginTop="76dp"
         android:fontFamily="sans-serif-black"
         android:text="Welcome to Employee\nHome Page"
         android:textAlignment="textStart"
-        android:textSize="20sp"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button15"
-        android:layout_width="156dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="524dp"
-        android:onClick="EarthquakeIncidents"
-        android:text="Earthquake Incidents"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,12 +48,23 @@
         android:id="@+id/button14"
         android:layout_width="156dp"
         android:layout_height="55dp"
-        android:layout_marginTop="468dp"
+        android:layout_marginTop="776dp"
         android:onClick="FireIncidents"
         android:text="Fire Incidents"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button15"
+        android:layout_width="156dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="832dp"
+        android:onClick="EarthquakeIncidents"
+        android:text="Earthquake Incidents"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,12 +72,11 @@
         android:id="@+id/button"
         android:layout_width="156dp"
         android:layout_height="55dp"
-        android:layout_marginTop="576dp"
+        android:layout_marginTop="884dp"
         android:onClick="FloodIncidents"
         android:text="Flood Incidents"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
