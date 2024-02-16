@@ -65,9 +65,7 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
     Uri image;
 
 
-    private static final int MENU_HOME = R.id.action_home;
-    private static final int MENU_SEND_INCIDENT = R.id.action_new_incident;
-    private static final int MENU_STATISTICS = R.id.action_statistics;
+
 
 
     @Override
@@ -92,11 +90,7 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
         camera = false;
         imageView=findViewById(R.id.imageView3);
         launcher();
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new HomeFragment())
-                    .commit();
-        }
+
 
     }
     @Override

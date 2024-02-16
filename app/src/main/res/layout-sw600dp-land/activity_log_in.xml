@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/nature1"
+    tools:context=".LogInActivity">
+
+    <TextView
+        android:layout_width="254dp"
+        android:layout_height="59dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/welcome_n_back"
+        android:textAlignment="textStart"
+        android:textColor="#B7EFEAEA"
+        android:textSize="21sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.338" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordLayout"
+        android:layout_width="254dp"
+        android:layout_height="59dp"
+        android:hint="@string/password"
+        app:boxBackgroundColor="#81F4EDED"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.516"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/EmailLayout"
+        android:layout_width="254dp"
+        android:layout_height="59dp"
+        android:hint="@string/email"
+        app:boxBackgroundColor="#81F4EDED"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.428"
+        app:startIconDrawable="@android:drawable/ic_dialog_email"
+        app:startIconScaleType="centerInside">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/LogIn_btn"
+        android:layout_width="254dp"
+        android:layout_height="51dp"
+        android:backgroundTint="#63000000"
+        android:onClick="login"
+        android:text="@string/log_in1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.626" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
