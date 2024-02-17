@@ -24,9 +24,6 @@
         android:theme="@style/Theme.SmartAlert"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".EmployeeControlIncidentsActivity"
             android:exported="false" />
         <activity
@@ -45,22 +42,10 @@
             android:name=".UserOptions"
             android:exported="false" />
         <activity
-            android:name=".BaseActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MenuActivity"
-            android:exported="false" />
-        <activity
-            android:name=".UserStatistics"
-            android:exported="false" />
-        <activity
             android:name=".UserNewIncident"
             android:exported="false" />
         <activity
             android:name=".EmployeeHomePage"
-            android:exported="false" />
-        <activity
-            android:name=".UserHomePage"
             android:exported="false" />
         <activity
             android:name=".StartUpActivity"
