@@ -57,7 +57,7 @@
         android:layout_width="185dp"
         android:layout_height="48dp"
         android:layout_marginTop="100dp"
-        android:text="*Examine earthquakes that happened the last 2 minutes and located within a distance of x kilometers"
+        android:text="*Examine earthquakes that happened the last 20 minutes and located within a distance of 100 kilometers"
         android:textAlignment="viewStart"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"

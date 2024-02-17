@@ -39,9 +39,6 @@
             android:name=".EmployeeAllEarthquakeIncidentsActivity"
             android:exported="false" />
         <activity
-            android:name=".EmployeeFireIncidentsActivity"
-            android:exported="false" />
-        <activity
             android:name=".EmployeeIncidentsActivity"
             android:exported="false" />
         <activity

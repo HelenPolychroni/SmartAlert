@@ -12,7 +12,7 @@
         android:layout_width="388dp"
         android:layout_height="62dp"
         android:layout_marginTop="108dp"
-        android:text="*Examine floods that happened the last 24 h and located within a distance of x kilometers"
+        android:text="*Examine floods that happened the last 24h and located within a distance of 40 kilometers"
         android:textAlignment="viewStart"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

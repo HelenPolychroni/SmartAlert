@@ -163,15 +163,15 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         switch (type) {
             case "Fire":
                 hours = 24;
-                distanceKm = 80;
+                distanceKm = 30;
                 break;
             case "Flood":
                 hours = 24;
-                distanceKm = 1;
+                distanceKm = 40;
                 break;
             case "Earthquake":
-                minutes = 3;
-                distanceKm = 20;
+                minutes = 20;
+                distanceKm = 100;
                 break;
         }
 

@@ -12,7 +12,7 @@
         android:layout_width="185dp"
         android:layout_height="48dp"
         android:layout_marginTop="96dp"
-        android:text="*Examine fires that happened the last 24h and located within a distance of 80 kilometers"
+        android:text="*Examine fires that happened the last 24h and located within a distance of 30 kilometers"
         android:textAlignment="viewStart"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
