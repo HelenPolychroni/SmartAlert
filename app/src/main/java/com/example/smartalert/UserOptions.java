@@ -38,17 +38,20 @@ public class UserOptions extends AppCompatActivity implements LocationListener {
     double latitude=0;
     double longitude=0;
     String locationString;
-     static final int PERMISSION_REQUEST_CODE=1;
+    static final int PERMISSION_REQUEST_CODE=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_options);
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mAuth = FirebaseAuth.getInstance();
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             getLocationPermission();
-        }else{
+        }
+        else{
            getCurrentLocation();
         }
     }
@@ -118,9 +121,13 @@ public class UserOptions extends AppCompatActivity implements LocationListener {
         startActivity(intent);
     }
     public void upload(View view){
-
         Intent intent = new Intent(this, UserNewIncident.class);
         intent.putExtra("location",locationString);
+        startActivity(intent);
+    }
+
+    public void incidents_statistics(View view){
+        Intent intent = new Intent(this, UserIncidentsStatistics.class);
         startActivity(intent);
     }
 }

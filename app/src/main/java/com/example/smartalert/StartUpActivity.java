@@ -121,7 +121,8 @@ public class StartUpActivity extends AppCompatActivity {
                 }
             } else if (role.equals("user")) {
                 try {
-                    page = Class.forName("com.example.smartalert.UserOptions");
+                    //page = Class.forName("com.example.smartalert.UserOptions");
+                    page = Class.forName("com.example.smartalert.UserHomePage");
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }

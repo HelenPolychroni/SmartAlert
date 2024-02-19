@@ -113,8 +113,8 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <RelativeLayout
-        android:layout_width="409dp"
-        android:layout_height="442dp"
+        android:layout_width="404dp"
+        android:layout_height="478dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -170,6 +170,5 @@
             app:simpleItems="@array/options_list" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <include layout="@layout/bottom_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

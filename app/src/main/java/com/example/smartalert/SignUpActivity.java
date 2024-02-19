@@ -223,7 +223,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         DatabaseReference usersRef = databaseReference.child(pathString).push();
-        usersRef.setValue(new User(fullname,email,phonenumber))
+        usersRef.setValue(new User(fullname,email,phonenumber, ""))
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         if (isEnglishSelected) showToast("Data saved successfully");

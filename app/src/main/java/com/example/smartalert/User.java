@@ -5,13 +5,15 @@ import java.util.regex.Pattern;
 
 public class User implements Serializable {
     protected String fullname, email, password, phonenumber;
+    protected String location;
     //protected int phonenumber;
 
-    public User(String fullname, String email, String phonenumber) {
+    public User(String fullname, String email, String phonenumber, String location) {
         setFullname(fullname);
         setEmail(email);
         //setPassword(password);
        setPhonenumber(phonenumber);
+       setLocation(location);
     }
 
     public String getFullname() {
@@ -45,6 +47,10 @@ public class User implements Serializable {
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
+
+    public String getLocation() {return location;}
+
+    public void setLocation(String location) {this.location = location;}
 
     /*
     public String getFullname() {return fullname;}

@@ -5,43 +5,46 @@ import static com.example.smartalert.UserOptions.PERMISSION_REQUEST_CODE;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.location.Location;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.*;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import com.google.android.material.textfield.TextInputLayout;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class UserNewIncident extends BaseActivity implements LocationListener{
+public class UserNewIncident extends AppCompatActivity implements LocationListener{
 
     LocationManager locationManager;
     double latitude=0;
@@ -63,9 +66,6 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
    // private static final int STORAGE_PERMISSION_CODE = 1;
     Boolean camera;
     Uri image;
-
-
-
 
 
     @Override
@@ -90,9 +90,8 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
         camera = false;
         imageView=findViewById(R.id.imageView3);
         launcher();
-
-
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -291,68 +290,18 @@ public class UserNewIncident extends BaseActivity implements LocationListener{
             } else {
                 Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
             }
-        }else if(requestCode == PERMISSION_REQUEST_CODE){
+        }
+        else if(requestCode == PERMISSION_REQUEST_CODE){
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getCurrentLocation();
-                } else {
+                }
+                else {
                     Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
                 }
-            }
+
+        }
     }
+}
 
-
-    // menu
-    @Override
-    protected void setupBottomNavigationView(int itemId) {
-        System.out.println("here again");
-
-        /*switch (itemId) {
-            case m:
-                startActivity(new Intent(this, UserHomePage.class));
-                break;
-            case R.id.action_statistics:
-                // Handle statistics
-                break;
-            // Add other cases if needed
-        }*/
-
-        /*BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            System.out.println("inside listener");
-            //Fragment selectedFragment = new StatisticsFragment();
-            Intent intent = null;
-
-            int itemId = item.getItemId(); // Store the item ID in a variable
-
-            // Use if-else statements instead of a switch for non-constant expressions
-            if (itemId == MENU_HOME) {
-                System.out.println("home");
-                // Start UserHomePage activity
-                intent = new Intent(this, UserHomePage.class);
-            } else if (itemId == MENU_SEND_INCIDENT) {
-                System.out.println("incident");
-                // Start UserNewIncident activity
-                intent = new Intent(this, UserNewIncident.class);
-            } else if (itemId == MENU_STATISTICS) {
-                System.out.println("statistics");
-                // Start StatisticsActivity activity
-                intent = new Intent(this, LogInActivity.class);
-            }else{
-                System.out.println("nada");
-            }
-
-            // Check if intent is not null before starting it
-            if (intent != null) {
-                startActivity(intent);
-                return true; // Return true to indicate the item has been handled
-            }
-
-            return false;
-        });*/
-    }
-
-
-    }
 
 
