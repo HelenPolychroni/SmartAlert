@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -47,6 +46,7 @@ public class LocationForegroundService2 extends Service{
     private LocationCallback locationCallback;
 
     private DatabaseReference locationRef;
+    private String currentLocationString;
 
     @Override
     public void onCreate() {
@@ -130,6 +130,7 @@ public class LocationForegroundService2 extends Service{
     }
 
     private void updateLocationInFirebase(Location location) {
+
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null && location != null) {
@@ -144,11 +145,16 @@ public class LocationForegroundService2 extends Service{
                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                         String latitude = String.valueOf(location.getLatitude());
                         String longitude = String.valueOf(location.getLongitude());
-                        String locationString = "Lat: " + latitude + ", Long: " + longitude;
+                        currentLocationString = "Lat: " + latitude + ", Long: " + longitude;
 
-                        userSnapshot.getRef().child("location").setValue(locationString)
+                        userSnapshot.getRef().child("location").setValue(currentLocationString)
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
+                                        // Broadcast the updated location string
+                                        Intent intent = new Intent("LocationUpdate");
+                                        intent.putExtra("location", currentLocationString);
+                                        sendBroadcast(intent);
+
                                         Log.d(TAG, "Location update in Firebase successful");
                                         Toast.makeText(LocationForegroundService2.this, "Location update in Firebase successful", Toast.LENGTH_SHORT).show();
                                     } else {

@@ -1,16 +1,25 @@
 package com.example.smartalert;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -34,6 +43,12 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String PREF_NAME = "User";
     private static final String KEY_ROLE = "UserRole";
     boolean isEnglishSelected;
+
+    // Define a constant for requesting location permission
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
+
+    private FusedLocationProviderClient fusedLocationClient;
+    private String locationString;
 
 
     @Override
@@ -59,6 +74,20 @@ public class SignUpActivity extends AppCompatActivity {
         // Retrieve the data from SharedPreferences
         isEnglishSelected = sharedPreferences.getBoolean("english", true);
         System.out.println("SignUp english is: " + isEnglishSelected);
+
+        // Initialize FusedLocationProviderClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // Check and request location permissions if not granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            // Permissions already granted, get user's location
+            getUserLocation();
+        }
     }
 
     public void SignUpUser(View view){
@@ -213,17 +242,20 @@ public class SignUpActivity extends AppCompatActivity {
         // Paradohi tha anagnwrizei ena sigekrimno email ws employee
         String pathString;
         Class<?> page;
+        String location = "";
 
         if (role.equals("employee")) {
             pathString = "employees";
             page = Class.forName("com.example.smartalert.EmployeeHomePage");
         } else {
             pathString = "users";
-            page = Class.forName("com.example.smartalert.UserOptions");
+            location = locationString;
+            page = Class.forName("com.example.smartalert.UserHomePage");
         }
 
+
         DatabaseReference usersRef = databaseReference.child(pathString).push();
-        usersRef.setValue(new User(fullname,email,phonenumber, ""))
+        usersRef.setValue(new User(fullname,email,phonenumber, location))
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         if (isEnglishSelected) showToast("Data saved successfully");
@@ -242,6 +274,56 @@ public class SignUpActivity extends AppCompatActivity {
                          else showToast("Σφάλμα κατά την αποθήκευση των στοιχείων");
                     }
                 });
+    }
+
+    // Request location permissions result handler
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Location permissions granted, get user's location
+                getUserLocation();
+            } else {
+                // Location permissions denied, handle accordingly
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // Method to get user's location
+    private void getUserLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        // Request user's last known location
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            // Handle user's location here
+                            // For example, you can save it to Firebase
+                            locationString = "Lat: " + latitude + ", Long: " + longitude;
+
+                            Toast.makeText(SignUpActivity.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SignUpActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    // Method to save user's location to Firebase
+    private void saveUserLocationToFirebase(String locationString) {
+        // Your code to save user's location to Firebase database goes here
     }
 
     private void updateUser(FirebaseUser user, String role){
