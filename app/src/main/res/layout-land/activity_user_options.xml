@@ -7,7 +7,7 @@
     tools:context=".UserOptions">
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/welcomemsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome to User Home Page"

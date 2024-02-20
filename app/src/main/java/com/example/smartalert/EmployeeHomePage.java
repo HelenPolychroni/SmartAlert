@@ -2,19 +2,30 @@ package com.example.smartalert;
 
 import static com.example.smartalert.R.*;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EmployeeHomePage extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private BottomNavigationView bottomNavigationView;
+
+    private TextView greetingTextView;
+    private DatabaseReference employeesRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +34,49 @@ public class EmployeeHomePage extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        //bottomNavigationView = findViewById(id.bottomNavigationView);
-        //BottomNavigationUtils.setupBottomNavigation(bottomNavigationView, this);
+        greetingTextView = findViewById(R.id.greetingTextView);
 
+        // Get the current user's email address
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String email = currentUser.getEmail();
+
+            // Reference to the Firebase database
+            employeesRef = FirebaseDatabase.getInstance().getReference("employees");
+
+            // Query the database to find the user's full name by email
+            employeesRef.orderByChild("email").equalTo(email)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                // Retrieve the full name from the database
+                                String fullName = dataSnapshot.getChildren().iterator().next().child("fullname").getValue(String.class);
+                                if (fullName != null) {
+                                    // Update the greeting text view with the full name
+                                    greetingTextView.setText(String.format("Hello %s,\nchoose the actions you want to perform",
+                                            fullName.split(" ")[0]));
+                                } else {
+                                    // Handle the case when the full name is not found
+                                    //Toast.makeText(YourActivity.this, "Full name not found", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                // Handle the case when the user is not found
+                                //Toast.makeText(YourActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Handle the error
+                            //Toast.makeText(YourActivity.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            // Handle the case when the current user is null (not authenticated)
+            //Toast.makeText(this, "No authenticated user", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void logout(View view){

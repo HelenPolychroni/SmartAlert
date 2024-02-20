@@ -13,7 +13,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,12 +36,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class UserHomePage extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
-
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
-    private String locationString;
+    private String locationString, firstName;
+    private TextView greetingTextView;
+    private DatabaseReference usersRef;
 
 
     @Override
@@ -48,8 +54,51 @@ public class UserHomePage extends AppCompatActivity{
 
         mAuth = FirebaseAuth.getInstance();
 
+        greetingTextView = findViewById(R.id.welcomemsg);
+
+        // Get the current user's email address
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String email = currentUser.getEmail();
+
+            // Reference to the Firebase database
+            usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+            // Query the database to find the user's full name by email
+            usersRef.orderByChild("email").equalTo(email)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                // Retrieve the full name from the database
+                                String fullName = dataSnapshot.getChildren().iterator().next().child("fullname").getValue(String.class);
+                                if (fullName != null) {
+                                    // Update the greeting text view with the full name
+                                    greetingTextView.setText("Hello "+ fullName.split(" ")[0]+ ",\nchoose the actions you want to perform");
+                                } else {
+                                    // Handle the case when the full name is not found
+                                    //Toast.makeText(YourActivity.this, "Full name not found", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                // Handle the case when the user is not found
+                                //Toast.makeText(YourActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Handle the error
+                            //Toast.makeText(YourActivity.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            // Handle the case when the current user is null (not authenticated)
+            Toast.makeText(this, "No authenticated user", Toast.LENGTH_SHORT).show();
+        }
+
         // Request location permissions
         requestLocationPermissions();
+
     }
 
     private void requestLocationPermissions() {
@@ -125,6 +174,7 @@ public class UserHomePage extends AppCompatActivity{
                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                         // Retrieve the location from the user node
                         locationString = userSnapshot.child("location").getValue(String.class);
+                        //firstName = Objects.requireNonNull(userSnapshot.child("fullname").getValue(String.class)).split("")[0];
                         if (locationString != null) {
                             Log.d(TAG, "User's location: " + locationString);
                             // Handle the location data, e.g., pass it to another method or update UI
@@ -133,12 +183,12 @@ public class UserHomePage extends AppCompatActivity{
                             // Handle the case when location data is not found
                         }
                     }
-                } else {
+                }
+                else {
                     Log.e(TAG, "User with email " + userEmail + " not found");
                     // Handle the case when user with the specified email is not found
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle potential errors, such as network issues or permission denied

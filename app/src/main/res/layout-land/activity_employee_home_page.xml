@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/greetingTextView"
         android:layout_width="253dp"
         android:layout_height="86dp"
         android:layout_marginTop="60dp"

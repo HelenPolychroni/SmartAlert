@@ -21,13 +21,14 @@
 
     <Button
         android:id="@+id/button9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="320dp"
+        style="@style/SquareButton"
+        android:layout_width="111dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="316dp"
         android:onClick="examineIncidents"
         android:text="Examine"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
