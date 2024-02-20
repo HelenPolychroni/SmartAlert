@@ -3,17 +3,10 @@ package com.example.smartalert;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
-import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,11 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,9 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Objects;
-
+import androidx.constraintlayout.widget.ConstraintLayout;
 public class UserHomePage extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
@@ -90,7 +76,12 @@ public class UserHomePage extends AppCompatActivity{
                                 String fullName = dataSnapshot.getChildren().iterator().next().child("fullname").getValue(String.class);
                                 if (fullName != null) {
                                     // Update the greeting text view with the full name
-                                    greetingTextView.setText("Hello "+ fullName.split(" ")[0]+ ",\nchoose the actions you want to perform");
+                                    greetingTextView.setText("Hello "+ fullName.split(" ")[0]+
+                                            ",\nchoose the actions you want to perform");
+
+                                    // Make the root ConstraintLayout visible
+                                    ConstraintLayout rootLayout = findViewById(R.id.userHome);
+                                    rootLayout.setVisibility(View.VISIBLE);
                                 } else {
                                     // Handle the case when the full name is not found
                                     //Toast.makeText(YourActivity.this, "Full name not found", Toast.LENGTH_SHORT).show();

@@ -1,9 +1,7 @@
 package com.example.smartalert;
 
-import static com.example.smartalert.R.*;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import static com.example.smartalert.R.id;
+import static com.example.smartalert.R.layout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,11 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 public class EmployeeHomePage extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private BottomNavigationView bottomNavigationView;
-
     private TextView greetingTextView;
     private DatabaseReference employeesRef;
     private Button button13, button8;
+    View employeeHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,10 @@ public class EmployeeHomePage extends AppCompatActivity {
                                     // Update the greeting text view with the full name
                                     greetingTextView.setText(String.format("Hello %s,\nchoose the actions you want to perform",
                                             fullName.split(" ")[0]));
+
+                                    // Make the root ConstraintLayout visible
+                                    ConstraintLayout rootLayout = findViewById(id.employeeHome);
+                                    rootLayout.setVisibility(View.VISIBLE);
                                 } else {
                                     // Handle the case when the full name is not found
                                     //Toast.makeText(YourActivity.this, "Full name not found", Toast.LENGTH_SHORT).show();
