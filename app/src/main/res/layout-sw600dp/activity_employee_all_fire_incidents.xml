@@ -72,14 +72,15 @@
 
     <Button
         android:id="@+id/buttonFires"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        style="@style/SquareButton"
+        android:layout_width="231dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="36dp"
         android:onClick="seeVerifiedFires"
         android:text="See verifed fires"
-        android:textSize="17sp"
+        android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.895"
+        app:layout_constraintHorizontal_bias="0.885"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

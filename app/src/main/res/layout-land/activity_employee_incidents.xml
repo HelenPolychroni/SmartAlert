@@ -41,9 +41,10 @@
 
     <Button
         android:id="@+id/button9"
+        style="@style/SquareButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="252dp"
+        android:layout_marginTop="244dp"
         android:onClick="examineIncidents"
         android:text="Examine"
         app:layout_constraintEnd_toEndOf="parent"

@@ -24,8 +24,8 @@
 
 
     <ScrollView
-        android:layout_width="337dp"
-        android:layout_height="362dp"
+        android:layout_width="339dp"
+        android:layout_height="353dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,7 @@
                 android:background="@null"
                 android:ems="10"
                 android:gravity="top"
-                android:hint="Add Comment..."
+                android:hint="Add Comments..."
                 android:inputType="text" />
 
             <TextView
@@ -90,16 +90,19 @@
 
                 <Button
                     android:id="@+id/button7"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    style="@style/SquareButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:onClick="openGallery"
                     android:text="Open Gallery"
                     android:textAlignment="center" />
 
                 <Button
                     android:id="@+id/button10"
+                    style="@style/SquareButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:insetLeft="7dp"
                     android:onClick="openCamera"
                     android:text="Open Camera" />
             </LinearLayout>
@@ -112,6 +115,7 @@
 
             <Button
                 android:id="@+id/button6"
+                style="@style/SquareButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="submit"

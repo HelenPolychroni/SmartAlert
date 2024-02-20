@@ -7,6 +7,7 @@
     tools:context=".EmployeeHomePage">
 
     <Button
+        style="@style/SquareButton"
         android:id="@+id/button8"
         android:layout_width="118dp"
         android:layout_height="49dp"
@@ -19,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        style="@style/SquareButton"
         android:id="@+id/button13"
         android:layout_width="130dp"
         android:layout_height="55dp"
@@ -32,12 +34,11 @@
 
     <TextView
         android:id="@+id/greetingTextView"
-        android:layout_width="253dp"
-        android:layout_height="86dp"
+        android:layout_width="310dp"
+        android:layout_height="89dp"
         android:layout_marginTop="60dp"
         android:fontFamily="sans-serif-black"
-        android:text="Welcome to Employee\nHome Page"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

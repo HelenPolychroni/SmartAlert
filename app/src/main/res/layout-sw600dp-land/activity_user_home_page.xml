@@ -7,63 +7,66 @@
     tools:context=".UserHomePage">
 
     <Button
-        android:id="@+id/button3"
-        style="@style/SquareButton"
-        android:layout_width="155dp"
-        android:layout_height="wrap_content"
-        android:onClick="upload"
-        android:text="New Incident"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.414" />
-
-    <Button
         android:id="@+id/button5"
         style="@style/SquareButton"
-        android:layout_width="155dp"
-        android:layout_height="wrap_content"
+        android:layout_width="210dp"
+        android:layout_height="76dp"
         android:onClick="incidents_statistics"
         android:text="Statistics"
         android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <Button
+        android:id="@+id/button3"
+        style="@style/SquareButton"
+        android:layout_width="210dp"
+        android:layout_height="86dp"
+        android:onClick="upload"
+        android:text="New Incident"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.515" />
+        app:layout_constraintVertical_bias="0.561" />
 
     <Button
         android:id="@+id/button4"
         style="@style/SquareButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="210dp"
+        android:layout_height="61dp"
         android:onClick="logout"
         android:text="Log out"
         android:textColor="@android:color/white"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.69" />
+        app:layout_constraintVertical_bias="0.834" />
 
     <TextView
         android:id="@+id/welcomemsg"
-        android:layout_width="371dp"
-        android:layout_height="102dp"
+        android:layout_width="596dp"
+        android:layout_height="174dp"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="22sp"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.186" />
+        app:layout_constraintVertical_bias="0.182" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

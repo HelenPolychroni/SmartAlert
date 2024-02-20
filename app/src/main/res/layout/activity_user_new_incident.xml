@@ -42,13 +42,15 @@
         android:layout_width="170dp"
         android:layout_height="122dp"
         android:layout_marginTop="350dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/baseline_add_photo_alternate_24" />
+        app:srcCompat="@drawable/baseline_add_photo_alternate_24"
+        tools:visibility="invisible" />
 
     <Button
         android:id="@+id/button10"
@@ -88,20 +90,19 @@
 
     <EditText
         android:id="@+id/editTextText"
-        android:layout_width="360dp"
-        android:layout_height="124dp"
+        android:layout_width="321dp"
+        android:layout_height="119dp"
         android:layout_marginBottom="200dp"
         android:background="@null"
         android:ems="10"
         android:gravity="top"
-        android:hint="Add Comment..."
+        android:hint="Add Comments..."
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.502" />
 
     <Button
         android:id="@+id/button6"
@@ -115,30 +116,11 @@
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <RelativeLayout
-        android:layout_width="404dp"
-        android:layout_height="478dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
-
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-
-            android:layout_weight="1" />
-
-    </RelativeLayout>
+        app:layout_constraintVertical_bias="0.59" />
 
     <TextView
         android:id="@+id/textView8"

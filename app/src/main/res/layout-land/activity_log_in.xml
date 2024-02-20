@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/nature1"
     tools:context=".LogInActivity">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -32,9 +31,10 @@
 
     <Button
         android:id="@+id/LogIn_btn"
+        style="@style/SquareButton"
         android:layout_width="254dp"
         android:layout_height="51dp"
-        android:backgroundTint="#63000000"
+        android:backgroundTint="#AD69514B"
         android:onClick="login"
         android:text="@string/log_in1"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -73,7 +73,7 @@
         android:fontFamily="sans-serif-black"
         android:text="@string/welcome_n_back"
         android:textAlignment="textStart"
-        android:textColor="#B7EFEAEA"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

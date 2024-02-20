@@ -8,8 +8,9 @@
 
     <Button
         android:id="@+id/button13"
-        android:layout_width="245dp"
-        android:layout_height="69dp"
+        style="@style/SquareButton"
+        android:layout_width="250dp"
+        android:layout_height="79dp"
         android:layout_marginTop="316dp"
         android:onClick="got2Incidents"
         android:text="Manage Incidents"
@@ -20,9 +21,10 @@
 
     <Button
         android:id="@+id/button8"
-        android:layout_width="142dp"
+        style="@style/SquareButton"
+        android:layout_width="250dp"
         android:layout_height="63dp"
-        android:layout_marginTop="432dp"
+        android:layout_marginTop="484dp"
         android:onClick="logout"
         android:text="Log out"
         android:textSize="21sp"
@@ -36,49 +38,9 @@
         android:layout_height="119dp"
         android:layout_marginTop="104dp"
         android:fontFamily="sans-serif-black"
-        android:text="Welcome to Employee\nHome Page"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button14"
-        android:layout_width="156dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="624dp"
-        android:onClick="FireIncidents"
-        android:text="Fire Incidents"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="156dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="732dp"
-        android:onClick="FloodIncidents"
-        android:text="Flood Incidents"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button15"
-        android:layout_width="156dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="680dp"
-        android:onClick="EarthquakeIncidents"
-        android:text="Earthquake Incidents"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

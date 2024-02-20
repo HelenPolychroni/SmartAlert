@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/nature1"
     tools:context=".SignUpActivity">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -64,7 +63,9 @@
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.296">
+        app:layout_constraintVertical_bias="0.296"
+        app:startIconDrawable="@drawable/person"
+        app:startIconScaleType="centerInside">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/fullname"
@@ -98,9 +99,10 @@
 
     <Button
         android:id="@+id/signIn_btn2"
+        style="@style/SquareButton"
         android:layout_width="254dp"
         android:layout_height="48dp"
-        android:backgroundTint="#72000000"
+        android:backgroundTint="#AD69514B"
         android:onClick="SignUpUser"
         android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -140,11 +142,11 @@
         android:fontFamily="sans-serif-black"
         android:text="@string/create_naccount"
         android:textAlignment="textStart"
-        android:textColor="#B0FFFFFF"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
+        app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.183" />

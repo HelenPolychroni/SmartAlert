@@ -7,31 +7,31 @@
     tools:context=".EmployeeHomePage">
 
     <Button
+        android:id="@+id/button8"
+        style="@style/SquareButton"
+        android:layout_width="101dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="380dp"
+        android:onClick="logout"
+        android:text="Log out"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/button13"
         style="@style/SquareButton"
         android:layout_width="130dp"
         android:layout_height="55dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="288dp"
         android:onClick="got2Incidents"
         android:text="Incidents page"
         android:textColor="@android:color/white"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button8"
-        style="@style/SquareButton"
-        android:layout_width="101dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="332dp"
-        android:onClick="logout"
-        android:text="Log out"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,51 +46,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button15"
-        android:layout_width="156dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="524dp"
-        android:onClick="EarthquakeIncidents"
-        android:text="Earthquake Incidents"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        style="@style/SquareButton"/>
-
-    <Button
-        android:id="@+id/button14"
-        android:layout_width="156dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="468dp"
-        android:onClick="FireIncidents"
-        android:text="Fire Incidents"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        style="@style/SquareButton"/>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="156dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="576dp"
-        android:onClick="FloodIncidents"
-        android:text="Flood Incidents"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        style="@style/SquareButton"/>
 
     <!--<LinearLayout
         android:layout_width="411dp"

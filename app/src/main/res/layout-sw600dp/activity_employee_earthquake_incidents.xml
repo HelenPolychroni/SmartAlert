@@ -24,13 +24,13 @@
 
     <TextView
         android:id="@+id/TitletextView3"
-        android:layout_width="195dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="192dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-light"
         android:text="Earthquake\nIncidents"
         android:textAlignment="viewStart"
-        android:textSize="27sp"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,14 +67,15 @@
 
     <Button
         android:id="@+id/buttonEarthquakes"
-        android:layout_width="162dp"
-        android:layout_height="62dp"
+        style="@style/SquareButton"
+        android:layout_width="196dp"
+        android:layout_height="67dp"
         android:layout_marginTop="36dp"
         android:onClick="seeVerifiedEarthquakes"
         android:text="See verified earthquakes"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintHorizontal_bias="0.887"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

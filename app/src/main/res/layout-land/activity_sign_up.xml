@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/nature1"
     tools:context=".SignUpActivity">
 
     <ScrollView
@@ -29,7 +28,7 @@
                 android:fontFamily="sans-serif-black"
                 android:text="@string/create_naccount"
                 android:textAlignment="textStart"
-                android:textColor="#B0FFFFFF"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -37,7 +36,9 @@
                 android:layout_width="254dp"
                 android:layout_height="59dp"
                 android:hint="@string/fullname"
-                app:boxBackgroundColor="#70FBFAFA">
+                app:boxBackgroundColor="#70FBFAFA"
+                app:startIconDrawable="@drawable/person"
+                app:startIconScaleType="centerInside">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fullname"
@@ -116,9 +117,10 @@
 
             <Button
                 android:id="@+id/signIn_btn2"
+                style="@style/SquareButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="#72000000"
+                android:backgroundTint="#AD69514B"
                 android:onClick="SignUpUser"
                 android:text="@string/sign_up" />
         </LinearLayout>

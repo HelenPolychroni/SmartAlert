@@ -67,6 +67,7 @@
     </ScrollView>
 
     <Button
+        style="@style/SquareButton"
         android:id="@+id/buttonFloods"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

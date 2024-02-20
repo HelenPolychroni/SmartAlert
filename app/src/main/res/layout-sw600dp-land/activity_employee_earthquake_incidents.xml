@@ -68,14 +68,15 @@
 
     <Button
         android:id="@+id/buttonEarthquakes"
-        android:layout_width="162dp"
-        android:layout_height="62dp"
+        style="@style/SquareButton"
+        android:layout_width="172dp"
+        android:layout_height="67dp"
         android:layout_marginTop="36dp"
         android:onClick="seeVerifiedEarthquakes"
         android:text="See verified earthquakes"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.884"
+        app:layout_constraintHorizontal_bias="0.883"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StartUpActivity"
-    android:background="@drawable/nature"> <!-- Set drawable resource -->
+    > <!-- Set drawable resource -->
 
 
     <Button
         android:id="@+id/signIn_btn4"
+        style="@style/SquareButton"
         android:layout_width="254dp"
         android:layout_height="48dp"
-        android:backgroundTint="#46C5B4B4"
+        android:backgroundTint="#AD69514B"
         android:onClick="signup"
         android:text="@string/signup"
         android:textSize="22sp"
@@ -25,9 +26,10 @@
 
     <Button
         android:id="@+id/signIn_btn3"
+        style="@style/SquareButton"
         android:layout_width="254dp"
         android:layout_height="48dp"
-        android:backgroundTint="#46C5B4B4"
+        android:backgroundTint="#AD69514B"
         android:onClick="login"
         android:text="@string/log_in"
         android:textSize="22sp"
@@ -45,7 +47,7 @@
         android:fontFamily="sans-serif-black"
         android:text="@string/smart_alert"
         android:textAlignment="textStart"
-        android:textColor="#F8F4F4"
+        android:textColor="@color/black"
         android:textSize="25.5sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +63,7 @@
         android:layout_height="81dp"
         android:text="@string/startup_message"
         android:textAlignment="viewStart"
-        android:textColor="#F7F3F3"
+        android:textColor="@color/black"
         android:textSize="19.5sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +77,7 @@
         android:id="@+id/change_lang_btn"
         android:layout_width="61dp"
         android:layout_height="51dp"
-        android:backgroundTint="#8DFFFFFF"
+        android:backgroundTint="#AD69514B"
         android:checked="true"
         android:onClick="changeLanguage"
         android:textOff="EN"

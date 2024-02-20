@@ -39,12 +39,12 @@
     <TextView
         android:id="@+id/TitletextView2"
         android:layout_width="207dp"
-        android:layout_height="67dp"
+        android:layout_height="72dp"
         android:layout_marginTop="28dp"
         android:fontFamily="sans-serif-light"
         android:text="Pending Flood\nIncidents"
         android:textAlignment="viewStart"
-        android:textSize="27sp"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,14 +69,15 @@
 
     <Button
         android:id="@+id/buttonFloods"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/SquareButton"
+        android:layout_width="238dp"
+        android:layout_height="60dp"
         android:layout_marginTop="40dp"
         android:onClick="seeVerifiedFloods"
         android:text="See verified floods"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

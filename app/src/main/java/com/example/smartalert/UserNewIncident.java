@@ -89,6 +89,9 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
 
         camera = false;
         imageView=findViewById(R.id.imageView3);
+        // Replace Color.RED with the desired color
+        int color = ContextCompat.getColor(this, R.color.black);
+        imageView.setColorFilter(color);
         launcher();
     }
 
