@@ -20,13 +20,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        style="@style/SquareButton"
         android:id="@+id/button13"
+        style="@style/SquareButton"
         android:layout_width="130dp"
         android:layout_height="55dp"
         android:layout_marginTop="180dp"
         android:onClick="got2Incidents"
-        android:text="Incidents page"
+        android:text="Mnage Incidents"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"

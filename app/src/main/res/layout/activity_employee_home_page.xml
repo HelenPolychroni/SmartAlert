@@ -9,8 +9,8 @@
     <Button
         android:id="@+id/button8"
         style="@style/SquareButton"
-        android:layout_width="101dp"
-        android:layout_height="54dp"
+        android:layout_width="144dp"
+        android:layout_height="52dp"
         android:layout_marginTop="380dp"
         android:onClick="logout"
         android:text="Log out"
@@ -23,11 +23,11 @@
     <Button
         android:id="@+id/button13"
         style="@style/SquareButton"
-        android:layout_width="130dp"
-        android:layout_height="55dp"
+        android:layout_width="144dp"
+        android:layout_height="59dp"
         android:layout_marginTop="288dp"
         android:onClick="got2Incidents"
-        android:text="Incidents page"
+        android:text="Manage Incidents"
         android:textColor="@android:color/white"
 
         app:layout_constraintEnd_toEndOf="parent"
