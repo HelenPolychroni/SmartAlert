@@ -2,6 +2,7 @@ package com.example.smartalert;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,8 +11,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,12 +35,40 @@ public class StartUpActivity extends AppCompatActivity {
     String lang = "en";
     Class<?> page;
     boolean isEnglishSelected = true;
+    private TextView textView2, textView3;
+    private Button signIn_btn3, signIn_btn4;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_up);
 
         change_lang_btn = findViewById(R.id.change_lang_btn);
+
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+
+            System.out.println("Dark mode on");
+            textView2 = findViewById(R.id.textView2);
+            textView3 = findViewById(R.id.textView3);
+
+            // Change text view colors for dark mode
+            textView2.setTextColor(getResources().getColor(R.color.white));
+            textView3.setTextColor(getResources().getColor(R.color.white));
+
+            signIn_btn3 = findViewById(R.id.signIn_btn3);
+            signIn_btn4 = findViewById(R.id.signIn_btn4);
+
+            signIn_btn3.setTextColor(getResources().getColor(R.color.white));
+            signIn_btn4.setTextColor(getResources().getColor(R.color.white));
+
+            change_lang_btn.setBackgroundColor(getResources().getColor(R.color.primary_color_dark));
+
+
+        }else System.out.println("Light mode on");
+
+
+
 
         preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 

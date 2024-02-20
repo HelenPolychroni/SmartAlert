@@ -16,8 +16,10 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -67,6 +69,10 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
     Boolean camera;
     Uri image;
 
+    private Button button6, button7, button10;
+    private TextView textView8;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +94,26 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
         text = findViewById(R.id.editTextText);
 
         camera = false;
+
         imageView=findViewById(R.id.imageView3);
-        // Replace Color.RED with the desired color
         int color = ContextCompat.getColor(this, R.color.black);
         imageView.setColorFilter(color);
+
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+            int color1 = ContextCompat.getColor(this, R.color.white);
+            imageView.setColorFilter(color1);
+
+            textView8 = findViewById(R.id.textView8);
+            textView8.setTextColor(getResources().getColor(R.color.white));
+
+            button6 = findViewById(R.id.button6);
+            button7 = findViewById(R.id.button7);
+            button10 = findViewById(R.id.button10);
+
+            button6.setTextColor(getResources().getColor(R.color.white));
+            button7.setTextColor(getResources().getColor(R.color.white));
+            button10.setTextColor(getResources().getColor(R.color.white));
+        }
         launcher();
     }
 

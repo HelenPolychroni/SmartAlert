@@ -14,7 +14,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -49,12 +51,22 @@ public class SignUpActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient fusedLocationClient;
     private String locationString;
+    private TextView textView;
+    private Button signIn_btn2;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+            textView = findViewById(R.id.textView);
+            textView.setTextColor(getResources().getColor(R.color.white));
+
+            signIn_btn2 = findViewById(R.id.signIn_btn2);
+            signIn_btn2.setTextColor(getResources().getColor(R.color.white));
+        }
 
         fullname = findViewById(R.id.fullname);
         email = findViewById(R.id.email);

@@ -9,7 +9,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,11 +34,22 @@ public class LogInActivity extends AppCompatActivity {
     Class<?> page;
     SharedPreferences preferences;
 
+    private TextView welcomeBack_msg;
+    private Button LogIn_btn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+            welcomeBack_msg = findViewById(R.id.welcomeBack_msg);
+            welcomeBack_msg.setTextColor(getResources().getColor(R.color.white));
+
+            LogIn_btn = findViewById(R.id.LogIn_btn);
+            LogIn_btn.setTextColor(getResources().getColor(R.color.white));
+        }
 
         preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 

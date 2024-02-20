@@ -6,45 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".LogInActivity">
 
-    <TextView
-        android:layout_width="254dp"
-        android:layout_height="59dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/welcome_n_back"
-        android:textAlignment="textStart"
-        android:textColor="@color/black"
-        android:textSize="20sp"
+    <Button
+        android:id="@+id/LogIn_btn"
+        style="@style/SquareButton"
+        android:layout_width="257dp"
+        android:layout_height="72dp"
+        android:backgroundTint="#AD69514B"
+        android:onClick="login"
+        android:text="@string/log_in1"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.367" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordLayout"
-        android:layout_width="254dp"
-        android:layout_height="59dp"
-        android:hint="@string/password"
-        app:boxBackgroundColor="#81F4EDED"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:passwordToggleEnabled="true"
-        app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/confpassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintVertical_bias="0.522" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/EmailLayout"
-        android:layout_width="254dp"
-        android:layout_height="59dp"
+        android:layout_width="261dp"
+        android:layout_height="70dp"
         android:hint="@string/email"
         app:boxBackgroundColor="#81F4EDED"
         app:hintTextAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -52,29 +32,53 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.428"
+        app:layout_constraintVertical_bias="0.333"
         app:startIconDrawable="@android:drawable/ic_dialog_email"
         app:startIconScaleType="centerInside">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:layout_height="70dp"
+            android:inputType="textEmailAddress"
+            android:textSize="19sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/LogIn_btn"
-        style="@style/SquareButton"
-        android:layout_width="254dp"
-        android:layout_height="51dp"
-        android:backgroundTint="#AD69514B"
-        android:onClick="login"
-        android:text="@string/log_in1"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordLayout"
+        android:layout_width="257dp"
+        android:layout_height="63dp"
+        android:hint="@string/password"
+        app:boxBackgroundColor="#81F4EDED"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57" />
+        app:layout_constraintVertical_bias="0.42"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confpassword"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:inputType="textPassword"
+            android:textSize="19sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/welcomeBack_msg"
+        android:layout_width="280dp"
+        android:layout_height="90dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/welcome_n_back"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="29sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.219" />
 </androidx.constraintlayout.widget.ConstraintLayout>

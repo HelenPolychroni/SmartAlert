@@ -34,7 +34,9 @@ public class EmployeeAllFireIncidentsActivity extends EmployeeControlIncidentsAc
         setContentView(R.layout.activity_employee_all_fire_incidents);
 
         database = FirebaseDatabase.getInstance();
+
         sortFireIncidentsSwitch = findViewById(R.id.switch1);  // switch
+
         scrollViewLayout = findViewById(R.id.scrollViewLayout1);
         scrollView = findViewById(R.id.scrollview);
         scrollView.setBackgroundColor(Color.TRANSPARENT);
@@ -45,9 +47,12 @@ public class EmployeeAllFireIncidentsActivity extends EmployeeControlIncidentsAc
 
         incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
 
-        //bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        //BottomNavigationUtils.setupBottomNavigation(bottomNavigationView, this);
-
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+           Titletextview.setTextColor(getResources().getColor(R.color.white));
+           sortingmsg.setTextColor(getResources().getColor(R.color.white));
+           FiresButton.setTextColor(getResources().getColor(R.color.white));
+           sortFireIncidentsSwitch.setTextColor(getResources().getColor(R.color.white));
+        }
 
         EmployeeControlIncidentsActivity.CreateIncidentsLayout(incidentsRef, "Fire", scrollViewLayout, EmployeeAllFireIncidentsActivity.this);
     }

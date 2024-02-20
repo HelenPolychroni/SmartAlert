@@ -42,6 +42,13 @@ public class EmployeeAllEarthquakeIncidentsActivity extends EmployeeControlIncid
 
         incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
 
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+            Titletextview.setTextColor(getResources().getColor(R.color.white));
+            sortingmsg.setTextColor(getResources().getColor(R.color.white));
+            EarthquakesButton.setTextColor(getResources().getColor(R.color.white));
+           sortEarthquakeIncidentsSwitch.setTextColor(getResources().getColor(R.color.white));
+        }
+
         EmployeeControlIncidentsActivity.CreateIncidentsLayout(incidentsRef, "Earthquake", scrollViewLayout,
                 EmployeeAllEarthquakeIncidentsActivity.this);
     }

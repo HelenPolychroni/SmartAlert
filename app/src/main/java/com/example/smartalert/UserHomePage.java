@@ -15,6 +15,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,9 @@ public class UserHomePage extends AppCompatActivity{
     private TextView greetingTextView;
     private DatabaseReference usersRef;
 
+    private Button button3, button4, button5;
+    private TextView welcomemsg;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,18 @@ public class UserHomePage extends AppCompatActivity{
         mAuth = FirebaseAuth.getInstance();
 
         greetingTextView = findViewById(R.id.welcomemsg);
+
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+            greetingTextView.setTextColor(getResources().getColor(R.color.white));
+
+            button3 = findViewById(R.id.button3);
+            button4 = findViewById(R.id.button4);
+            button5 = findViewById(R.id.button5);
+
+            button3.setTextColor(getResources().getColor(R.color.white));
+            button4.setTextColor(getResources().getColor(R.color.white));
+            button5.setTextColor(getResources().getColor(R.color.white));
+        }
 
         // Get the current user's email address
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

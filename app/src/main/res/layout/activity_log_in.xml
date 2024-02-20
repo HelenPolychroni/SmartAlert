@@ -68,6 +68,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
+        android:id="@+id/welcomeBack_msg"
         android:layout_width="254dp"
         android:layout_height="59dp"
         android:fontFamily="sans-serif-black"

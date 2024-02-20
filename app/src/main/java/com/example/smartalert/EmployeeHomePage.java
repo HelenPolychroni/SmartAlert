@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +27,7 @@ public class EmployeeHomePage extends AppCompatActivity {
 
     private TextView greetingTextView;
     private DatabaseReference employeesRef;
+    private Button button13, button8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,16 @@ public class EmployeeHomePage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         greetingTextView = findViewById(R.id.greetingTextView);
+
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+            greetingTextView.setTextColor(getResources().getColor(R.color.white));
+
+            button8 = findViewById(R.id.button8);
+            button13 = findViewById(id.button13);
+
+            button8.setTextColor(getResources().getColor(R.color.white));
+            button13.setTextColor(getResources().getColor(R.color.white));
+        }
 
         // Get the current user's email address
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

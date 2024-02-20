@@ -44,6 +44,13 @@ public class EmployeeAllFloodIncidentsActivity extends EmployeeControlIncidentsA
 
         incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
 
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+            Titletextview.setTextColor(getResources().getColor(R.color.white));
+            sortingmsg.setTextColor(getResources().getColor(R.color.white));
+            FloodsButton.setTextColor(getResources().getColor(R.color.white));
+            sortFloodIncidentsSwitch.setTextColor(getResources().getColor(R.color.white));
+        }
+
         // see pending incidents
         EmployeeControlIncidentsActivity.CreateIncidentsLayout(incidentsRef, "Flood", scrollViewLayout, EmployeeAllFloodIncidentsActivity.this);
     }
