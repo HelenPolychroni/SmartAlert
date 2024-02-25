@@ -307,6 +307,7 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                 if (extras != null) {
                     pic= (Bitmap) extras.get("data");
                     imageView.setImageBitmap(pic);
+                    imageView.clearColorFilter();
 
                 }
             }
@@ -344,6 +345,7 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                           try{
                               image=result.getData().getData();
                               imageView.setImageURI(image);
+                              imageView.clearColorFilter();
                           }catch(Exception e){
                               e.printStackTrace();
                               if (isEnglishSelected)

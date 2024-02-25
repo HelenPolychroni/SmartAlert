@@ -33,13 +33,12 @@ public class LogInActivity extends AppCompatActivity {
 
     EditText email, password;
     String role;
-    boolean isEnglishSelected;
     Class<?> page;
     SharedPreferences preferences;
 
     private TextView welcomeBack_msg;
     private Button LogIn_btn;
-
+    boolean isEnglishSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class LogInActivity extends AppCompatActivity {
 
         // Retrieve language preference from SharedPreferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
+        isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
 
         // Change language based on the preference
         String lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
@@ -63,18 +62,7 @@ public class LogInActivity extends AppCompatActivity {
             LogIn_btn.setTextColor(getResources().getColor(R.color.white));
         }
 
-        preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
-        // Retrieve the data from SharedPreferences
-        isEnglishSelected = preferences.getBoolean("english", true);
-
-
-        // Retrieve intent data
-        /*Intent intent = getIntent();
-        if (intent != null) isEnglishSelected = intent.getBooleanExtra("lang", true);*/
-
         System.out.println("English is: " + isEnglishSelected);
-
 
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
