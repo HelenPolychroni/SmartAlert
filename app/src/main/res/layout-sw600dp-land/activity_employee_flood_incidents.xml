@@ -7,46 +7,33 @@
     tools:context=".EmployeeAllFloodIncidentsActivity"
     >
 
-    <TextView
-        android:id="@+id/sortingmsg3"
-        android:layout_width="388dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="108dp"
-        android:text="*Examine floods that happened the last 24h and located within a distance of 40 kilometers"
-        android:textAlignment="viewStart"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.855"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Switch
         android:id="@+id/switch3"
-        android:layout_width="177dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="116dp"
+        android:layout_width="221dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="136dp"
         android:onClick="checkSwitch"
-        android:text="Sort by time\nand distance"
+        android:text="@string/sort_by_time_and_distance"
         android:textColor="#191414"
-        android:textOff="SORT OFF"
-        android:textOn="SORT ON"
+        android:textOff="@string/sort_off"
+        android:textOn="@string/sort_on"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
+        app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/TitletextView2"
-        android:layout_width="207dp"
-        android:layout_height="67dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="246dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-light"
-        android:text="Pending Flood\nIncidents"
+        android:text="@string/pending_flood_nincidents"
         android:textAlignment="viewStart"
         android:textSize="27sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintHorizontal_bias="0.101"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,16 +55,30 @@
     </ScrollView>
 
     <Button
-        style="@style/SquareButton"
         android:id="@+id/buttonFloods"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/SquareButton"
+        android:layout_width="279dp"
+        android:layout_height="84dp"
         android:layout_marginTop="40dp"
         android:onClick="seeVerifiedFloods"
-        android:text="See verified floods"
+        android:text="@string/see_verified_floods"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.881"
+        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button11"
+        style="@style/SquareButton"
+        android:layout_width="279dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="144dp"
+        android:onClick="showCriteria"
+        android:text="@string/show_criteria_flood"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.871"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

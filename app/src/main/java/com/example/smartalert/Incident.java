@@ -30,6 +30,7 @@ public class Incident {
     private List<String> timestamps = new ArrayList<>();
     private List<String> photos = new ArrayList<>();
     private List<String> keys = new ArrayList<>();
+    private List<String> usersEmails = new ArrayList<>();
 
     private int subNumber;
 
@@ -58,6 +59,11 @@ public class Incident {
         this.location=location;
     }
 
+    public Incident(List<String> usersEmails, /*String type,*/ String timestamp){
+        this.usersEmails = usersEmails;
+        //this.type = type;
+        this.timestamp = timestamp;
+    }
     public String getType() {
         return type;
     }
@@ -152,6 +158,9 @@ public class Incident {
 
     public void setStatus(String status) {this.status = status;}
 
+    public List<String> getUsersEmails() {return usersEmails;}
+
+    public void setUsersEmails(List<String> usersEmails) {this.usersEmails = usersEmails;}
 
     static boolean isWithinTimeframe(String prevTimestamp, String timestamp, int hours, int minutes) {
         try {

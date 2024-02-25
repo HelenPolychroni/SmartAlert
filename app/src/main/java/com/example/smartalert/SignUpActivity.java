@@ -2,6 +2,7 @@ package com.example.smartalert;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +30,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,6 +61,15 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Retrieve language preference from SharedPreferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
+
+        // Change language based on the preference
+        String lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
+        updateLocale(lang);
+
         setContentView(R.layout.activity_sign_up);
 
         if (ThemeUtils.isDarkTheme(this)) { // Dark mode
@@ -100,6 +112,14 @@ public class SignUpActivity extends AppCompatActivity {
             // Permissions already granted, get user's location
             getUserLocation();
         }
+    }
+
+    private void updateLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
     public void SignUpUser(View view){

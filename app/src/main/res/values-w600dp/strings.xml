@@ -34,7 +34,7 @@
     <string name="select_incident_type_to_examine">Select incident type to examine</string>
     <string name="examine">Examine</string>
     <string name="incident_employee">Incident</string>
-    <string name="pending_fire_incidents">Pending Fire Incidents</string>
+    <string name="pending_fire_incidents">Pending Fire\nIncidents</string>
     <string name="see_verified_fires">See verified fires</string>
     <string name="examine_fires_that_happened_the_last_24h_and_located_within_a_distance_of_30_kilometers">*Examine fires that happened the last 24h and located within a distance of 30 kilometers</string>
     <string name="sort_by_time_nand_distance">Sort by time\nand distance</string>

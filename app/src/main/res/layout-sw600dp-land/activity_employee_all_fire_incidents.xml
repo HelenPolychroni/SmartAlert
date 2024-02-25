@@ -8,57 +8,44 @@
     tools:context=".EmployeeAllFireIncidentsActivity">
 
     <TextView
-        android:id="@+id/sortingmsg"
-        android:layout_width="396dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="108dp"
-        android:text="*Examine fires that happened the last 24h\nand located within a distance of 30 kilometers"
-        android:textAlignment="viewStart"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.859"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/TitletextView"
-        android:layout_width="187dp"
-        android:layout_height="71dp"
-        android:layout_marginTop="24dp"
-        android:text="Pending Fire Incidents"
+        android:layout_width="312dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/pending_fire_incidents"
         android:textAlignment="viewStart"
         android:textColor="#000000"
         android:textSize="27sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintHorizontal_bias="0.119"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
         android:id="@+id/switch1"
-        android:layout_width="182dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="112dp"
+        android:layout_width="227dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="144dp"
         android:onClick="checkSwitch"
-        android:text="Sort by time\nand distance"
+        android:text="@string/sort_by_time_nand_distance"
         android:textColor="#191414"
-        android:textOff="SORT OFF"
-        android:textOn="SORT ON"
+        android:textOff="@string/sort_off"
+        android:textOn="@string/sort_on"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="1038dp"
-        android:layout_height="559dp"
-        android:layout_marginTop="212dp"
+        android:layout_height="531dp"
+        android:layout_marginTop="252dp"
 
         android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
@@ -74,14 +61,28 @@
     <Button
         android:id="@+id/buttonFires"
         style="@style/SquareButton"
-        android:layout_width="232dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="290dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="28dp"
         android:onClick="seeVerifiedFires"
-        android:text="See verifed fires"
+        android:text="@string/see_verified_fires"
         android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.881"
+        app:layout_constraintHorizontal_bias="0.872"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/SquareButton"
+        android:layout_width="290dp"
+        android:layout_height="89dp"
+        android:layout_marginTop="144dp"
+        android:onClick="showCriteria"
+        android:text="@string/show_criteria"
+        android:textSize="19sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.872"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

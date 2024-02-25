@@ -9,8 +9,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,17 +35,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
 public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
+    static boolean isEnglishSelected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_control_incidents);
 
+        // Retrieve language preference from SharedPreferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
+
+        // Change language based on the preference
+        String lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
+        updateLocale(lang);
+
+        setContentView(R.layout.activity_employee_control_incidents);
+    }
+
+    private void updateLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
     public static void CreateIncidentsLayout(DatabaseReference incidentsRef, String type, LinearLayout scrollViewLayout,
@@ -74,8 +96,16 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                     }
                 } else { // No pending Incidents
                     TextView noIncidentsTextView = new TextView(context);
-                    noIncidentsTextView.setText("No pending incidents to show.");
-                    noIncidentsTextView.setTextColor(Color.BLACK);
+                    if (isEnglishSelected)
+                        noIncidentsTextView.setText("No pending incidents to show.");
+                    else
+                        noIncidentsTextView.setText("Δεν υπάρχουν εκκρεμείς περιστατικά προς εμφάνιση.");
+
+                    if (ThemeUtils.isDarkTheme(context))  // Dark mode
+                         noIncidentsTextView.setTextColor(Color.WHITE);
+                    else
+                        noIncidentsTextView.setTextColor(Color.BLACK);
+
                     scrollViewLayout.addView(noIncidentsTextView);
                 }
             }
@@ -96,22 +126,36 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         String comment = incidentSnapshot.child("comment").getValue(String.class);
         String image = incidentSnapshot.child("image").getValue(String.class);
 
+        // Translate texts if Greek is selected
+        if (!isEnglishSelected) {
+            location = "Τοποθεσία: " + location;
+            timestamp = "Χρονική σήμανση: " + timestamp;
+            userEmail = "Email χρήστη: " + userEmail;
+            comment = "Σχόλιο: " + comment;
+        } else {
+            location = "Location: " + location;
+            timestamp = "Timestamp: " + timestamp;
+            userEmail = "User Email: " + userEmail;
+            comment = "Comment: " + comment;
+        }
+
         // Display incident information using TextViews
         TextView locationTextView = new TextView(context);
-        locationTextView.setText("Location: " + location);
+        locationTextView.setText(location);
         locationTextView.setTextColor(Color.WHITE);
 
         TextView timestampTextView = new TextView(context);
-        timestampTextView.setText("Timestamp: " + timestamp);
+        timestampTextView.setText(timestamp);
         timestampTextView.setTextColor(Color.WHITE);
 
         TextView userEmailTextView = new TextView(context);
-        userEmailTextView.setText("User Email: " + userEmail);
+        userEmailTextView.setText(userEmail);
         userEmailTextView.setTextColor(Color.WHITE);
 
         TextView commentTextView = new TextView(context);
-        commentTextView.setText("Comment: " + comment);
+        commentTextView.setText(comment);
         commentTextView.setTextColor(Color.WHITE);
+
 
         // Create an ImageView for the incident image
         ImageView imageView = new ImageView(context);
@@ -305,14 +349,22 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                     }
                 } else {
                     TextView noIncidentsTextView = new TextView(context);
-                    noIncidentsTextView.setText("No incidents to examine.");
-                    noIncidentsTextView.setTextColor(Color.BLACK);
+                    if (isEnglishSelected)
+                        noIncidentsTextView.setText("No incidents to examine.");
+                    else
+                        noIncidentsTextView.setText("Δεν υπάρχουν περιστατικά προς εξέταση.");
+
+                    if (ThemeUtils.isDarkTheme(context))  // Dark mode
+                        noIncidentsTextView.setTextColor(Color.WHITE);
+                    else
+                        noIncidentsTextView.setTextColor(Color.BLACK);
+
                     scrollViewLayout.addView(noIncidentsTextView);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle errors here
             }
         });
@@ -326,11 +378,11 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         if (incident != null) {
             // Create a TextView for each incident and append it to the ScrollView
             TextView incidentTextView = new TextView(context);
-            incidentTextView.setText(new StringBuilder().append("Number of Submissions: ").append(incident.getSubNumber()).
-                    append("\nComments: ").append(String.join(", ", incident.getComments())).
-                    append("\nLocations: ").append(String.join(", ", incident.getLocations())).
-                    append("\nTimestamps: ").append(String.join(", ", incident.getTimestamps())).
-                    append("\n\nStatus: ").append(String.join(", ", incident.getStatus())).toString());
+            incidentTextView.setText(new StringBuilder().append(isEnglishSelected ? "Number of Submissions: " : "Αριθμός Υποβολών: ").append(incident.getSubNumber()).
+                    append(isEnglishSelected ? "\nComments: " : "\nΣχόλια: ").append(String.join(", ", incident.getComments())).
+                    append(isEnglishSelected ? "\nLocations: " : "\nΤοποθεσίες: ").append(String.join(", ", incident.getLocations())).
+                    append(isEnglishSelected ? "\nTimestamps: " : "\nΧρονικές Σημάνσεις: ").append(String.join(", ", incident.getTimestamps())).
+                    append(isEnglishSelected ? "\n\nStatus: " : "\n\nΚατάσταση: ").append("μη επικαιροποιημένο"/*String.join(", ", incident.getStatus())).toString()*/));
 
             incidentTextView.setTextColor(Color.WHITE);
             incidentTextView.setBackgroundColor(Color.BLACK);
@@ -413,17 +465,27 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
             keysList.add(key);
         }
 
-
         Button verifyButton = new Button(context);
-        verifyButton.setText("VERIFY AND SEND EMERGENCY ALERT MESSAGE");
+
+        if (isEnglishSelected) {
+            verifyButton.setText("VERIFY AND SEND EMERGENCY ALERT MESSAGE"); // English text
+        } else {
+            verifyButton.setText("ΕΠΙΒΕΒΑΙΩΣΗ ΣΥΝΑΓΕΡΜΟΥ ΚΑΙ ΑΠΟΣΤΟΛΗ ΕΚΤΑΚΤΗΣ ΕΙΔΟΠΟΙΗΣΗΣ"); // Greek text
+        }
+
+        String title = isEnglishSelected ? "Verify Incident" : "Επιβεβαίωση Περιστατικού";
+        String message = isEnglishSelected ? "Are you sure you want to verify this alert and send an emergency alert message?" : "Είστε σίγουροι ότι θέλετε να επιβεβαιώσετε αυτόν τον συναγερμό και να στείλετε ένα μήνυμα έκτακτης ανάγκης;";
+        String positiveButtonText = isEnglishSelected ? "Yes" : "Ναι";
+        String negativeButtonText = isEnglishSelected ? "Cancel" : "Ακύρωση";
+
         verifyButton.setTextColor(Color.BLACK);
         verifyButton.setBackgroundColor(Color.rgb(0, 102, 51));
         verifyButton.setOnClickListener(v -> {
             // Build a confirmation dialog
             new AlertDialog.Builder(context)
-                    .setTitle("Verify Incident")
-                    .setMessage("Are you sure you want to verify this alert and send an emergency alert message?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(positiveButtonText, (dialog, which) -> {
                         // User clicked Yes, perform verification logic
                         // User clicked Yes, delete the sorted incident along with the users' incidents connected to them
                         sortedIncidentSnapshot.getRef().child("status").setValue("verified", (databaseError, databaseReference) -> {
@@ -433,7 +495,12 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                                 verifiedRef.push().setValue(sortedIncidentSnapshot.getValue(Incident.class));
 
                                 DatabaseReference sortedIncidentRef = sortedIncidentSnapshot.getRef();
+
+                                getStatistics(sortedIncidentSnapshot);
                                 sortedIncidentRef.removeValue();
+
+                                // statistics 1. check user locations near by and create a new field statistics
+
 
                                 // Remove incidents based on keys
                                 DatabaseReference incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
@@ -449,7 +516,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                             }
                         });
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(negativeButtonText, (dialog, which) -> {
                         // User clicked Cancel, do nothing
                     })
                     .show();
@@ -472,15 +539,19 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         }
 
         Button deleteButton = new Button(context);
-        deleteButton.setText("Delete");
+        if (isEnglishSelected) {
+            deleteButton.setText("Delete"); // English text
+        } else {
+            deleteButton.setText("Διαγραφή"); // Greek text
+        }
         deleteButton.setBackgroundColor(Color.rgb(204, 0, 0));
         deleteButton.setOnClickListener(v -> {
 
             // Build a confirmation dialog
             new AlertDialog.Builder(context)
-                    .setTitle("Delete Incident")
-                    .setMessage("Are you sure you want to delete this incident?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
+                    .setTitle(isEnglishSelected ? "Delete Incident" : "Διαγραφή Περιστατικού") // Set title based on language
+                    .setMessage(isEnglishSelected ? "Are you sure you want to delete this incident?" : "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το περιστατικό;") // Set message based on language
+                    .setPositiveButton(isEnglishSelected ? "Yes" : "Ναι", (dialog, which) -> {
 
                         // User clicked Yes, delete the sorted incident along with the users' incidents connected to them
                         DatabaseReference sortedIncidentRef = sortedIncidentSnapshot.getRef();
@@ -492,13 +563,13 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                             incidentsRef.child(key).removeValue();
                         }
 
-                        // Show a Toast indicating verification
-                        Toast.makeText(context, "Incident has been successfully deleted", Toast.LENGTH_SHORT).show();
+                        // Show a Toast indicating deletion
+                        Toast.makeText(context, isEnglishSelected ? "Incident has been successfully deleted" : "Το περιστατικό διαγράφηκε με επιτυχία", Toast.LENGTH_SHORT).show();
 
                         // Optionally remove the incident layout from its parent layout
                         ((ViewGroup) incidentLayout.getParent()).removeView(incidentLayout);
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(isEnglishSelected ? "Cancel" : "Ακύρωση", (dialog, which) -> {
                         // User clicked Cancel, do nothing
                     })
                     .show();
@@ -534,8 +605,16 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                     }
                 } else { // No Verified Incidents
                     TextView noIncidentsTextView = new TextView(context);
-                    noIncidentsTextView.setText("No verified incidents to show.");
-                    noIncidentsTextView.setTextColor(Color.BLACK);
+                    if (isEnglishSelected)
+                        noIncidentsTextView.setText("No verified incidents to show.");
+                    else
+                        noIncidentsTextView.setText("Δεν υπάρχουν επικαιρεοποιήμενα περιστατικά προς εμφάνιση.");
+
+                    if (ThemeUtils.isDarkTheme(context))  // Dark mode
+                        noIncidentsTextView.setTextColor(Color.WHITE);
+                    else
+                        noIncidentsTextView.setTextColor(Color.BLACK);
+
                     scrollViewLayout.addView(noIncidentsTextView);
                 }
             }
@@ -555,11 +634,11 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
             // Create a TextView for each incident and append it to the ScrollView
             TextView incidentTextView = new TextView(context);
 
-            incidentTextView.setText(new StringBuilder().append("Number of Submissions: ").append(incident.getSubNumber()).
-                    append("\nComments: ").append(String.join(", ", incident.getComments())).
-                    append("\nLocations: ").append(String.join(", ", incident.getLocations())).
-                    append("\nTimestamps: ").append(String.join(", ", incident.getTimestamps())).
-                    append("\n\nStatus: ").append("verified").toString());
+            incidentTextView.setText(new StringBuilder().append(isEnglishSelected ? "Number of Submissions: " : "Αριθμός Υποβολών: ").append(incident.getSubNumber()).
+                    append(isEnglishSelected ? "\nComments: " : "\nΣχόλια: ").append(String.join(", ", incident.getComments())).
+                    append(isEnglishSelected ? "\nLocations: " : "\nΤοποθεσίες: ").append(String.join(", ", incident.getLocations())).
+                    append(isEnglishSelected ? "\nTimestamps: " : "\nΧρονικές Σημάνσεις: ").append(String.join(", ", incident.getTimestamps())).
+                    append(isEnglishSelected ? "\n\nStatus: " : "\n\nΚατάσταση: " ).append("επικαιροποιημένο").toString());
 
             incidentTextView.setTextColor(Color.WHITE);
             incidentTextView.setBackgroundColor(Color.BLACK);
@@ -625,4 +704,133 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
             }
         }
     }
+
+    private static void getStatistics(DataSnapshot sortedIncidentSnapshot){
+        //int hours = 0;
+        //int minutes = 0;
+
+        double distanceKm = 0;
+        double distanceMeters = 0;
+
+        String type = Objects.requireNonNull(sortedIncidentSnapshot.getRef().getParent()).getKey();
+        System.out.println("Type: " + type);
+
+        List<String> timestamps = (List<String>) sortedIncidentSnapshot.child("timestamps").getValue();
+        assert timestamps != null;
+        String timestamp = timestamps.get(0);
+
+        switch (Objects.requireNonNull(type)) {
+            case "Fire":
+                //hours = 24;
+                distanceKm = 30;
+                break;
+            case "Flood":
+                //hours = 24;
+                distanceKm = 40;
+                break;
+            case "Earthquake":
+                //minutes = 20;
+                distanceKm = 100;
+                break;
+        }
+
+        List<String> locations =  new ArrayList<>();
+        locations = (List<String>) sortedIncidentSnapshot.child("locations").getValue();
+
+        System.out.println("Locations: " + sortedIncidentSnapshot.child("locations").getValue());
+
+        // Calculate the average location
+        assert locations != null;
+        double[] averageLocation = calculateAverageLocation(locations);
+
+        // Output the average location
+        System.out.println("Average Latitude: " + averageLocation[0]);
+        System.out.println("Average Longitude: " + averageLocation[1]);
+
+        String averageLocationT = "Lat: " + averageLocation[0] + ",Long: " + averageLocation[1];
+
+        //search user locations if near
+        // if yes add their location to the list
+
+        // Reference to the Firebase database
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+        // Query the database to get all users
+        double finalDistanceKm = distanceKm;
+
+        List<String> usersEmail =  new ArrayList<>();
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Iterate over each user in the dataset
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    // Get the user's email
+                    String email = userSnapshot.child("email").getValue(String.class);
+                    // Get the user's location
+                    String location = userSnapshot.child("location").getValue(String.class);
+
+                    if (Incident.isWithinDistance(location, averageLocationT, finalDistanceKm, distanceMeters)) {
+
+                        usersEmail.add(email);
+                        // Process the location data (you can replace this with your desired action)
+                        //createStatistics(email, location, timestamp);
+                    }
+                }
+
+                Incident incident = new Incident(usersEmail, timestamp);
+                createStatistics(incident, type);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }
+
+
+    public static double[] calculateAverageLocation(List<String> locations) {
+        double totalLat = 0.0;
+        double totalLong = 0.0;
+        int count = 0;
+
+        // Iterate through the list of locations
+        for (String location : locations) {
+            // Split the location string into latitude and longitude parts
+            String[] parts = location.split(",");
+            if (parts.length == 2) {
+                // Extract latitude and longitude from the parts
+                double lat = extractCoordinate(parts[0]);
+                double lon = extractCoordinate(parts[1]);
+                totalLat += lat;
+                totalLong += lon;
+                count++;
+            }
+        }
+
+        // Calculate the average latitude and longitude
+        double avgLat = totalLat / count;
+        double avgLong = totalLong / count;
+
+        return new double[]{avgLat, avgLong};
+    }
+
+    // Helper method to extract the numeric coordinate value from a string
+    private static double extractCoordinate(String coordinate) {
+        // Split the string by ":" and extract the numeric value
+        return Double.parseDouble(coordinate.trim().split(":")[1]);
+    }
+
+    private static void createStatistics(Incident incident, String type){
+        DatabaseReference statisticsRef = FirebaseDatabase.getInstance().getReference().child("Statistics");
+
+        //  sortedIncidentsRef.push().setValue(incident).addOnCompleteListener
+        statisticsRef.child(type).push().setValue(incident)
+                .addOnSuccessListener(aVoid -> System.out.println("Statistics saved successfully"))
+                .addOnFailureListener(e -> System.out.println("Error saving statistics: " + e.getMessage()));
+
+
+    }
+
+
 }

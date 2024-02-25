@@ -8,44 +8,31 @@
     tools:context=".EmployeeAllFireIncidentsActivity">
 
     <TextView
-        android:id="@+id/sortingmsg"
-        android:layout_width="185dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="96dp"
-        android:text="*Examine fires that happened the last 24h and located within a distance of 30 kilometers"
-        android:textAlignment="viewStart"
-        android:textSize="11sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.841"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/TitletextView"
-        android:layout_width="115dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="24dp"
-        android:text="Pending Fire Incidents"
+        android:layout_width="214dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/pending_fire_incidents"
         android:textAlignment="viewStart"
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
+        app:layout_constraintHorizontal_bias="0.113"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
         android:id="@+id/switch1"
-        android:layout_width="135dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="96dp"
+        android:layout_width="156dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="92dp"
         android:onClick="checkSwitch"
-        android:text="Sort by time\nand distance"
+        android:text="@string/sort_by_time_nand_distance"
         android:textColor="#191414"
-        android:textOff="SORT OFF"
-        android:textOn="SORT ON"
+        android:textOff="@string/sort_off"
+        android:textOn="@string/sort_on"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,15 +61,27 @@
         android:id="@+id/buttonFires"
         style="@style/SquareButton"
         android:layout_width="178dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="28dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="20dp"
         android:onClick="seeVerifiedFires"
-        android:text="See verifed fires"
+        android:text="@string/see_verified_fires"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.843"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button2"
+        style="@style/SquareButton"
+        android:layout_width="178dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="80dp"
+        android:onClick="showCriteria"
+        android:text="@string/show_criteria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.843"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <!--<LinearLayout
         android:layout_width="407dp"
         android:layout_height="73dp"

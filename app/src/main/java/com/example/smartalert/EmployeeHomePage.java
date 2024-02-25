@@ -4,7 +4,10 @@ import static com.example.smartalert.R.id;
 import static com.example.smartalert.R.layout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class EmployeeHomePage extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -32,6 +37,15 @@ public class EmployeeHomePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Retrieve language preference from SharedPreferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
+
+        // Change language based on the preference
+        String lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
+        updateLocale(lang);
+
         setContentView(layout.activity_employee_home_page);
 
         mAuth = FirebaseAuth.getInstance();
@@ -67,8 +81,12 @@ public class EmployeeHomePage extends AppCompatActivity {
                                 String fullName = dataSnapshot.getChildren().iterator().next().child("fullname").getValue(String.class);
                                 if (fullName != null) {
                                     // Update the greeting text view with the full name
-                                    greetingTextView.setText(String.format("Hello %s,\nchoose the actions you want to perform",
+                                    if (isEnglishSelected)
+                                        greetingTextView.setText(String.format("Hello %s,\nchoose the actions you want to perform",
                                             fullName.split(" ")[0]));
+                                    else
+                                        greetingTextView.setText(String.format("Γεια σου %s,\nεπέλεξε τις ενέργειες που επιθυμείς να εκτελέσεις",
+                                                fullName.split(" ")[0]));
 
                                     // Make the root ConstraintLayout visible
                                     ConstraintLayout rootLayout = findViewById(id.employeeHome);
@@ -95,6 +113,14 @@ public class EmployeeHomePage extends AppCompatActivity {
         }
     }
 
+    private void updateLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+    }
+
     public void logout(View view){
         mAuth.signOut();
 
@@ -107,6 +133,8 @@ public class EmployeeHomePage extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    /*
     public void FireIncidents(View view){
         Intent intent = new Intent(this, EmployeeAllFireIncidentsActivity.class);
         startActivity(intent);
@@ -120,5 +148,5 @@ public class EmployeeHomePage extends AppCompatActivity {
     public void FloodIncidents(View view){
         Intent intent = new Intent(this, EmployeeAllFloodIncidentsActivity.class);
         startActivity(intent);
-    }
+    }*/
 }

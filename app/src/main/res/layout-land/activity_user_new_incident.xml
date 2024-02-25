@@ -41,7 +41,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
-                android:text="Report Incident"
+                android:text="@string/report_incident"
                 android:textAlignment="center"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="Incident"
+                    android:hint="@string/incident"
                     android:inputType="none"
                     android:textAlignment="center"
                     app:simpleItems="@array/options_list" />
@@ -71,14 +71,14 @@
                 android:background="@null"
                 android:ems="10"
                 android:gravity="top"
-                android:hint="Add Comments..."
+                android:hint="@string/add_comments"
                 android:inputType="text" />
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:text="Select photo"
+                android:text="@string/select_photo"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:onClick="openGallery"
-                    android:text="Open Gallery"
+                    android:text="@string/open_gallery"
                     android:textAlignment="center" />
 
                 <Button
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:insetLeft="7dp"
                     android:onClick="openCamera"
-                    android:text="Open Camera" />
+                    android:text="@string/open_camera" />
             </LinearLayout>
 
             <ImageView
@@ -119,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="submit"
-                android:text="Submit" />
+                android:text="@string/submit" />
         </LinearLayout>
     </ScrollView>
 

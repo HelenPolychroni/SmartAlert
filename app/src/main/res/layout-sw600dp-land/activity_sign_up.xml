@@ -38,7 +38,7 @@
             android:id="@+id/phonenum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Phone Number"
+            android:hint="@string/phone_number"
             android:inputType="phone"
             android:phoneNumber="true"
             android:textSize="20sp" />

@@ -7,7 +7,6 @@
     tools:context=".StartUpActivity">
     <!-- Set drawable resource -->
 
-
     <Button
         android:id="@+id/signIn_btn3"
         style="@style/SquareButton"

@@ -4,8 +4,11 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import java.util.Locale;
+
 public class UserHomePage extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
@@ -40,11 +46,21 @@ public class UserHomePage extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Retrieve language preference from SharedPreferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
+
+        // Change language based on the preference
+        String lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
+        updateLocale(lang);
+
         setContentView(R.layout.activity_user_home_page);
 
         mAuth = FirebaseAuth.getInstance();
 
         greetingTextView = findViewById(R.id.welcomemsg);
+
 
         if (ThemeUtils.isDarkTheme(this)) { // Dark mode
             greetingTextView.setTextColor(getResources().getColor(R.color.white));
@@ -75,9 +91,13 @@ public class UserHomePage extends AppCompatActivity{
                                 // Retrieve the full name from the database
                                 String fullName = dataSnapshot.getChildren().iterator().next().child("fullname").getValue(String.class);
                                 if (fullName != null) {
-                                    // Update the greeting text view with the full name
-                                    greetingTextView.setText("Hello "+ fullName.split(" ")[0]+
+                                    if (isEnglishSelected)
+                                        // Update the greeting text view with the full name
+                                        greetingTextView.setText("Hello "+ fullName.split(" ")[0]+
                                             ",\nchoose the actions you want to perform");
+                                    else
+                                        greetingTextView.setText("Γεια σου "+ fullName.split(" ")[0]+
+                                                ",\nεπέλεξε τις ενέργειες που επιθυμείς να εκτελέσεις");
 
                                     // Make the root ConstraintLayout visible
                                     ConstraintLayout rootLayout = findViewById(R.id.userHome);
@@ -105,7 +125,14 @@ public class UserHomePage extends AppCompatActivity{
 
         // Request location permissions
         requestLocationPermissions();
+    }
 
+    private void updateLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
     private void requestLocationPermissions() {

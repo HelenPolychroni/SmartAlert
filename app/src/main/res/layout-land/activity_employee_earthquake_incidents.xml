@@ -8,30 +8,30 @@
 
     <Switch
         android:id="@+id/switch2"
-        android:layout_width="135dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="100dp"
+        android:layout_width="160dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="96dp"
         android:onClick="checkSwitch"
-        android:text="Sort by time\nand distance"
+        android:text="@string/sort_by_time_nand_distance_e"
         android:textColor="#191414"
-        android:textOff="SORT OFF"
-        android:textOn="SORT ON"
+        android:textOff="@string/sort_off"
+        android:textOn="@string/sort_on"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.112"
+        app:layout_constraintHorizontal_bias="0.116"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/TitletextView3"
-        android:layout_width="195dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="213dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-light"
-        android:text="Earthquake\nIncidents"
+        android:text="@string/earthquake_nincidents"
         android:textAlignment="viewStart"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintHorizontal_bias="0.129"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,29 +52,29 @@
             android:orientation="vertical"></LinearLayout>
     </ScrollView>
 
-    <TextView
-        android:id="@+id/sortingmsg2"
-        android:layout_width="185dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="100dp"
-        android:text="*Examine earthquakes that happened the last 20 minutes and located within a distance of 100 kilometers"
-        android:textAlignment="viewStart"
-        android:textSize="11sp"
+    <Button
+        android:id="@+id/buttonEarthquakes"
+        style="@style/SquareButton"
+        android:layout_width="160dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="20dp"
+        android:onClick="seeVerifiedEarthquakes"
+        android:text="@string/see_verified_earthquakes1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintHorizontal_bias="0.852"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonEarthquakes"
+        android:id="@+id/button12"
         style="@style/SquareButton"
-        android:layout_width="154dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="28dp"
-        android:onClick="seeVerifiedEarthquakes"
-        android:text="See verified earthquakes"
+        android:layout_width="160dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="96dp"
+        android:onClick="showCriteria"
+        android:text="@string/show_criteria_e"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.853"
+        app:layout_constraintHorizontal_bias="0.852"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

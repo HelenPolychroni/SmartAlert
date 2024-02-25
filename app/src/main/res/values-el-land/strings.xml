@@ -48,6 +48,8 @@
     <string name="sort_by_time_nand_distance_e">Ταξινόμιση βάση χρόνου\nκαι απόστασης</string>
     <string name="see_verified_earthquakes">Προβολή επικαιροποιημένων Σεισμών </string>
     <string name="see_verified_earthquakes1">Προβολή επικαιροποιημένων Σεισμών </string>
+    <string name="en">EN</string>
+    <string name="gr">GR</string>
     <string name="phone_number">Αριθμός Κινητού</string>
 
 </resources>

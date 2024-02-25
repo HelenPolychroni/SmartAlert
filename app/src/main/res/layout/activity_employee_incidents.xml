@@ -8,14 +8,13 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="236dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="140dp"
-        android:text="Select incident type to examine"
-        android:textAlignment="viewStart"
+        android:layout_width="285dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="136dp"
+        android:text="@string/select_incident_type_to_examine"
+        android:textAlignment="center"
         android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +25,7 @@
         android:layout_height="47dp"
         android:layout_marginTop="316dp"
         android:onClick="examineIncidents"
-        android:text="Examine"
+        android:text="@string/examine"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="Incident"
+            android:hint="@string/incident_employee"
             android:inputType="none"
             app:simpleItems="@array/options_list" />
 

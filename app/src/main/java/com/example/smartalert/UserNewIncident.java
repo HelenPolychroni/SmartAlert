@@ -5,13 +5,16 @@ import static com.example.smartalert.UserOptions.PERMISSION_REQUEST_CODE;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -44,6 +47,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class UserNewIncident extends AppCompatActivity implements LocationListener{
@@ -71,12 +75,21 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
 
     private Button button6, button7, button10;
     private TextView textView8;
-
+    boolean isEnglishSelected;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Retrieve language preference from SharedPreferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
+
+        // Change language based on the preference
+        String lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
+        updateLocale(lang);
+
         setContentView(R.layout.activity_user_new_incident);
 
         auth = FirebaseAuth.getInstance();
@@ -115,6 +128,14 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
             button10.setTextColor(getResources().getColor(R.color.white));
         }
         launcher();
+    }
+
+    private void updateLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
     @Override
@@ -163,19 +184,29 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                                         timestamp = simpleDateFormat.format(new Date());
                                         String id = database.push().getKey();
                                         database.child(id).setValue(new Incident(firebaseUser.getEmail(), type, comment, timestamp, path, locationString));
-                                        Toast.makeText(UserNewIncident.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+
+                                        if (isEnglishSelected)
+                                            Toast.makeText(UserNewIncident.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+                                        else
+                                            Toast.makeText(UserNewIncident.this, "Επιτυχής υποβολή", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(UserNewIncident.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                                if (isEnglishSelected)
+                                    Toast.makeText(UserNewIncident.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                                else
+                                    Toast.makeText(UserNewIncident.this, "Αποτυχία υποβολής", Toast.LENGTH_SHORT).show();
                             }
                         });
 
                     } else {
-                        Toast.makeText(this, "No picture taken", Toast.LENGTH_SHORT).show();
+                        if (isEnglishSelected)
+                            Toast.makeText(this, "No picture taken", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(this, "Δεν έχει επιλεχθεί φωτογραφία", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
@@ -187,7 +218,10 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                                 refrence1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        Toast.makeText(UserNewIncident.this, "Successful upload", Toast.LENGTH_SHORT).show();
+                                        if (isEnglishSelected)
+                                            Toast.makeText(UserNewIncident.this, "Successful upload", Toast.LENGTH_SHORT).show();
+                                        else
+                                            Toast.makeText(UserNewIncident.this, "Επιτυχής υποβολή", Toast.LENGTH_SHORT).show();
 
                                         type = auto.getText().toString();
                                         comment = text.getText().toString();
@@ -204,20 +238,33 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(UserNewIncident.this, "Failure in uploading", Toast.LENGTH_SHORT).show();
+                                if (isEnglishSelected)
+                                    Toast.makeText(UserNewIncident.this, "Failure in uploading", Toast.LENGTH_SHORT).show();
+                                else
+                                    Toast.makeText(UserNewIncident.this, "Αποτυχία υποβολής", Toast.LENGTH_SHORT).show();
+
                             }
                         });
                     } else {
-                        Toast.makeText(UserNewIncident.this, "Please select photo", Toast.LENGTH_SHORT).show();
+                        if (isEnglishSelected)
+                            Toast.makeText(UserNewIncident.this, "Please select photo", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(UserNewIncident.this, "Παρακαλώ επιλέξτε φωτογραφία", Toast.LENGTH_SHORT).show();
                     }
 
                 }
 
             }else {
-                Toast.makeText(this, "Please select type of incident"+auto.getText().toString(), Toast.LENGTH_SHORT).show();
+                if (isEnglishSelected)
+                    Toast.makeText(this, "Please select type of incident"+auto.getText().toString(), Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, "Παρακαλώ επιλέξτε κατηγορία περιστατικού"+auto.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "Please turn on location", Toast.LENGTH_SHORT).show();
+            if (isEnglishSelected)
+                Toast.makeText(this, "Please turn on location", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Παρακαλώ ενεργοποιήστε την τοποθεσία σας", Toast.LENGTH_SHORT).show();
             //getLocationPermission();
         }
     }
@@ -299,7 +346,10 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                               imageView.setImageURI(image);
                           }catch(Exception e){
                               e.printStackTrace();
-                              Toast.makeText(UserNewIncident.this,"No image",Toast.LENGTH_SHORT).show();
+                              if (isEnglishSelected)
+                                  Toast.makeText(UserNewIncident.this,"No image",Toast.LENGTH_SHORT).show();
+                              else
+                                  Toast.makeText(UserNewIncident.this,"Δεν βρέθηκε εικόνα",Toast.LENGTH_SHORT).show();
                           }
                     }
                 });
@@ -313,7 +363,10 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                 // Permission granted for camera
                 startCamera();
             } else {
-                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+                if (isEnglishSelected)
+                    Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, "Δεν επιτράπηκε η άδεια στην κάμερα", Toast.LENGTH_SHORT).show();
             }
         }
         else if(requestCode == PERMISSION_REQUEST_CODE){
@@ -321,9 +374,11 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                     getCurrentLocation();
                 }
                 else {
-                    Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+                    if (isEnglishSelected)
+                        Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(this, "Δεν επιτράπηκε η άδεια στην τοποθεσία", Toast.LENGTH_SHORT).show();
                 }
-
         }
     }
 }
