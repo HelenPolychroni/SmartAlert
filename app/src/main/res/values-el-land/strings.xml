@@ -24,7 +24,7 @@
     <string name="submit">Υποβολη</string>
     <string name="incident">Περιστατικό</string>
     <string name="add_comments">Προσθήκη Σχολίων...</string>
-    <string name="incidents_per_month_statistics">Στατιστικά Περιστατικών\nΑνά Μήνα</string>
+    <string name="incidents_per_month_statistics">Στατιστικά Περιστατικών Ανά Μήνα</string>
     <string name="n_n_nmonth">\n\n\nMήνας</string>
     <string name="incident_statistics_x">Περιστατικό</string>
     <string name="log_out_employee">Αποσυνδεση</string>

@@ -41,7 +41,7 @@ public class UserHomePage extends AppCompatActivity{
 
     private Button button3, button4, button5;
     private TextView welcomemsg;
-
+    boolean isEnglishSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class UserHomePage extends AppCompatActivity{
 
         // Retrieve language preference from SharedPreferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
+        isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
 
         // Change language based on the preference
         String lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
@@ -175,7 +175,10 @@ public class UserHomePage extends AppCompatActivity{
     // OPTIONS MENU
     public void logout(View view){
         mAuth.signOut();
+
+        // Finish the current activity
         finish();
+
         Intent intent = new Intent(this, StartUpActivity.class);
         startActivity(intent);
     }
@@ -192,7 +195,7 @@ public class UserHomePage extends AppCompatActivity{
     }
 
     public void incidents_statistics(View view){
-        Intent intent = new Intent(this, UserIncidentsStatistics.class);
+        Intent intent = new Intent(this, UserIncidentsStatisticsPie.class);
         startActivity(intent);
     }
 
