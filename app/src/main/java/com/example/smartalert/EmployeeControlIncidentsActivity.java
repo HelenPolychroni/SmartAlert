@@ -32,6 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -492,29 +493,49 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                         // User clicked Yes, delete the sorted incident along with the users' incidents connected to them
                         sortedIncidentSnapshot.getRef().child("status").setValue("verified", (databaseError, databaseReference) -> {
                             if (databaseError == null) {
-                                // The update was successful, proceed with saving the incident
                                 System.out.println("Verify status");
-                                verifiedRef.push().setValue(sortedIncidentSnapshot.getValue(Incident.class));
 
-                                DatabaseReference sortedIncidentRef = sortedIncidentSnapshot.getRef();
+                                // Update the status of the incident object
+                                Incident incident = sortedIncidentSnapshot.getValue(Incident.class);
+                                assert incident != null;
+                                incident.setStatus("verified");
 
-                                getStatistics(sortedIncidentSnapshot);
-                                sortedIncidentRef.removeValue();
+                                // Step 1: The update was successful, proceed with saving the incident to "verifiedIncidents"
+                                verifiedRef.push().setValue(sortedIncidentSnapshot.getValue(Incident.class), (verificationError, verificationReference) -> {
+                                    if (verificationError == null) {
+                                        // Step 2: The incident has been successfully saved to "verifiedIncidents"
+                                        DatabaseReference sortedIncidentRef = sortedIncidentSnapshot.getRef();
 
-                                // statistics 1. check user locations near by and create a new field statistics
+                                        // Step 3: Get statistics and handle other actions
+                                        getStatistics(sortedIncidentSnapshot);
 
+                                        // Step 4: Remove the incident from its original location
+                                        sortedIncidentRef.removeValue((removalError, removalReference) -> {
+                                            if (removalError == null) {
+                                                // Step 5: The incident has been successfully removed from its original location
+                                                // Additional actions, if any, can be performed here
 
-                                // Remove incidents based on keys
-                                DatabaseReference incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
-                                for (String key : keysList) {
-                                    incidentsRef.child(key).removeValue();
-                                }
-                                // Show a Toast indicating verification
-                                Toast.makeText(context, "Incident Verified and Alert Sent", Toast.LENGTH_SHORT).show();
-
+                                                // Remove incidents based on keys
+                                                DatabaseReference incidentsRef = FirebaseDatabase.getInstance().getReference().child("incidents");
+                                                for (String key : keysList) {
+                                                    incidentsRef.child(key).removeValue();
+                                                }
+                                                // Show a Toast indicating verification
+                                                Toast.makeText(context, "Incident Verified and Alert Sent", Toast.LENGTH_SHORT).show();
+                                                updateAllIncidentStatus();
+                                            } else {
+                                                // Handle the error that occurred while removing the incident
+                                                Log.e(TAG, "Error removing incident from original location", removalError.toException());
+                                            }
+                                        });
+                                    } else {
+                                        // Handle the error that occurred while saving the updated incident to "verifiedIncidents"
+                                        Log.e(TAG, "Error saving incident to 'verifiedIncidents'", verificationError.toException());
+                                    }
+                                });
                             } else {
-                                // There was an error, handle it accordingly
-                                Log.e(TAG, "Error updating status", databaseError.toException());
+                                // Handle the error that occurred while updating the "status" field
+                                Log.e(TAG, "Error updating status to 'verified'", databaseError.toException());
                             }
                         });
                     })
@@ -525,7 +546,45 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         });
         // Add Verify button to the incident layout
         incidentLayout.addView(verifyButton);
+
     }
+
+    public static void updateAllIncidentStatus() {
+        List<String> incidentTypes = Arrays.asList("Fires", "Floods", "Earthquakes");
+
+        for (String incidentType : incidentTypes) {
+            DatabaseReference incidentsRef = FirebaseDatabase.getInstance().getReference("Verified").child(incidentType);
+
+            incidentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot incidentSnapshot : dataSnapshot.getChildren()) {
+                        // Check if the incident status is "not verified"
+                        String status = incidentSnapshot.child("status").getValue(String.class);
+                        if (status != null && status.equals("not verified")) {
+                            // Update the status to "verified"
+                            incidentSnapshot.getRef().child("status").setValue("verified", (databaseError, databaseReference) -> {
+                                if (databaseError == null) {
+                                    // Status updated successfully
+                                    Log.d(TAG, "Status updated to verified for incident: " + incidentSnapshot.getKey());
+                                } else {
+                                    // Error updating status
+                                    Log.e(TAG, "Error updating status for incident: " + incidentSnapshot.getKey(), databaseError.toException());
+                                }
+                            });
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Error reading data
+                    Log.e(TAG, "Error reading data for incident type: " + incidentType, databaseError.toException());
+                }
+            });
+        }
+    }
+
 
     @SuppressLint("SetTextI18n")
     private static void createDeleteButton(DataSnapshot sortedIncidentSnapshot, LinearLayout incidentLayout,
