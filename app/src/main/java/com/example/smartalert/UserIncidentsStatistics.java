@@ -92,53 +92,6 @@ public class UserIncidentsStatistics extends AppCompatActivity {
                 getDataAndSetupChart();
             });
         }
-       // BarChart barChart = findViewById(R.id.barchart);
-
-
-
-        //BarDataSet barDataSet = new BarDataSet(barArrayList, "Incident Category");
-
-        // Create datasets for each incident type
-        //BarDataSet firesDataSet = new BarDataSet(firesData, "Fires");
-        //BarDataSet floodsDataSet = new BarDataSet(floodsData, "Floods");
-        //BarDataSet earthquakesDataSet = new BarDataSet(earthquakesData, "Earthquakes");
-
-        // color bar data set
-        //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-        // Customize dataset properties if needed
-        //firesDataSet.setColor(Color.RED);
-        //floodsDataSet.setColor(Color.BLUE);
-        //earthquakesDataSet.setColor(Color.GREEN);
-
-        // Add datasets to a list
-       // List<IBarDataSet> dataSets = new ArrayList<>();
-        //dataSets.add(firesDataSet);
-        //dataSets.add(floodsDataSet);
-        //dataSets.add(earthquakesDataSet);
-
-        // Create a BarData object with the list of datasets
-        //BarData barData1 = new BarData(dataSets);
-
-        /*
-        // Calculate the width for each group of bars
-        float groupSpace = 0.3f; // Adjust this value as needed
-        float barWidth = 0.2f; // Adjust this value as needed
-        float barSpace = 0.1f; // Adjust this value as needed
-
-        // Set the spacing properties for the bar chart
-        barData1.setBarWidth(barWidth);
-        */
-
-        //barChart.setData(barData1);
-        //barChart.groupBars(0, groupSpace, barSpace); // Adjust the first parameter if needed
-
-        // Set up your BarChart
-        //BarChart barChart = findViewById(R.id.barChart); // Assuming you have a BarChart view in your layout
-
-
-        // Refresh the chart
-       // barChart.invalidate();
     }
 
     private void updateLocale(String lang) {
@@ -211,7 +164,7 @@ public class UserIncidentsStatistics extends AppCompatActivity {
         // Customize dataset properties if needed
         firesDataSet.setColor(Color.RED);
         floodsDataSet.setColor(Color.BLUE);
-        earthquakesDataSet.setColor(Color.GREEN);
+        earthquakesDataSet.setColor(Color.rgb(0, 255, 0)); // Set earthquake dataset color to green (RGB: 0, 255, 0)
 
         // Add datasets to a list
         List<IBarDataSet> dataSets = new ArrayList<>();

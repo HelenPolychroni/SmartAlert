@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -39,6 +40,7 @@ public class StartUpActivity extends AppCompatActivity {
     boolean isEnglishSelected = true;
     private TextView textView2, textView3;
     private Button signIn_btn3, signIn_btn4;
+    ImageView imageView;
 
 
     @Override
@@ -51,6 +53,10 @@ public class StartUpActivity extends AppCompatActivity {
         if (ThemeUtils.isDarkTheme(this)) { // Dark mode
 
             System.out.println("Dark mode on");
+
+            imageView = findViewById(R.id.imageView);
+            imageView.setImageResource(R.drawable.world4);
+
             textView2 = findViewById(R.id.textView2);
             textView3 = findViewById(R.id.textView3);
 

@@ -254,6 +254,8 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                             (Incident.isWithinDistance(location, locationInner, distanceKm, distanceMeters)))) {
                         assert userEmail != null;
                         if (!userEmail.equals(userEmailInner) && !userSubmissionCount.containsKey(userEmailInner)) {
+                            System.out.println("outside email: " + userEmail);
+                            System.out.println("inner email: " + userEmailInner);
                             System.out.println("Able to sort");
 
                             userSubmissionCount.put(userEmailInner, userSubmissionCount.getOrDefault(userEmailInner, 0) + 1);
@@ -382,7 +384,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                     append(isEnglishSelected ? "\nComments: " : "\nΣχόλια: ").append(String.join(", ", incident.getComments())).
                     append(isEnglishSelected ? "\nLocations: " : "\nΤοποθεσίες: ").append(String.join(", ", incident.getLocations())).
                     append(isEnglishSelected ? "\nTimestamps: " : "\nΧρονικές Σημάνσεις: ").append(String.join(", ", incident.getTimestamps())).
-                    append(isEnglishSelected ? "\n\nStatus: " : "\n\nΚατάσταση: ").append("μη επικαιροποιημένο"/*String.join(", ", incident.getStatus())).toString()*/));
+                    append(isEnglishSelected ? "\n\nStatus: " : "\n\nΚατάσταση: ").append(!isEnglishSelected ? "μη επικαιροποιημένο" : "not verified"/*String.join(", ", incident.getStatus())).toString()*/));
 
             incidentTextView.setTextColor(Color.WHITE);
             incidentTextView.setBackgroundColor(Color.BLACK);
@@ -638,7 +640,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                     append(isEnglishSelected ? "\nComments: " : "\nΣχόλια: ").append(String.join(", ", incident.getComments())).
                     append(isEnglishSelected ? "\nLocations: " : "\nΤοποθεσίες: ").append(String.join(", ", incident.getLocations())).
                     append(isEnglishSelected ? "\nTimestamps: " : "\nΧρονικές Σημάνσεις: ").append(String.join(", ", incident.getTimestamps())).
-                    append(isEnglishSelected ? "\n\nStatus: " : "\n\nΚατάσταση: " ).append("επικαιροποιημένο").toString());
+                    append(isEnglishSelected ? "\n\nStatus: " : "\n\nΚατάσταση: " ).append(isEnglishSelected ? "verified" : "επικαιροποιημένο").toString());
 
             incidentTextView.setTextColor(Color.WHITE);
             incidentTextView.setBackgroundColor(Color.BLACK);
@@ -771,6 +773,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
                     if (Incident.isWithinDistance(location, averageLocationT, finalDistanceKm, distanceMeters)) {
 
+                        System.out.println("Incident close to user");
                         usersEmail.add(email);
                         // Process the location data (you can replace this with your desired action)
                         //createStatistics(email, location, timestamp);
@@ -787,7 +790,6 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public static double[] calculateAverageLocation(List<String> locations) {
         double totalLat = 0.0;
@@ -831,6 +833,4 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
 
     }
-
-
 }

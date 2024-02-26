@@ -40,8 +40,8 @@
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="345dp"
-        android:layout_height="444dp"
-        android:layout_marginTop="180dp"
+        android:layout_height="457dp"
+        android:layout_marginTop="184dp"
 
         android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
