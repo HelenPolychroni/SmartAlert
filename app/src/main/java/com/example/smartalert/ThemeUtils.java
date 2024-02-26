@@ -2,8 +2,6 @@ package com.example.smartalert;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Build;
 
 public class ThemeUtils {
     public static boolean isDarkTheme(Context context) {

@@ -32,7 +32,6 @@ public class EmployeeAllFireIncidentsActivity extends EmployeeControlIncidentsAc
     private DatabaseReference incidentsRef, sortedIncidentsRef, verifiedRef;
     private FirebaseDatabase database;
     private Button FiresButton, CriteriaButton;
-    private BottomNavigationView bottomNavigationView;
     boolean isEnglishSelected;
     @SuppressLint("MissingInflatedId")
 

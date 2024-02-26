@@ -1,5 +1,8 @@
 package com.example.smartalert;
 
+import static com.example.smartalert.R.id;
+import static com.example.smartalert.R.layout;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -10,11 +13,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import static com.example.smartalert.R.*;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 
@@ -22,8 +22,6 @@ public class EmployeeIncidentsActivity extends AppCompatActivity {
     AutoCompleteTextView incidentType;
     String incident_type;
     Class<?> page;
-    private BottomNavigationView bottomNavigationView;
-
     private TextView textView9;
     private Button button9;
     boolean isEnglishSelected;

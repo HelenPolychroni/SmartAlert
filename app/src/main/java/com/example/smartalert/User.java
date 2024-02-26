@@ -1,7 +1,6 @@
 package com.example.smartalert;
 
 import java.io.Serializable;
-import java.util.regex.Pattern;
 
 public class User implements Serializable {
     protected String fullname, email, password, phonenumber;

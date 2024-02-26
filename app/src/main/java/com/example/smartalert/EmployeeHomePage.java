@@ -32,7 +32,6 @@ public class EmployeeHomePage extends AppCompatActivity {
     private TextView greetingTextView;
     private DatabaseReference employeesRef;
     private Button button13, button8;
-    View employeeHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
