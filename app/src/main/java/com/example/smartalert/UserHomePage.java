@@ -35,12 +35,11 @@ public class UserHomePage extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
-    private String locationString, firstName;
+    private String locationString;
     private TextView greetingTextView;
     private DatabaseReference usersRef;
 
     private Button button3, button4, button5;
-    private TextView welcomemsg;
     boolean isEnglishSelected;
 
     @Override

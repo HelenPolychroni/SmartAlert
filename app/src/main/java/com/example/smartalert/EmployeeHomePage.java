@@ -30,8 +30,6 @@ public class EmployeeHomePage extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private TextView greetingTextView;
-    private DatabaseReference employeesRef;
-    private Button button13, button8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +52,8 @@ public class EmployeeHomePage extends AppCompatActivity {
         if (ThemeUtils.isDarkTheme(this)) { // Dark mode
             greetingTextView.setTextColor(getResources().getColor(R.color.white));
 
-            button8 = findViewById(R.id.button8);
-            button13 = findViewById(id.button13);
+            Button button8 = findViewById(R.id.button8);
+            Button button13 = findViewById(id.button13);
 
             button8.setTextColor(getResources().getColor(R.color.white));
             button13.setTextColor(getResources().getColor(R.color.white));
@@ -68,7 +66,7 @@ public class EmployeeHomePage extends AppCompatActivity {
             String email = currentUser.getEmail();
 
             // Reference to the Firebase database
-            employeesRef = FirebaseDatabase.getInstance().getReference("employees");
+            DatabaseReference employeesRef = FirebaseDatabase.getInstance().getReference("employees");
 
             // Query the database to find the user's full name by email
             employeesRef.orderByChild("email").equalTo(email)

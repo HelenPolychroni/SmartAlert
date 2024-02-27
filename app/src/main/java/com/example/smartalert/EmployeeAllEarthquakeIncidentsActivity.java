@@ -29,7 +29,7 @@ public class EmployeeAllEarthquakeIncidentsActivity extends EmployeeControlIncid
     private ScrollView scrollView;
     private DatabaseReference incidentsRef, sortedIncidentsRef, verifiedRef;
     private FirebaseDatabase database;
-    private TextView Titletextview, sortingmsg;
+    private TextView Titletextview/*, sortingmsg*/;
     private Button EarthquakesButton, CriteriaButton;
     boolean isEnglishSelected;
 

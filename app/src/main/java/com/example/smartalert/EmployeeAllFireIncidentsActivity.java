@@ -27,7 +27,7 @@ public class EmployeeAllFireIncidentsActivity extends EmployeeControlIncidentsAc
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch sortFireIncidentsSwitch;
     private LinearLayout scrollViewLayout;
-    private TextView Titletextview, sortingmsg;
+    private TextView Titletextview/*, sortingmsg*/;
     private ScrollView scrollView;
     private DatabaseReference incidentsRef, sortedIncidentsRef, verifiedRef;
     private FirebaseDatabase database;

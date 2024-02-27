@@ -31,8 +31,6 @@ public class StartUpActivity extends AppCompatActivity {
     String lang = "en";
     Class<?> page;
     boolean isEnglishSelected = true;
-    private TextView textView2, textView3;
-    private Button signIn_btn3, signIn_btn4;
     ImageView imageView;
 
 
@@ -50,15 +48,15 @@ public class StartUpActivity extends AppCompatActivity {
             imageView = findViewById(R.id.imageView);
             imageView.setImageResource(R.drawable.world4);
 
-            textView2 = findViewById(R.id.textView2);
-            textView3 = findViewById(R.id.textView3);
+            TextView textView2 = findViewById(R.id.textView2);
+            TextView textView3 = findViewById(R.id.textView3);
 
             // Change text view colors for dark mode
             textView2.setTextColor(getResources().getColor(R.color.white));
             textView3.setTextColor(getResources().getColor(R.color.white));
 
-            signIn_btn3 = findViewById(R.id.signIn_btn3);
-            signIn_btn4 = findViewById(R.id.signIn_btn4);
+            Button signIn_btn3 = findViewById(R.id.signIn_btn3);
+            Button signIn_btn4 = findViewById(R.id.signIn_btn4);
 
             signIn_btn3.setTextColor(getResources().getColor(R.color.white));
             signIn_btn4.setTextColor(getResources().getColor(R.color.white));

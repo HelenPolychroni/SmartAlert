@@ -31,7 +31,7 @@ public class EmployeeAllFloodIncidentsActivity extends EmployeeControlIncidentsA
     private FirebaseDatabase database;
     private TextView Titletextview;
     private Button FloodsButton, CriteriaButton;
-    private TextView sortingmsg;
+    //private TextView sortingmsg;
     boolean isEnglishSelected;
 
     @Override

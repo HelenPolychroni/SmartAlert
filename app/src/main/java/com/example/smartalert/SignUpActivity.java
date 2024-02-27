@@ -45,8 +45,6 @@ public class SignUpActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     SharedPreferences preferences, sharedPreferences;
-    private static final String PREF_NAME = "User";
-    private static final String KEY_ROLE = "UserRole";
     boolean isEnglishSelected;
 
     // Define a constant for requesting location permission

@@ -22,8 +22,6 @@ public class EmployeeIncidentsActivity extends AppCompatActivity {
     AutoCompleteTextView incidentType;
     String incident_type;
     Class<?> page;
-    private TextView textView9;
-    private Button button9;
     boolean isEnglishSelected;
 
     @Override
@@ -44,8 +42,8 @@ public class EmployeeIncidentsActivity extends AppCompatActivity {
 
         if (ThemeUtils.isDarkTheme(this)) { // Dark mode
 
-            textView9 = findViewById(R.id.textView9);
-            button9 = findViewById(id.button9);
+            TextView textView9 = findViewById(R.id.textView9);
+            Button button9 = findViewById(id.button9);
 
             textView9.setTextColor(getResources().getColor(R.color.white));
             button9.setTextColor(getResources().getColor(R.color.white));

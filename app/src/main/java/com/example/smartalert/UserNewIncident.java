@@ -1,7 +1,5 @@
 package com.example.smartalert;
 
-import static com.example.smartalert.UserOptions.PERMISSION_REQUEST_CODE;
-
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -72,11 +70,9 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
    // private static final int STORAGE_PERMISSION_CODE = 1;
     Boolean camera;
     Uri image;
-
-    private Button button6, button7, button10;
-    private TextView textView8;
     boolean isEnglishSelected;
 
+    static final int PERMISSION_REQUEST_CODE=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +112,12 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
             int color1 = ContextCompat.getColor(this, R.color.white);
             imageView.setColorFilter(color1);
 
-            textView8 = findViewById(R.id.textView8);
+            TextView textView8 = findViewById(R.id.textView8);
             textView8.setTextColor(getResources().getColor(R.color.white));
 
-            button6 = findViewById(R.id.button6);
-            button7 = findViewById(R.id.button7);
-            button10 = findViewById(R.id.button10);
+            Button button6 = findViewById(R.id.button6);
+            Button button7 = findViewById(R.id.button7);
+            Button button10 = findViewById(R.id.button10);
 
             button6.setTextColor(getResources().getColor(R.color.white));
             button7.setTextColor(getResources().getColor(R.color.white));
