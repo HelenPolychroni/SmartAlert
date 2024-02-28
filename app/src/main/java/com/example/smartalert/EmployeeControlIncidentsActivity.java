@@ -2,6 +2,8 @@ package com.example.smartalert;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.smartalert.MyFirebaseMessagingService.sendNotificationToTopic;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -459,6 +462,8 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
         List<String> keysList = new ArrayList<>();
 
+        List<String> userEmails = new ArrayList<>();
+
         // Assuming "keys" is a child under sortedIncidentSnapshot
         DataSnapshot keysSnapshot = sortedIncidentSnapshot.child("keys");
 
@@ -519,8 +524,22 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                                                 for (String key : keysList) {
                                                     incidentsRef.child(key).removeValue();
                                                 }
+
+                                                // Subscribe the user to a topic based on their location
+                                                String topic = "incidents_near_by"; // Replace with the determined topic name
+
+                                                userEmails.add("pi.polychroni@gmail.com");
+                                                userEmails.add("nikos.k@gmail.com");
+
+                                                subscribeUsersToTopic(topic, userEmails);
+                                                //FirebaseMessaging.getInstance().subscribeToTopic(topic);
+
+                                                // Send notification to the subscribed topic
+                                                sendNotificationToTopic(topic, "New Incident", "Emergency alert message");
+
                                                 // Show a Toast indicating verification
                                                 Toast.makeText(context, "Incident Verified and Alert Sent", Toast.LENGTH_SHORT).show();
+
                                                 updateAllIncidentStatus();
                                             } else {
                                                 // Handle the error that occurred while removing the incident
@@ -547,6 +566,69 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         incidentLayout.addView(verifyButton);
 
     }
+
+    public static void subscribeUsersToTopic(String topic, List<String> userEmails) {
+        System.out.println("I am here");
+        // Get a reference to your Firebase Database
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        // Iterate over the list of user emails
+        for (String userEmail : userEmails) {
+            // Retrieve the user ID associated with the email address
+            getUserIdFromEmail(userEmail, new OnUserIdResultListener() {
+                @Override
+                public void onUserIdResult(String userId) {
+                    // Check if userId is not null to ensure the user exists
+                    if (userId != null) {
+                        // Subscribe user to topic
+                        FirebaseMessaging.getInstance().subscribeToTopic(topic);
+
+                        // Update database to record user subscription
+                        // Assuming you have a node in your database that stores user subscriptions
+
+                        //databaseReference.child("user_subscriptions").child(userId).child(topic).setValue(true);
+                    }
+                }
+            });
+        }
+    }
+
+    private static void getUserIdFromEmail(String userEmail, final OnUserIdResultListener listener) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+
+        // Query the users node in your database to find the user with the given email address
+        usersRef.orderByChild("email").equalTo(userEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Iterate through the dataSnapshot to find the user with the given email address
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    // Retrieve the user ID associated with the email address
+                    String userId = userSnapshot.getKey();
+                    // Notify the listener with the user ID
+                    listener.onUserIdResult(userId);
+                    return; // Exit the loop once the user is found
+                }
+                // If no user is found with the given email address, notify the listener with null
+                listener.onUserIdResult(null);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle any errors that occur during the database query
+                Log.e(TAG, "Error querying database: " + databaseError.getMessage());
+                // Notify the listener with null if an error occurs
+                listener.onUserIdResult(null);
+            }
+        });
+    }
+
+    // Define a listener interface to handle the result
+    public interface OnUserIdResultListener {
+        void onUserIdResult(String userId);
+    }
+
+
+
 
     public static void updateAllIncidentStatus() {
         List<String> incidentTypes = Arrays.asList("Fires", "Floods", "Earthquakes");

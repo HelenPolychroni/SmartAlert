@@ -40,7 +40,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation (platform("com.google.firebase:firebase-bom:32.7.1"))
+    //implementation (platform("com.google.firebase:firebase-bom:32.7.1"))
 
     implementation ("com.google.android.gms:play-services-location:21.1.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
@@ -62,4 +62,13 @@ dependencies {
 
     // for bar chart implementation
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+
+    // Add the dependencies for the Firebase Cloud Messaging and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-messaging")
+
 }
