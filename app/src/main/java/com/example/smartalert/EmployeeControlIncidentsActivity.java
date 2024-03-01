@@ -459,6 +459,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
         List<String> keysList = new ArrayList<>();
 
+
         // Assuming "keys" is a child under sortedIncidentSnapshot
         DataSnapshot keysSnapshot = sortedIncidentSnapshot.child("keys");
 
@@ -488,6 +489,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                     .setTitle(title)
                     .setMessage(message)
                     .setPositiveButton(positiveButtonText, (dialog, which) -> {
+
                         // User clicked Yes, perform verification logic
                         // User clicked Yes, delete the sorted incident along with the users' incidents connected to them
                         sortedIncidentSnapshot.getRef().child("status").setValue("verified", (databaseError, databaseReference) -> {
@@ -502,11 +504,13 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                                 // Step 1: The update was successful, proceed with saving the incident to "verifiedIncidents"
                                 verifiedRef.push().setValue(sortedIncidentSnapshot.getValue(Incident.class), (verificationError, verificationReference) -> {
                                     if (verificationError == null) {
+                                        List<String> userEmails = new ArrayList<>();
                                         // Step 2: The incident has been successfully saved to "verifiedIncidents"
                                         DatabaseReference sortedIncidentRef = sortedIncidentSnapshot.getRef();
 
                                         // Step 3: Get statistics and handle other actions
-                                        getStatistics(sortedIncidentSnapshot);
+                                        userEmails = getStatistics(sortedIncidentSnapshot);
+                                        System.out.println("Inside listener close emails: " + userEmails);
 
                                         // Step 4: Remove the incident from its original location
                                         sortedIncidentRef.removeValue((removalError, removalReference) -> {
@@ -765,7 +769,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         }
     }
 
-    private static void getStatistics(DataSnapshot sortedIncidentSnapshot){
+    private static List<String> getStatistics(DataSnapshot sortedIncidentSnapshot){
         //int hours = 0;
         //int minutes = 0;
 
@@ -839,6 +843,9 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                 }
 
                 Incident incident = new Incident(usersEmail, timestamp);
+                System.out.println("list with emails: " + usersEmail);
+                // do here the subscription
+                // find their ids
                 createStatistics(incident, type);
             }
             @Override
@@ -847,6 +854,8 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                 System.out.println("Error: " + databaseError.getMessage());
             }
         });
+        System.out.println("Close to incident users emails: " + usersEmail);
+        return usersEmail;
     }
 
     public static double[] calculateAverageLocation(List<String> locations) {
