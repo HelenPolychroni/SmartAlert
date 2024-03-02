@@ -194,14 +194,14 @@ public class LocationForegroundService2 extends Service{
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "Database error: " + databaseError.getMessage());
-                    Toast.makeText(LocationForegroundService2.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(LocationForegroundService2.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
             });
         } else {
             // Handle the case when the user is not logged in or location is null
             Log.e(TAG, "User is not logged in or location is null");
-            Toast.makeText(LocationForegroundService2.this, "User is not logged in or location is null", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(LocationForegroundService2.this, "User is not logged in or location is null", Toast.LENGTH_SHORT).show();
         }
     }
 }

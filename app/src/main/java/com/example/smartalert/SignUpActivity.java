@@ -343,9 +343,9 @@ public class SignUpActivity extends AppCompatActivity {
                             // For example, you can save it to Firebase
                             locationString = "Lat: " + latitude + ", Long: " + longitude;
 
-                            Toast.makeText(SignUpActivity.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SignUpActivity.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(SignUpActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SignUpActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
