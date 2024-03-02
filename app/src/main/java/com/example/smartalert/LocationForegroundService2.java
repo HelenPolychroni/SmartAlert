@@ -42,7 +42,7 @@ public class LocationForegroundService2 extends Service{
     private static final String CHANNEL_ID = "LocationForegroundServiceChannel";
     private static final int NOTIFICATION_ID = 1;
 
-    private static final long LOCATION_UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(4); // 20 minutes
+    private static final long LOCATION_UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(30); // 30 minutes
 
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
