@@ -561,10 +561,12 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
     }
 
     private static void sendNotificationToTopic(String topic/*, String title, String body, */,String incidentType,
-                                                String location, String timestamp) {
+                                                String location, String timestamp, List<String> userEmails) {
         System.out.println("I am hereeeeeeeeeee");
 
         FCMTopicMessageSender.sendTopicMessage(topicId, /*title, body,*/ incidentType, timestamp, location);
+
+        unsubscribeUsersToTopic(userEmails);
 
     }
 
@@ -932,8 +934,31 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                 }
             });
         }
-        sendNotificationToTopic(topicId, /*"ALERT", "STAY HOMEEE", */incidentType, averageLocation, timestamp);
+        sendNotificationToTopic(topicId, /*"ALERT", "STAY HOMEEE", */incidentType, averageLocation, timestamp, userEmails);
     }
+
+    public static void unsubscribeUsersToTopic(List<String> userEmail){
+        System.out.println("Unsubscribe users to topic function");
+
+        DatabaseReference topicsRef = FirebaseDatabase.getInstance().getReference("topics");
+        topicsRef.removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "All entries deleted from 'topics' dataset successfully.");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Error deleting entries from 'topics' dataset: " + e.getMessage());
+                    }
+                });
+
+
+
+    }
+
 
 
 
