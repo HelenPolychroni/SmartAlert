@@ -2,12 +2,17 @@ package com.example.smartalert;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static com.example.smartalert.UserNewIncident.PERMISSION_REQUEST_CODE;
+
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -124,6 +129,21 @@ public class UserHomePage extends AppCompatActivity{
 
         // Request location permissions
         requestLocationPermissions();
+        System.out.println("Flashlight available: " +isFlashlightAvailable());
+        if (vibrateDevice()) System.out.println("Vibrator available");
+        requestPostNotificationPermission();
+    }
+
+    private Boolean vibrateDevice() {
+        boolean flag = false;
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) flag = true;
+        return flag;
+
+    }
+
+    private boolean isFlashlightAvailable() {
+        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
     }
 
     private void updateLocale(String lang) {
@@ -133,6 +153,17 @@ public class UserHomePage extends AppCompatActivity{
         config.locale = locale;
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
+
+    private void requestPostNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, PERMISSION_REQUEST_CODE);
+            }
+        }
+    }
+
+
 
     private void requestLocationPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -163,6 +194,8 @@ public class UserHomePage extends AppCompatActivity{
 
     private void startLocationForegroundService() {
         Intent serviceIntent = new Intent(this, LocationForegroundService2.class);
+        serviceIntent.putExtra("isEnglishSelected", isEnglishSelected);
+        System.out.println("Engilsh lang to the service is: " + isEnglishSelected);
         startService(serviceIntent);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

@@ -23,12 +23,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,11 +41,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
     static boolean isEnglishSelected;
+    private static DatabaseReference topicsRef;
+    private static final String topicId = "incidents_near_users";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,8 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         updateLocale(lang);
 
         setContentView(R.layout.activity_employee_control_incidents);
+
+        topicsRef = FirebaseDatabase.getInstance().getReference().child("topics");
     }
 
     private void updateLocale(String lang) {
@@ -459,7 +467,6 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
         List<String> keysList = new ArrayList<>();
 
-
         // Assuming "keys" is a child under sortedIncidentSnapshot
         DataSnapshot keysSnapshot = sortedIncidentSnapshot.child("keys");
 
@@ -510,6 +517,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
                                         // Step 3: Get statistics and handle other actions
                                         userEmails = getStatistics(sortedIncidentSnapshot);
+                                        //sendNotificationToTopic(topicId, title, "STAY HOME U ALL!");
                                         System.out.println("Inside listener close emails: " + userEmails);
 
                                         // Step 4: Remove the incident from its original location
@@ -550,6 +558,18 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         // Add Verify button to the incident layout
         incidentLayout.addView(verifyButton);
 
+    }
+
+    private static void sendNotificationToTopic(String topic/*, String title, String body, */,String incidentType,
+                                                String location, String timestamp) {
+        System.out.println("I am hereeeeeeeeeee");
+
+        FCMTopicMessageSender.sendTopicMessage(topicId, /*title, body,*/ incidentType, timestamp, location);
+
+    }
+
+    private int getRandomId() {
+        return new Random().nextInt(10000);
     }
 
     public static void updateAllIncidentStatus() {
@@ -825,7 +845,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         List<String> usersEmail =  new ArrayList<>();
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Iterate over each user in the dataset
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     // Get the user's email
@@ -846,16 +866,109 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                 System.out.println("list with emails: " + usersEmail);
                 // do here the subscription
                 // find their ids
+
+
+                subscribeUsersToTopic(topicId, usersEmail, timestamp, averageLocationT, type);
+
                 createStatistics(incident, type);
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
                 System.out.println("Error: " + databaseError.getMessage());
             }
         });
         System.out.println("Close to incident users emails: " + usersEmail);
         return usersEmail;
+    }
+
+    public static void subscribeUsersToTopic(String topicId, List<String> userEmails, String timestamp,
+                                             String averageLocation, String incidentType) {
+        MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
+        System.out.println("Subscribe users to topic function");
+
+        // Iterate over the list of user emails
+        for (String userEmail : userEmails) {
+            // Retrieve the user ID associated with the email address
+            getUserIdFromEmail(userEmail, new OnUserIdResultListener() {
+                @Override
+                public void onUserIdResult(String userId) {
+                    // Check if userId is not null to ensure the user exists
+                    if (userId != null) {
+                        topicsRef.child(topicId).child("subscribers").child(userId).setValue(true)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        System.out.println("Subscribed successfully");
+
+                                        // Send notification to the subscribed user
+                                          }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        System.out.println("Failed to subscribe"); }
+                                });
+                        // Subscribe user to topic
+                        //FirebaseMessaging.getInstance().subscribeToTopic(topic);
+
+                        // Update database to record user subscription
+                        // Assuming you have a node in your database that stores user subscriptions
+
+                        //databaseReference.child("user_subscriptions").child(userId).child(topic).setValue(true);
+
+                        FirebaseMessaging.getInstance().subscribeToTopic(topicId)
+                                .addOnSuccessListener(aVoid -> {
+                                    // Subscription successful
+                                    Log.d("TopicSubscription", "Subscribed user " + userId + " to topic " + topicId);
+                                    //myFirebaseMessagingService.sendNotification("Notification Title", "Notification Body");
+
+                                })
+                                .addOnFailureListener(e -> {
+                                    // Subscription failed
+                                    Log.e("TopicSubscription", "Failed to subscribe user " + userId + " to topic " + topicId, e);
+                                });
+                    }
+                }
+            });
+        }
+        sendNotificationToTopic(topicId, /*"ALERT", "STAY HOMEEE", */incidentType, averageLocation, timestamp);
+    }
+
+
+
+    private static void getUserIdFromEmail(String userEmail, final OnUserIdResultListener listener) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+
+        // Query the users node in your database to find the user with the given email address
+        usersRef.orderByChild("email").equalTo(userEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Iterate through the dataSnapshot to find the user with the given email address
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    // Retrieve the user ID associated with the email address
+                    String userId = userSnapshot.getKey();
+                    // Notify the listener with the user ID
+                    listener.onUserIdResult(userId);
+                    return; // Exit the loop once the user is found
+                }
+                // If no user is found with the given email address, notify the listener with null
+                listener.onUserIdResult(null);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors that occur during the database query
+                Log.e(TAG, "Error querying database: " + databaseError.getMessage());
+                // Notify the listener with null if an error occurs
+                listener.onUserIdResult(null);
+            }
+        });
+    }
+
+    // Define a listener interface to handle the result
+    public interface OnUserIdResultListener {
+        void onUserIdResult(String userId);
     }
 
     public static double[] calculateAverageLocation(List<String> locations) {

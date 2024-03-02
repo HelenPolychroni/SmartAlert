@@ -49,8 +49,8 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:23.4.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.navigation:navigation-fragment:2.7.6")
-    implementation("androidx.navigation:navigation-ui:2.7.6")
+    implementation("androidx.navigation:navigation-fragment:2.7.7")
+    implementation("androidx.navigation:navigation-ui:2.7.7")
 
 
     testImplementation("junit:junit:4.13.2")
@@ -62,4 +62,6 @@ dependencies {
 
     // for bar chart implementation
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+
 }

@@ -1,5 +1,7 @@
 package com.example.smartalert;
 
+import static android.content.Intent.getIntent;
+
 import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -7,6 +9,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -47,10 +50,14 @@ public class LocationForegroundService2 extends Service{
 
     private DatabaseReference locationRef;
     private String currentLocationString;
+    boolean isEnglishSelected;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        isEnglishSelected = sharedPreferences.getBoolean("isEnglishSelected", true);
 
         locationRef = FirebaseDatabase.getInstance().getReference("users");
 
@@ -70,6 +77,7 @@ public class LocationForegroundService2 extends Service{
             }
         };
 
+        System.out.println("is english selected oncreate: " + isEnglishSelected);
         createNotificationChannel();
         startForegroundService();
         startLocationUpdates();
@@ -77,6 +85,17 @@ public class LocationForegroundService2 extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        isEnglishSelected = intent.getBooleanExtra("isEnglishSelected", true);
+        System.out.println("isEnglishSelected fetching from home page: " + isEnglishSelected);
+        // Use the boolean value as needed
+
+        // Αποθηκεύστε την τιμή της μεταβλητής isEnglishSelected στο SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isEnglishSelected", isEnglishSelected);
+        editor.apply();
+
+
         return START_STICKY;
     }
 
@@ -94,8 +113,11 @@ public class LocationForegroundService2 extends Service{
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Location Updates";
-            String description = "Service is running in the background";
+            System.out.println("create notif channel lang engl: " + isEnglishSelected);
+            CharSequence name = isEnglishSelected ? "Location Updates" :
+                    "Ενημέρωση Τοποθεσίας";
+            String description = isEnglishSelected ? "Service is running in the background" :
+                    "Η υπηρεσία εκτελείται στο παρασκήνιο";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
@@ -107,14 +129,18 @@ public class LocationForegroundService2 extends Service{
     }
 
     private void startForegroundService() {
+        System.out.println("start foregr service lang engl: " + isEnglishSelected);
+
         Intent notificationIntent = new Intent(this, UserHomePage.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Location Updates")
-                .setContentText("Service is running in the background")
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(isEnglishSelected ? "Location Updates" :
+                        "Ενημέρωση Τοποθεσίας")
+                .setContentText(isEnglishSelected ? "Service is running in the background" :
+                        "Η υπηρεσία εκτελείται στο παρασκήνιο")
+                .setSmallIcon(R.drawable.rotate)
                 .setContentIntent(pendingIntent)
                 .build();
 
@@ -156,10 +182,10 @@ public class LocationForegroundService2 extends Service{
                                         sendBroadcast(intent);
 
                                         Log.d(TAG, "Location update in Firebase successful");
-                                        Toast.makeText(LocationForegroundService2.this, "Location update in Firebase successful", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(LocationForegroundService2.this, "Location update in Firebase successful", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Log.e(TAG, "Failed to update location in Firebase: " + task.getException());
-                                        Toast.makeText(LocationForegroundService2.this, "Failed to update location in Firebase", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(LocationForegroundService2.this, "Failed to update location in Firebase", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }

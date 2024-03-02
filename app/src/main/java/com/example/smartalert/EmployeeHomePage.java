@@ -31,6 +31,8 @@ public class EmployeeHomePage extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private TextView greetingTextView;
 
+    private static final String topicId = "incidents_near_users";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,21 +131,4 @@ public class EmployeeHomePage extends AppCompatActivity {
         Intent intent = new Intent(this, EmployeeIncidentsActivity.class);
         startActivity(intent);
     }
-
-
-    /*
-    public void FireIncidents(View view){
-        Intent intent = new Intent(this, EmployeeAllFireIncidentsActivity.class);
-        startActivity(intent);
-    }
-
-    public void EarthquakeIncidents(View view){
-        Intent intent = new Intent(this, EmployeeAllEarthquakeIncidentsActivity.class);
-        startActivity(intent);
-    }
-
-    public void FloodIncidents(View view){
-        Intent intent = new Intent(this, EmployeeAllFloodIncidentsActivity.class);
-        startActivity(intent);
-    }*/
 }
