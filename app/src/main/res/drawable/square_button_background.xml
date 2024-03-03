@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- square_button_background.xml -->
+    <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="rectangle">
+        <corners android:radius="6dp" /> <!-- Adjust this value to make the corners more square -->
+        <solid android:color="?attr/colorButtonNormal" /> <!-- Use the default button color -->
+    </shape>

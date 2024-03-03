@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#FFFFFF"
+    tools:context=".EmployeeAllFireIncidentsActivity">
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="151dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="116dp"
+        android:onClick="checkSwitch"
+        android:text="@string/sort_by_time_nand_distance"
+        android:textColor="#191414"
+        android:textOff="@string/sort_off"
+        android:textOn="@string/sort_on"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:id="@+id/TitletextView"
+        android:layout_width="166dp"
+        android:layout_height="71dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/pending_fire_incidents"
+        android:textAlignment="textStart"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="345dp"
+        android:layout_height="457dp"
+        android:layout_marginTop="184dp"
+
+        android:fillViewport="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+
+        <LinearLayout
+            android:id="@+id/scrollViewLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonFires"
+        style="@style/SquareButton"
+        android:layout_width="171dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="16dp"
+        android:onClick="seeVerifiedFires"
+        android:text="@string/see_verified_fires"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.837"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/SquareButton"
+        android:layout_width="171dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="104dp"
+        android:onClick="showCriteria"
+        android:text="@string/show_criteria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.837"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<LinearLayout
+        android:layout_width="407dp"
+        android:layout_height="73dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/layout_bottom_navigation" />
+    </LinearLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

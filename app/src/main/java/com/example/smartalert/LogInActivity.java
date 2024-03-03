@@ -2,11 +2,17 @@ package com.example.smartalert;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Locale;
+
 public class LogInActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
@@ -26,18 +34,49 @@ public class LogInActivity extends AppCompatActivity {
     EditText email, password;
     String role;
     Class<?> page;
+    SharedPreferences preferences;
 
+    private TextView welcomeBack_msg;
+    private Button LogIn_btn;
+    boolean isEnglishSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Retrieve language preference from SharedPreferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        isEnglishSelected = preferences.getBoolean("english", true); // Default value is true if key "english" is not found
+
+        // Change language based on the preference
+        String lang = isEnglishSelected ? "en" : "el"; // Change this to the language code you want to switch to
+        updateLocale(lang);
+
         setContentView(R.layout.activity_log_in);
+
+        if (ThemeUtils.isDarkTheme(this)) { // Dark mode
+            welcomeBack_msg = findViewById(R.id.welcomeBack_msg);
+            welcomeBack_msg.setTextColor(getResources().getColor(R.color.white));
+
+            LogIn_btn = findViewById(R.id.LogIn_btn);
+            LogIn_btn.setTextColor(getResources().getColor(R.color.white));
+        }
+
+        System.out.println("English is: " + isEnglishSelected);
 
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
 
         email = findViewById(R.id.email_login);
-        password = findViewById(R.id.password_login);
+        password = findViewById(R.id.confpassword);
+    }
+
+    private void updateLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
     public void login(View view){
@@ -62,13 +101,19 @@ public class LogInActivity extends AppCompatActivity {
                                 }
                             } else if (role.equals("user")) {
                                 try {
-                                    page = Class.forName("com.example.smartalert.UserOptions");
+                                    //page = Class.forName("com.example.smartalert.UserOptions");
+                                    page = Class.forName("com.example.smartalert.UserHomePage");
                                 } catch (ClassNotFoundException e) {
                                     throw new RuntimeException(e);
                                 }
                             }
 
-                            Toast.makeText(LogInActivity.this,"Log in successfully", Toast.LENGTH_SHORT).show();
+                            if (isEnglishSelected)
+                                showToast("Log in successfully", LogInActivity.this);
+                            else {
+                                showToast("Επιτυχής σύνδεση", LogInActivity.this);
+                            }
+                            //Toast.makeText(LogInActivity.this,"Log in successfully", Toast.LENGTH_SHORT).show();
 
                             //finish the activity to prevent going back
 
@@ -78,6 +123,11 @@ public class LogInActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            if (isEnglishSelected)
+                                showToast("Failed to log in", LogInActivity.this);
+                            else {
+                                showToast("Αποτυχία σύνδεσης", LogInActivity.this);
+                            }
                             //Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
                             // Toast.LENGTH_SHORT).show();
                             //updateUI(null);
@@ -108,5 +158,11 @@ public class LogInActivity extends AppCompatActivity {
         }
         // Default to "user" if any conditions are not met
         return "user";
+    }
+
+    private void showToast(String message, Context context) {
+
+        // Show the Toast using the passed context
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

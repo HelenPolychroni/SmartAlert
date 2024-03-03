@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmployeeIncidentsActivity">
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="513dp"
+        android:layout_height="101dp"
+        android:layout_marginTop="164dp"
+        android:text="@string/select_incident_type_to_examine"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button9"
+        style="@style/SquareButton"
+        android:layout_width="187dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="472dp"
+        android:onClick="examineIncidents"
+        android:text="@string/examine"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="289dp"
+        android:layout_height="93dp"
+        android:layout_marginTop="312dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/incident_employee"
+            android:inputType="none"
+            android:textSize="27sp"
+            app:simpleItems="@array/options_list" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--<LinearLayout
+        android:layout_width="412dp"
+        android:layout_height="83dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/layout_bottom_navigation" />
+    </LinearLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

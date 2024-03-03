@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmployeeAllEarthquakeIncidentsActivity">
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="222dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="116dp"
+        android:onClick="checkSwitch"
+        android:text="@string/sort_by_time_nand_distance_e"
+        android:textColor="#191414"
+        android:textOff="@string/sort_off"
+        android:textOn="@string/sort_on"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.116"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/TitletextView3"
+        android:layout_width="323dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/earthquake_nincidents"
+        android:textAlignment="viewStart"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollview2"
+        android:layout_width="742dp"
+        android:layout_height="955dp"
+        android:layout_marginTop="204dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/scrollViewLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonEarthquakes"
+        style="@style/SquareButton"
+        android:layout_width="212dp"
+        android:layout_height="89dp"
+        android:layout_marginTop="24dp"
+        android:onClick="seeVerifiedEarthquakes"
+        android:text="@string/see_verified_earthquakes1"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.886"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button12"
+        style="@style/SquareButton"
+        android:layout_width="212dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="120dp"
+        android:onClick="showCriteria"
+        android:text="@string/show_criteria_e"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

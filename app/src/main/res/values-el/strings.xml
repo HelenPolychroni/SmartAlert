@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartAlert</string>
+    <string name="log_in">Συνδεση</string>
+    <string name="startup_message">Σχεδιασμένη να σε κρατά ενήμερο και ασφαλή σε έκτακτες καταστάσεις υψηλού κινδύνου.</string>
+    <string name="signup">Εγγραφη</string>
+    <string name="log_in1">Σύνδεση</string>
+    <string name="welcome_n_back">Καλωσόρισες\nΞανά</string>
+    <string name="email">Διεύθυνση ηλ. ταχυδρ.</string>
+    <string name="password">Κωδικός</string>
+    <string name="email1">Διεύθυνση ηλ. ταχυδρ.</string>
+    <string name="password1">Κωδικός</string>
+    <string name="fullname">Ονοματεπώνυμο</string>
+    <string name="confirm_password">Επιβαιβαίωση κωδικού</string>
+    <string name="sign_up">Εγγραφή</string>
+    <string name="create_naccount">Δημιουργία\nΛογαριασμού</string>
+    <string name="submit_incident">Υποβολη Περιστατικου</string>
+    <string name="log_out">Αποσυνδεση</string>
+    <string name="statistics">Στατιστικα</string>
+    <string name="report_incident">Αναφορά Περιστατικού</string>
+    <string name="select_photo">Επιλογή Φωτογραφίας</string>
+    <string name="open_camera">Ανοιγμα Καμερας</string>
+    <string name="open_gallery">Ανοιγμα Συλλογης</string>
+    <string name="submit">Υποβολη</string>
+    <string name="incident">Περιστατικό</string>
+    <string name="add_comments">Προσθήκη Σχολίων...</string>
+    <string name="incidents_per_month_statistics">Στατιστικά Περιστατικών\nΑνά Μήνα</string>
+    <string name="n_n_nmonth">\n\n\nMήνας</string>
+    <string name="incident_statistics_x">Περιστατικό</string>
+    <string name="log_out_employee">Αποσυνδεση</string>
+    <string name="manage_incidents">Διαχειριση Περιστατικων</string>
+    <string name="select_incident_type_to_examine">Επέλεξε κατηγορία περιστατικού για εξέταση</string>
+    <string name="examine">Eξεταση</string>
+    <string name="incident_employee">Περιστατικό</string>
+    <string name="pending_fire_incidents">Εκκρεμείς Περιστατικά Φωτιάς</string>
+    <string name="see_verified_fires">Προβολή επικαιροποιημένων φωτιών</string>
+    <string name="examine_fires_that_happened_the_last_24h_and_located_within_a_distance_of_30_kilometers">*Εξέτασε φωτιές που συνέβησαν τς τελευταίες 24 ώρες και βρίσκονται σε απόσταση 30 χλμ.</string>
+    <string name="sort_by_time_nand_distance">Ταξινόμιση βάση χρόνου\nκαι απόστασης</string>
+    <string name="sort_off" translatable="false">SORT OFF</string>
+    <string name="sort_on">SORT ON</string>
+    <string name="show_criteria">Προβολη Κριτιριων</string>
+    <string name="show_criteria_flood">Προβολη κριτιριων</string>
+    <string name="pending_flood_nincidents">Εκκρεμείς Περιστατικά Πλημμύρας</string>
+    <string name="see_verified_floods">Προβολή επικαιροποιημένων πλημμύρων</string>
+    <string name="sort_by_time_and_distance">Ταξινόμιση βάση χρόνου\nκαι απόστασης</string>
+    <string name="earthquake_nincidents">Εκκρεμείς Περιστατικά Σεισμού</string>
+    <string name="show_criteria_e">Προβολη κριτιριων</string>
+    <string name="sort_by_time_nand_distance_e">Ταξινόμιση βάση χρόνου\nκαι απόστασης</string>
+    <string name="see_verified_earthquakes">Προβολή επικαιροποιημένων Σεισμών </string>
+    <string name="see_verified_earthquakes1">Προβολή επικαιροποιημένων Σεισμών </string>
+    <string name="phone_number">Αριθμός Κινητού</string>
+
+</resources>

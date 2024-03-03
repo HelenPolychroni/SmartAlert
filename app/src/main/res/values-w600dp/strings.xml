@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">SmartAlert</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="smart_alert" translatable="false">Smart Alert</string>
+    <string name="log_in">Log in</string>
+    <string name="signup">Sign up</string>
+    <string name="startup_message">Designed to keep you informed and safe in critical situations—our Smart Alert App</string>
+    <string name="log_in1">Log in</string>
+    <string name="welcome_n_back">Welcome\n Back</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="email1">Email</string>
+    <string name="password1">Password</string>
+    <string name="fullname">FullName</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="create_naccount">Create\nAccount</string>
+    <string name="submit_incident">Submit Incident</string>
+    <string name="log_out">Log out</string>
+    <string name="statistics">Statistics</string>
+    <string name="report_incident">Report Incident</string>
+    <string name="select_photo">Select photo</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="open_gallery">Open Gallery</string>
+    <string name="submit">Submit</string>
+    <string name="incident">Incident</string>
+    <string name="add_comments">Add Comments...</string>
+    <string name="incidents_per_month_statistics">Incidents per Month Statistics</string>
+    <string name="n_n_nmonth">\n\n\nMonth</string>
+    <string name="incident_statistics_x">Incident</string>
+    <string name="log_out_employee">Log out</string>
+    <string name="manage_incidents">Manage Incidents</string>
+    <string name="select_incident_type_to_examine">Select incident type to examine</string>
+    <string name="examine">Examine</string>
+    <string name="incident_employee">Incident</string>
+    <string name="pending_fire_incidents">Pending Fire\nIncidents</string>
+    <string name="see_verified_fires">See verified fires</string>
+    <string name="examine_fires_that_happened_the_last_24h_and_located_within_a_distance_of_30_kilometers">*Examine fires that happened the last 24h and located within a distance of 30 kilometers</string>
+    <string name="sort_by_time_nand_distance">Sort by time\nand distance</string>
+    <string name="sort_off" translatable="false">SORT OFF</string>
+    <string name="sort_on">SORT ON</string>
+    <string name="show_criteria">Show criteria</string>
+    <string name="show_criteria_flood">SHOW CRITERIA</string>
+    <string name="pending_flood_nincidents">Pending Flood\nIncidents</string>
+    <string name="see_verified_floods">See verified floods</string>
+    <string name="sort_by_time_and_distance">Sort by time\nand distance</string>
+    <string name="earthquake_nincidents">Pending Earthquake\nIncidents</string>
+    <string name="show_criteria_e">SHOW CRITERIA</string>
+    <string name="sort_by_time_nand_distance_e">Sort by time\nand distance</string>
+    <string name="see_verified_earthquakes">See verified earthquakes</string>
+    <string name="see_verified_earthquakes1">SEE VERIFIED EARTHQUAKES</string>
+    <string name="en">EN</string>
+    <string name="gr">GR</string>
+    <string name="phone_number">Phone Number</string>
+</resources>

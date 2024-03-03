@@ -10,7 +10,8 @@
         android:id="@+id/EmailLayout"
         android:layout_width="254dp"
         android:layout_height="59dp"
-        android:hint="Email"
+        android:hint="@string/email1"
+        app:boxBackgroundColor="#70FBFAFA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
@@ -31,7 +32,8 @@
         android:id="@+id/passwordLayout"
         android:layout_width="254dp"
         android:layout_height="59dp"
-        android:hint="Password"
+        android:hint="@string/password1"
+        app:boxBackgroundColor="#70FBFAFA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
@@ -51,15 +53,19 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fullnameLayout"
         android:layout_width="254dp"
         android:layout_height="59dp"
-        android:hint="FullName"
+        android:hint="@string/fullname"
+        app:boxBackgroundColor="#70FBFAFA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.296">
+        app:layout_constraintVertical_bias="0.296"
+        app:startIconDrawable="@drawable/person"
+        app:startIconScaleType="centerInside">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/fullname"
@@ -68,10 +74,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordLayout"
+        android:id="@+id/confpasswordLayout"
         android:layout_width="254dp"
         android:layout_height="59dp"
-        android:hint="Confirm Password"
+        android:hint="@string/confirm_password"
+        app:boxBackgroundColor="#70FBFAFA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
@@ -82,7 +89,7 @@
         app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password_login"
+            android:id="@+id/confpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -92,10 +99,12 @@
 
     <Button
         android:id="@+id/signIn_btn2"
+        style="@style/SquareButton"
         android:layout_width="254dp"
         android:layout_height="48dp"
+        android:backgroundTint="#AD69514B"
         android:onClick="SignUpUser"
-        android:text="Sign up"
+        android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
@@ -104,8 +113,10 @@
         app:layout_constraintVertical_bias="0.773" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/phoneLayout"
         android:layout_width="254dp"
         android:layout_height="59dp"
+        app:boxBackgroundColor="#70FBFAFA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
@@ -116,11 +127,11 @@
         app:startIconScaleType="centerInside">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/email_login"
+            android:id="@+id/phonenum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Phone Number"
-            android:inputType="textEmailAddress"
+            android:hint="@string/phone_number"
+            android:inputType="phone"
             android:phoneNumber="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,12 +140,13 @@
         android:layout_width="254dp"
         android:layout_height="80dp"
         android:fontFamily="sans-serif-black"
-        android:text="Create\nAccount"
+        android:text="@string/create_naccount"
         android:textAlignment="textStart"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
+        app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.183" />
