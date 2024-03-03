@@ -1,7 +1,6 @@
 package com.example.smartalert;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import static com.example.smartalert.UserNewIncident.PERMISSION_REQUEST_CODE;
 
 import android.Manifest;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -32,7 +32,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.Locale;
 
@@ -81,6 +80,8 @@ public class UserHomePage extends AppCompatActivity{
         // Get the current user's email address
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
+            // User is signed in
+
             String email = currentUser.getEmail();
 
             // Reference to the Firebase database

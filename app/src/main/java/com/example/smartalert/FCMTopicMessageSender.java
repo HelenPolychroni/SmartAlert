@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 public class FCMTopicMessageSender{
 
     private static final String FCM_SERVER_KEY = "AAAAbX9W_Og:APA91bEKd9ihy7mDo3NzHP_vPsMsHL4fsmeQse_bg4xtj4619Cagbf-ROCQz89QzsHh-9oJaeW6AlJFHrFlF0amzZNlWuiT5LUlIwR9n5WQW_cQnoWefNZXu1vTXmkPKbPXOwdDw3tJv";
@@ -15,6 +16,7 @@ public class FCMTopicMessageSender{
 
     public static void sendTopicMessage(String topic,/* String title, String body, */String incidentType,
                                         String timestamp, String location) {
+
 
         new SendMessageTask().execute(topic,/* title, body,*/ incidentType, timestamp, location);
     }
@@ -27,6 +29,8 @@ public class FCMTopicMessageSender{
             String incident  =  params[1];
             String timestamp =  params[2];
             String location  =  params[3];
+
+
 
             String instructions;
 
@@ -78,7 +82,9 @@ public class FCMTopicMessageSender{
             //String body1 = "Location: "+ location + "\nTimestamp: " + timestamp + "\nInstructions: " + instructions;
 
 
+
             try {
+
                 // Create connection to FCM API URL
                 URL url = new URL(FCM_API_URL);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -114,7 +120,6 @@ public class FCMTopicMessageSender{
                       topic, location, timestamp, instructions, title, body, icon, importance);*/
 
 
-
                 // Send the message
                 OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
                 writer.write(payload);
@@ -136,6 +141,49 @@ public class FCMTopicMessageSender{
                 // Handle any exceptions
                 Log.e("FCMTopicMessageSender", "Exception while sending FCM message: " + e.getMessage());
             }
+
+            /*try {
+                // Construct request URL
+                URL url = new URL("https://fcm.googleapis.com/fcm/send");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", "key=YOUR_SERVER_KEY");
+                conn.setDoOutput(true);
+
+                // Construct JSON payload
+                StringBuilder jsonPayload = new StringBuilder();
+                jsonPayload.append("{");
+                jsonPayload.append("\"registration_ids\": [");
+                List<String> tokens = new ArrayList<>();
+                tokens.add("e5KAhq4gSf2_2CY4OZ7mUK:APA91bEKPhFGeAuY6eG9ZMtWhoR9QY_nTNmhJQRZlx-5XHZoYp4o8RfrSS7lVHnNwY_FVGps5rX86zXIx1QmOdQIAhOkfeaomJFpv6HDCQQ0WUucLmJBcqgMt4nZWr8SQ5WmaKiv8azL");
+                for (String token : tokens) {
+                    jsonPayload.append("\"").append(token).append("\",");
+                }
+                jsonPayload.deleteCharAt(jsonPayload.length() - 1); // Remove the last comma
+                jsonPayload.append("],");
+                jsonPayload.append("\"notification\": {");
+                jsonPayload.append("\"title\": \"").append(title).append("\",");
+                jsonPayload.append("\"body\": \"").append(body).append("\"");
+                jsonPayload.append("}");
+                jsonPayload.append("}");
+
+                // Send request
+                OutputStream os = conn.getOutputStream();
+                os.write(jsonPayload.toString().getBytes());
+                os.flush();
+                os.close();
+
+                // Handle response
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    System.out.println("Notification sent successfully.");
+                } else {
+                    System.out.println("Failed to send notification. Response code: " + responseCode);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }*/
 
             return null;
         }

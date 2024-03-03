@@ -1,12 +1,17 @@
 package com.example.smartalert;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -67,7 +72,7 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
 
     private static final int REQUEST_CAMERA_PERMISSION = 101;
     ActivityResultLauncher<Intent> getPhoto;
-   // private static final int STORAGE_PERMISSION_CODE = 1;
+    // private static final int STORAGE_PERMISSION_CODE = 1;
     Boolean camera;
     Uri image;
     boolean isEnglishSelected;
@@ -159,110 +164,134 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
 
 
     public void submit(View view) {
-        if (locationString != null) {
-            if (auto.getText().toString().length()!=0) {
-                if (camera == true) {
-                    if (pic != null) {
-                        StorageReference storage1 = storage.child(System.currentTimeMillis() + "." + "jpg");
-                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        pic.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                        byte[] data = byteArrayOutputStream.toByteArray();
-                        storage1.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                storage1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        type = auto.getText().toString();
-                                        comment = text.getText().toString();
-                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
-                                        path = uri.toString();
-                                        timestamp = simpleDateFormat.format(new Date());
-                                        String id = database.push().getKey();
-                                        database.child(id).setValue(new Incident(firebaseUser.getEmail(), type, comment, timestamp, path, locationString));
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String title = isEnglishSelected ? "Submit Incident" : "Υποβολή Περιστατικού";
+        String message = isEnglishSelected ? "Are you sure you want to submit this emergency incident?" : "Είστε σίγουροι ότι θέλετε να υποβάλετε αυτό το επείγον περιστατικό;";
+        String positiveButtonText = isEnglishSelected ? "Yes" : "Ναι";
+        String negativeButtonText = isEnglishSelected ? "Cancel" : "Ακύρωση";
+        builder.setMessage(message)
+                .setTitle(title)
+                .setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        if (locationString != null) {
+                            if (auto.getText().toString().length()!=0) {
+                                if (camera == true) {
+                                    if (pic != null) {
+                                        StorageReference storage1 = storage.child(System.currentTimeMillis() + "." + "jpg");
+                                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                        pic.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                                        byte[] data = byteArrayOutputStream.toByteArray();
+                                        storage1.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                storage1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        type = auto.getText().toString();
+                                                        comment = text.getText().toString();
+                                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
+                                                        path = uri.toString();
+                                                        timestamp = simpleDateFormat.format(new Date());
+                                                        String id = database.push().getKey();
+                                                        database.child(id).setValue(new Incident(firebaseUser.getEmail(), type, comment, timestamp, path, locationString));
+
+                                                        if (isEnglishSelected)
+                                                            Toast.makeText(UserNewIncident.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+                                                        else
+                                                            Toast.makeText(UserNewIncident.this, "Επιτυχής υποβολή", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                if (isEnglishSelected)
+                                                    Toast.makeText(UserNewIncident.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                                                else
+                                                    Toast.makeText(UserNewIncident.this, "Αποτυχία υποβολής", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                    } else {
                                         if (isEnglishSelected)
-                                            Toast.makeText(UserNewIncident.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(UserNewIncident.this, "No picture taken", Toast.LENGTH_SHORT).show();
                                         else
-                                            Toast.makeText(UserNewIncident.this, "Επιτυχής υποβολή", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(UserNewIncident.this, "Δεν έχει επιλεχθεί φωτογραφία", Toast.LENGTH_SHORT).show();
                                     }
-                                });
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                if (isEnglishSelected)
-                                    Toast.makeText(UserNewIncident.this, "Failed to upload", Toast.LENGTH_SHORT).show();
-                                else
-                                    Toast.makeText(UserNewIncident.this, "Αποτυχία υποβολής", Toast.LENGTH_SHORT).show();
-                            }
-                        });
 
-                    } else {
-                        if (isEnglishSelected)
-                            Toast.makeText(this, "No picture taken", Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(this, "Δεν έχει επιλεχθεί φωτογραφία", Toast.LENGTH_SHORT).show();
-                    }
+                                } else {
+                                    if (image != null) {
+                                        StorageReference refrence1 = storage.child(System.currentTimeMillis() + "." + getFileExtension(image));
+                                        refrence1.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                refrence1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        if (isEnglishSelected)
+                                                            Toast.makeText(UserNewIncident.this, "Successful upload", Toast.LENGTH_SHORT).show();
+                                                        else
+                                                            Toast.makeText(UserNewIncident.this, "Επιτυχής υποβολή", Toast.LENGTH_SHORT).show();
 
-                } else {
-                    if (image != null) {
-                        StorageReference refrence1 = storage.child(System.currentTimeMillis() + "." + getFileExtension(image));
-                        refrence1.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                refrence1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
+                                                        type = auto.getText().toString();
+                                                        comment = text.getText().toString();
+                                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
+                                                        path = uri.toString();
+                                                        timestamp = simpleDateFormat.format(new Date());
+                                                        String id = database.push().getKey();
+                                                        database.child(id).setValue(new Incident(firebaseUser.getEmail(), type, comment, timestamp, path, locationString));
+
+                                                        finish();
+                                                    }
+                                                });
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                if (isEnglishSelected)
+                                                    Toast.makeText(UserNewIncident.this, "Failure in uploading", Toast.LENGTH_SHORT).show();
+                                                else
+                                                    Toast.makeText(UserNewIncident.this, "Αποτυχία υποβολής", Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
+                                    } else {
                                         if (isEnglishSelected)
-                                            Toast.makeText(UserNewIncident.this, "Successful upload", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(UserNewIncident.this, "Please select photo", Toast.LENGTH_SHORT).show();
                                         else
-                                            Toast.makeText(UserNewIncident.this, "Επιτυχής υποβολή", Toast.LENGTH_SHORT).show();
-
-                                        type = auto.getText().toString();
-                                        comment = text.getText().toString();
-                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
-                                        path = uri.toString();
-                                        timestamp = simpleDateFormat.format(new Date());
-                                        String id = database.push().getKey();
-                                        database.child(id).setValue(new Incident(firebaseUser.getEmail(), type, comment, timestamp, path, locationString));
-
+                                            Toast.makeText(UserNewIncident.this, "Παρακαλώ επιλέξτε φωτογραφία", Toast.LENGTH_SHORT).show();
                                     }
-                                });
 
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
+                                }
+
+                            }else {
                                 if (isEnglishSelected)
-                                    Toast.makeText(UserNewIncident.this, "Failure in uploading", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(UserNewIncident.this, "Please select type of incident"+auto.getText().toString(), Toast.LENGTH_SHORT).show();
                                 else
-                                    Toast.makeText(UserNewIncident.this, "Αποτυχία υποβολής", Toast.LENGTH_SHORT).show();
-
+                                    Toast.makeText(UserNewIncident.this, "Παρακαλώ επιλέξτε κατηγορία περιστατικού"+auto.getText().toString(), Toast.LENGTH_SHORT).show();
                             }
-                        });
-                    } else {
-                        if (isEnglishSelected)
-                            Toast.makeText(UserNewIncident.this, "Please select photo", Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(UserNewIncident.this, "Παρακαλώ επιλέξτε φωτογραφία", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (isEnglishSelected)
+                                Toast.makeText(UserNewIncident.this, "Please turn on location", Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(UserNewIncident.this, "Παρακαλώ ενεργοποιήστε την τοποθεσία σας", Toast.LENGTH_SHORT).show();
+                            //getLocationPermission();
+                        }
+
                     }
-
-                }
-
-            }else {
-                if (isEnglishSelected)
-                    Toast.makeText(this, "Please select type of incident"+auto.getText().toString(), Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(this, "Παρακαλώ επιλέξτε κατηγορία περιστατικού"+auto.getText().toString(), Toast.LENGTH_SHORT).show();
+                });
+        builder.setNegativeButton(negativeButtonText , new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancels the dialog.
             }
-        } else {
-            if (isEnglishSelected)
-                Toast.makeText(this, "Please turn on location", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(this, "Παρακαλώ ενεργοποιήστε την τοποθεσία σας", Toast.LENGTH_SHORT).show();
-            //getLocationPermission();
-        }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
     private void getLocationPermission() {
@@ -274,7 +303,7 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                     PERMISSION_REQUEST_CODE
             );
         } else {
-           getCurrentLocation();
+            getCurrentLocation();
         }
     }
     @Override
@@ -338,17 +367,17 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                          try{
-                              image=result.getData().getData();
-                              imageView.setImageURI(image);
-                              imageView.clearColorFilter();
-                          }catch(Exception e){
-                              e.printStackTrace();
-                              if (isEnglishSelected)
-                                  Toast.makeText(UserNewIncident.this,"No image",Toast.LENGTH_SHORT).show();
-                              else
-                                  Toast.makeText(UserNewIncident.this,"Δεν βρέθηκε εικόνα",Toast.LENGTH_SHORT).show();
-                          }
+                        try{
+                            image=result.getData().getData();
+                            imageView.setImageURI(image);
+                            imageView.clearColorFilter();
+                        }catch(Exception e){
+                            e.printStackTrace();
+                            if (isEnglishSelected)
+                                Toast.makeText(UserNewIncident.this,"No image",Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(UserNewIncident.this,"Δεν βρέθηκε εικόνα",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
@@ -368,18 +397,15 @@ public class UserNewIncident extends AppCompatActivity implements LocationListen
             }
         }
         else if(requestCode == PERMISSION_REQUEST_CODE){
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getCurrentLocation();
-                }
-                else {
-                    if (isEnglishSelected)
-                        Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(this, "Δεν επιτράπηκε η άδεια στην τοποθεσία", Toast.LENGTH_SHORT).show();
-                }
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getCurrentLocation();
+            }
+            else {
+                if (isEnglishSelected)
+                    Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, "Δεν επιτράπηκε η άδεια στην τοποθεσία", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
-
-
-
