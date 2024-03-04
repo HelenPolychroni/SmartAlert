@@ -23,15 +23,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,14 +38,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 import java.util.Set;
 
 public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
     static boolean isEnglishSelected;
-    private static DatabaseReference topicsRef;
-    private static final String topicId = "incidents_near_users";
+    //private static DatabaseReference topicsRef;
+    //private static final String topicId = "incidents_near_users";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +60,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_employee_control_incidents);
 
-        topicsRef = FirebaseDatabase.getInstance().getReference().child("topics");
+        //topicsRef = FirebaseDatabase.getInstance().getReference().child("topics");
     }
 
     private void updateLocale(String lang) {
@@ -560,18 +556,11 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
 
     }
 
-    private static void sendNotificationToTopic(String topic/*, String title, String body, */,String incidentType,
+    private static void sendNotificationToRegTokens(/*, String title, String body, */String incidentType,
                                                 String location, String timestamp, List<String> userEmails, List<String> userTokens) {
-        System.out.println("I am hereeeeeeeeeee");
+        System.out.println("Inside method: sendNotificationToRegTokens");
 
-        FCMTopicMessageSender.sendTopicMessage(topicId, /*title, body,*/ incidentType, timestamp, location, userTokens);
-
-        unsubscribeUsersToTopic(userEmails);
-
-    }
-
-    private int getRandomId() {
-        return new Random().nextInt(10000);
+        FCMRegTokenMessageSender.sendMessage(/*title, body,*/ incidentType, timestamp, location, userTokens);
     }
 
     public static void updateAllIncidentStatus() {
@@ -609,7 +598,6 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
             });
         }
     }
-
 
     @SuppressLint("SetTextI18n")
     private static void createDeleteButton(DataSnapshot sortedIncidentSnapshot, LinearLayout incidentLayout,
@@ -862,24 +850,17 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                         System.out.println("Incident close to user");
                         usersEmail.add(email);
                         usersTokens.add(token);
-                        // Process the location data (you can replace this with your desired action)
-                        //createStatistics(email, location, timestamp);
                     }
                 }
 
                 Incident incident = new Incident(usersEmail, timestamp);
                 System.out.println("list with emails: " + usersEmail);
-                // do here the subscription
-                // find their ids
 
-
-                //subscribeUsersToTopic(topicId, usersEmail, timestamp, averageLocationT, type, usersTokens);
-
-                sendNotificationToTopic(topicId, /*"ALERT", "STAY HOMEEE", */type, averageLocationT, timestamp, usersEmail, usersTokens);
-
+                sendNotificationToRegTokens(type, averageLocationT, timestamp, usersEmail, usersTokens);
 
                 createStatistics(incident, type);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
@@ -887,87 +868,9 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
             }
         });
         System.out.println("Close to incident users emails: " + usersEmail);
+        System.out.println("Close to incident users tokens: " + usersTokens);
         return usersEmail;
     }
-
-    public static void subscribeUsersToTopic(String topicId, List<String> userEmails, String timestamp,
-                                             String averageLocation, String incidentType, List<String> userTokens) {
-        MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
-        System.out.println("Subscribe users to topic function");
-
-        // Iterate over the list of user emails
-        for (String userEmail : userEmails) {
-            // Retrieve the user ID associated with the email address
-            getUserIdFromEmail(userEmail, new OnUserIdResultListener() {
-                @Override
-                public void onUserIdResult(String userId) {
-                    // Check if userId is not null to ensure the user exists
-                    if (userId != null) {
-                        // Update the subscribers node with the user ID and token
-                        topicsRef.child(topicId).child("subscribers").child(userId).setValue(true)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        System.out.println("Subscribed successfully");
-
-                                        // Send notification to the subscribed user
-                                          }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        System.out.println("Failed to subscribe"); }
-                                });
-                        // Subscribe user to topic
-                        //FirebaseMessaging.getInstance().subscribeToTopic(topic);
-
-                        // Update database to record user subscription
-                        // Assuming you have a node in your database that stores user subscriptions
-
-                        //databaseReference.child("user_subscriptions").child(userId).child(topic).setValue(true);
-
-                        FirebaseMessaging.getInstance().subscribeToTopic(topicId)
-                                .addOnSuccessListener(aVoid -> {
-                                    // Subscription successful
-                                    Log.d("TopicSubscription", "Subscribed user " + userId + " to topic " + topicId);
-                                    //myFirebaseMessagingService.sendNotification("Notification Title", "Notification Body");
-
-                                })
-                                .addOnFailureListener(e -> {
-                                    // Subscription failed
-                                    Log.e("TopicSubscription", "Failed to subscribe user " + userId + " to topic " + topicId, e);
-                                });
-                    }
-                }
-            });
-        }
-        sendNotificationToTopic(topicId, /*"ALERT", "STAY HOMEEE", */incidentType, averageLocation, timestamp, userEmails, userTokens);
-    }
-
-    public static void unsubscribeUsersToTopic(List<String> userEmail){
-        System.out.println("Unsubscribe users to topic function");
-
-        DatabaseReference topicsRef = FirebaseDatabase.getInstance().getReference("topics");
-        topicsRef.removeValue()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "All entries deleted from 'topics' dataset successfully.");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "Error deleting entries from 'topics' dataset: " + e.getMessage());
-                    }
-                });
-
-
-
-    }
-
-
-
 
     private static void getUserIdFromEmail(String userEmail, final OnUserIdResultListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
@@ -1042,7 +945,5 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         statisticsRef.child(type).push().setValue(incident)
                 .addOnSuccessListener(aVoid -> System.out.println("Statistics saved successfully"))
                 .addOnFailureListener(e -> System.out.println("Error saving statistics: " + e.getMessage()));
-
-
     }
 }
