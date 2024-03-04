@@ -34,11 +34,9 @@ public class FCMTopicMessageSender{
             String location  = (String) params[3];
 
             List<String> usersTokens = (List<String>) params[4];
-
-
+            System.out.println("List with user tokens: " + usersTokens);
 
             String instructions;
-
 
             switch (incident) {
                 case "Fire":

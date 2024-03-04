@@ -87,30 +87,6 @@ public class UserHomePage extends AppCompatActivity{
             updateRegistrationToken(currentUser.getEmail());
             System.out.println("User id: " + currentUser.getUid());
 
-
-            FirebaseMessaging.getInstance().getToken()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            String newToken = task.getResult();
-                            Log.d("NewToken", newToken);
-
-                            // Update the registration token in the database
-                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUser.getUid());
-                            userRef.child("registrationToken").setValue(newToken)
-                                    .addOnCompleteListener(updateTask -> {
-                                        if (updateTask.isSuccessful()) {
-                                            Log.d("NewToken", "Token updated successfully in the database");
-                                        } else {
-                                            Log.e("NewToken", "Failed to update token in the database: " + updateTask.getException().getMessage());
-                                        }
-                                    });
-                        } else {
-                            Log.e("NewToken", "Failed to get registration token");
-                        }
-                    });
-
-
-
             // User is signed in
 
             String email = currentUser.getEmail();
