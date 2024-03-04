@@ -26,7 +26,7 @@
     <string name="submit">Submit</string>
     <string name="incident">Incident</string>
     <string name="add_comments">Add Comments...</string>
-    <string name="incidents_per_month_statistics">Incidents per Month Statistics</string>
+    <string name="incidents_per_month_statistics">Incidents Statistics</string>
     <string name="n_n_nmonth">\n\n\nMonth</string>
     <string name="incident_statistics_x">Incident</string>
     <string name="log_out_employee">Log out</string>
