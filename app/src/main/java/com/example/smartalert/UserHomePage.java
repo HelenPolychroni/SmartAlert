@@ -32,6 +32,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Locale;
 
@@ -46,6 +47,8 @@ public class UserHomePage extends AppCompatActivity{
     private Button button3, button4, button5;
     boolean isEnglishSelected;
 
+    String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,7 @@ public class UserHomePage extends AppCompatActivity{
         updateLocale(lang);
 
         setContentView(R.layout.activity_user_home_page);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -80,6 +84,33 @@ public class UserHomePage extends AppCompatActivity{
         // Get the current user's email address
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
+            updateRegistrationToken(currentUser.getEmail());
+            System.out.println("User id: " + currentUser.getUid());
+
+
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            String newToken = task.getResult();
+                            Log.d("NewToken", newToken);
+
+                            // Update the registration token in the database
+                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUser.getUid());
+                            userRef.child("registrationToken").setValue(newToken)
+                                    .addOnCompleteListener(updateTask -> {
+                                        if (updateTask.isSuccessful()) {
+                                            Log.d("NewToken", "Token updated successfully in the database");
+                                        } else {
+                                            Log.e("NewToken", "Failed to update token in the database: " + updateTask.getException().getMessage());
+                                        }
+                                    });
+                        } else {
+                            Log.e("NewToken", "Failed to get registration token");
+                        }
+                    });
+
+
+
             // User is signed in
 
             String email = currentUser.getEmail();
@@ -93,6 +124,7 @@ public class UserHomePage extends AppCompatActivity{
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
+
                                 // Retrieve the full name from the database
                                 String fullName = dataSnapshot.getChildren().iterator().next().child("fullname").getValue(String.class);
                                 if (fullName != null) {
@@ -133,6 +165,49 @@ public class UserHomePage extends AppCompatActivity{
         System.out.println("Flashlight available: " +isFlashlightAvailable());
         if (vibrateDevice()) System.out.println("Vibrator available");
         requestPostNotificationPermission();
+    }
+
+    private void updateRegistrationToken(String emailAddress) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+        usersRef.orderByChild("email").equalTo(emailAddress).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    String userId = userSnapshot.getKey();
+                    String registrationToken = userSnapshot.child("registrationToken").getValue(String.class);
+
+                    // Update the registration token if it's not null
+                    if (registrationToken != null) {
+                        FirebaseMessaging.getInstance().getToken()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful() && task.getResult() != null) {
+                                        String newToken = task.getResult();
+                                        Log.d("NewToken", newToken);
+
+                                        // Update the registration token in the database if it's different from the current token
+                                        if (!newToken.equals(registrationToken)) {
+                                            usersRef.child(userId).child("registrationToken").setValue(newToken)
+                                                    .addOnCompleteListener(updateTask -> {
+                                                        if (updateTask.isSuccessful()) {
+                                                            Log.d("NewToken", "Token updated successfully in the database");
+                                                        } else {
+                                                            Log.e("NewToken", "Failed to update token in the database: " + updateTask.getException().getMessage());
+                                                        }
+                                                    });
+                                        }
+                                    } else {
+                                        Log.e("NewToken", "Failed to get registration token");
+                                    }
+                                });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase", "Error retrieving user data: " + databaseError.getMessage());
+            }
+        });
     }
 
     private Boolean vibrateDevice() {

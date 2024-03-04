@@ -561,10 +561,10 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
     }
 
     private static void sendNotificationToTopic(String topic/*, String title, String body, */,String incidentType,
-                                                String location, String timestamp, List<String> userEmails) {
+                                                String location, String timestamp, List<String> userEmails, List<String> userTokens) {
         System.out.println("I am hereeeeeeeeeee");
 
-        FCMTopicMessageSender.sendTopicMessage(topicId, /*title, body,*/ incidentType, timestamp, location);
+        FCMTopicMessageSender.sendTopicMessage(topicId, /*title, body,*/ incidentType, timestamp, location, userTokens);
 
         unsubscribeUsersToTopic(userEmails);
 
@@ -845,6 +845,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
         double finalDistanceKm = distanceKm;
 
         List<String> usersEmail =  new ArrayList<>();
+        List<String> usersTokens = new ArrayList<>();
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -854,11 +855,13 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                     String email = userSnapshot.child("email").getValue(String.class);
                     // Get the user's location
                     String location = userSnapshot.child("location").getValue(String.class);
+                    String token = userSnapshot.child("registrationToken").getValue(String.class);
 
                     if (Incident.isWithinDistance(location, averageLocationT, finalDistanceKm, distanceMeters)) {
 
                         System.out.println("Incident close to user");
                         usersEmail.add(email);
+                        usersTokens.add(token);
                         // Process the location data (you can replace this with your desired action)
                         //createStatistics(email, location, timestamp);
                     }
@@ -870,7 +873,10 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                 // find their ids
 
 
-                subscribeUsersToTopic(topicId, usersEmail, timestamp, averageLocationT, type);
+                //subscribeUsersToTopic(topicId, usersEmail, timestamp, averageLocationT, type, usersTokens);
+
+                sendNotificationToTopic(topicId, /*"ALERT", "STAY HOMEEE", */type, averageLocationT, timestamp, usersEmail, usersTokens);
+
 
                 createStatistics(incident, type);
             }
@@ -885,7 +891,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
     }
 
     public static void subscribeUsersToTopic(String topicId, List<String> userEmails, String timestamp,
-                                             String averageLocation, String incidentType) {
+                                             String averageLocation, String incidentType, List<String> userTokens) {
         MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
         System.out.println("Subscribe users to topic function");
 
@@ -897,6 +903,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                 public void onUserIdResult(String userId) {
                     // Check if userId is not null to ensure the user exists
                     if (userId != null) {
+                        // Update the subscribers node with the user ID and token
                         topicsRef.child(topicId).child("subscribers").child(userId).setValue(true)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -934,7 +941,7 @@ public class EmployeeControlIncidentsActivity extends AppCompatActivity {
                 }
             });
         }
-        sendNotificationToTopic(topicId, /*"ALERT", "STAY HOMEEE", */incidentType, averageLocation, timestamp, userEmails);
+        sendNotificationToTopic(topicId, /*"ALERT", "STAY HOMEEE", */incidentType, averageLocation, timestamp, userEmails, userTokens);
     }
 
     public static void unsubscribeUsersToTopic(List<String> userEmail){

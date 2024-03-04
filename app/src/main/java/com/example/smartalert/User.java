@@ -4,15 +4,20 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     protected String fullname, email, password, phonenumber;
+
     protected String location;
+    protected String registrationToken;
     //protected int phonenumber;
 
-    public User(String fullname, String email, String phonenumber, String location) {
+    public User(String fullname, String email, String phonenumber, String location,
+                String registrationToken) {
         setFullname(fullname);
         setEmail(email);
         //setPassword(password);
        setPhonenumber(phonenumber);
        setLocation(location);
+
+       setRegistrationToken(registrationToken);
     }
 
     public String getFullname() {
@@ -50,6 +55,10 @@ public class User implements Serializable {
     public String getLocation() {return location;}
 
     public void setLocation(String location) {this.location = location;}
+
+    public String getRegistrationToken() {return registrationToken;}
+
+    public void setRegistrationToken(String registrationToken) {this.registrationToken = registrationToken;}
 
     /*
     public String getFullname() {return fullname;}

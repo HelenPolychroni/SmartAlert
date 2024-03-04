@@ -6,6 +6,9 @@ import android.util.Log;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class FCMTopicMessageSender{
 
@@ -15,20 +18,22 @@ public class FCMTopicMessageSender{
     static String title;
 
     public static void sendTopicMessage(String topic,/* String title, String body, */String incidentType,
-                                        String timestamp, String location) {
+                                        String timestamp, String location, List<String> userTokens) {
 
 
-        new SendMessageTask().execute(topic,/* title, body,*/ incidentType, timestamp, location);
+        new SendMessageTask().execute(topic,/* title, body,*/ incidentType, timestamp, location, userTokens);
     }
 
-    private static class SendMessageTask extends AsyncTask<String, Void, Void> {
+    private static class SendMessageTask extends AsyncTask<Object, Void, Void> {
         @Override
-        protected Void doInBackground(String... params) {
-            String topic = params[0];
+        protected Void doInBackground(Object... params) {
+            String topic = (String) params[0];
 
-            String incident  =  params[1];
-            String timestamp =  params[2];
-            String location  =  params[3];
+            String incident  = (String) params[1];
+            String timestamp = (String) params[2];
+            String location  = (String) params[3];
+
+            List<String> usersTokens = (List<String>) params[4];
 
 
 
@@ -102,6 +107,39 @@ public class FCMTopicMessageSender{
                                 "}}",
                         topic, title, body);
 
+                //String registrationToken= "e5KAhq4gSf2_2CY4OZ7mUK:APA91bEKPhFGeAuY6eG9ZMtWhoR9QY_nTNmhJQRZlx-5XHZoYp4o8RfrSS7lVHnNwY_FVGps5rX86zXIx1QmOdQIAhOkfeaomJFpv6HDCQQ0WUucLmJBcqgMt4nZWr8SQ5WmaKiv8azL";
+                //String registrationToken2= "eiPVsJeAQs6DDJcMxXcx5d:APA91bFk3qFnD68lMnuIXy44djlLb_a66XTRj6qbmqcAtY-o9GMRoIYt-6nY8K6JuNvDitqOdUXHKFY4dcGWbq4T6fmb2IvxpYiPLf0PQvB6yAZlguJdKDfJqsyBKWgIqOibklBNRp_Q";
+
+                // List of registration tokens
+                //List<String> registrationTokens = Arrays.asList(registrationToken, registrationToken2);
+
+
+
+                /*String payload1 = String.format("{\"to\": \"%s\"," +
+                                "\"notification\": {" +
+                                "\"title\": \"%s\"," +
+                                "\"body\": \"%s\"," +
+                                "\"icon\": \"ambulance_lights\"" + // Assuming this is a custom icon name
+                                "}}",
+                        registrationToken, title, body);*/
+
+                StringBuilder tokenList = new StringBuilder();
+                for (String token : usersTokens) {
+                    tokenList.append("\"").append(token).append("\",");
+                }
+                // Remove the trailing comma
+                tokenList.deleteCharAt(tokenList.length() - 1);
+
+                String payload2 =  String.format("{\"registration_ids\": [%s]," +
+                                "\"notification\": {" +
+                                "\"title\": \"%s\"," +
+                                "\"body\": \"%s\"" +
+                                "}}",
+                        tokenList.toString(), title, body);
+
+
+
+
                 /*String payload = String.format(
                         "{\"to\": \"/topics/%s\", " +
                                 "\"data\": {" +
@@ -122,7 +160,7 @@ public class FCMTopicMessageSender{
 
                 // Send the message
                 OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-                writer.write(payload);
+                writer.write(payload2);
                 writer.flush();
 
                 // Check the response

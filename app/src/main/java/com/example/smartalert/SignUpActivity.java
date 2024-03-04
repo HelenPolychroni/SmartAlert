@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -54,6 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String locationString;
     private TextView textView;
     private Button signIn_btn2;
+    private String token;
 
 
     @Override
@@ -137,11 +140,21 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 updateUser(firebaseUser, role);
 
-                                try {
-                                    saveAllUserInfoToFirebase(firebaseUser.getEmail(), fullname_, phonenumber_, role);
-                                } catch (ClassNotFoundException e) {
-                                    throw new RuntimeException(e);
-                                }
+                                // Get the registration token
+                                FirebaseMessaging.getInstance().getToken()
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful() && task1.getResult() != null) {
+                                                String token = task1.getResult();
+                                                try {
+                                                    saveAllUserInfoToFirebase(firebaseUser.getEmail(), fullname_, phonenumber_, role, token);
+                                                } catch (ClassNotFoundException e) {
+                                                    throw new RuntimeException(e);
+                                                }
+
+                                            } else {
+                                                Log.e("Token", "Failed to get registration token");
+                                            }
+                                        });
                             } else {
                                 if (isEnglishSelected) showToast("Null user");
                                 else showToast("Κενός χρήστης");
@@ -267,25 +280,27 @@ public class SignUpActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    public void saveAllUserInfoToFirebase(String email, String fullname, String phonenumber, String role) throws ClassNotFoundException {
+    public void saveAllUserInfoToFirebase(String email, String fullname, String phonenumber, String role, String token) throws ClassNotFoundException {
 
         // Paradohi tha anagnwrizei ena sigekrimno email ws employee
         String pathString;
         Class<?> page;
         String location = "";
 
+
         if (role.equals("employee")) {
             pathString = "employees";
             page = Class.forName("com.example.smartalert.EmployeeHomePage");
+            token = "";
         } else {
             pathString = "users";
             location = locationString;
             page = Class.forName("com.example.smartalert.UserHomePage");
+
         }
 
-
         DatabaseReference usersRef = databaseReference.child(pathString).push();
-        usersRef.setValue(new User(fullname,email,phonenumber, location))
+        usersRef.setValue(new User(fullname,email,phonenumber, location, token))
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         if (isEnglishSelected) showToast("Data saved successfully");
